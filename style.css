@@ -203,9 +203,7 @@ p {
    HOME PAGE SPECIFIC STYLES
    ============================================ */
 .home-hero {
-    background: var(--gradient-bg), url('bgcover.png');
-    background-blend-mode: overlay;
-    background-repeat: no-repeat;
+    background: url('bgcover.png');
     background-size: cover;        /* Cover entire area with image */
     background-position: center;   /* Center the image */
     background-attachment: fixed;  /* Parallax effect on desktop */
