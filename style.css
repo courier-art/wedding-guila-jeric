@@ -203,7 +203,7 @@ p {
    HOME PAGE SPECIFIC STYLES
    ============================================ */
 .home-hero {
-    background: url('bgcover.png');
+    background: var(--gradient-bg), url('bgcover.png'); /* upload image
     background-size: cover;        /* Cover entire area with image */
     background-position: center;   /* Center the image */
     background-attachment: fixed;  /* Parallax effect on desktop */
