@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RSVP - Guila & Jeric</title>
+    
+    <!-- EXTERNAL RESOURCES -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- STYLESHEETS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- PAGE-SPECIFIC STYLES -->
+    <style>
+        /* Additional styles for RSVP page */
+        .rsvp-instructions {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 3rem;
+            padding: 2rem;
+            background: var(--gradient-light);
+            border-radius: 10px;
+        }
+        
+        .attendance-options {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+        
+        .attendance-option {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            padding: 1rem;
+            border: 2px solid var(--gray-medium);
+            border-radius: 5px;
+            transition: var(--transition);
+        }
+        
+        .attendance-option:hover {
+            border-color: var(--black);
+        }
+        
+        .attendance-option.selected {
+            border-color: var(--black);
+            background: rgba(10, 10, 10, 0.05);
+        }
+        
+        .attendance-option input {
+            margin: 0;
+        }
+        
+        .guest-names-container {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--gray-light);
+            border-radius: 5px;
+            display: none;
+        }
+        
+        .faq-section {
+            margin-top: 4rem;
+            padding-top: 3rem;
+            border-top: 1px solid var(--gray-medium);
+        }
+        
+        .faq-item {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--gray-light);
+        }
+        
+        .faq-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+        
+        .faq-question {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .faq-answer {
+            display: none;
+            padding-top: 0.5rem;
+        }
+        
+        .faq-answer.active {
+            display: block;
+        }
+        
+        .faq-toggle {
+            font-size: 0.9rem;
+            color: var(--gray-dark);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">G&J</a>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="story.html">Our Story</a></li>
+                <li><a href="bigday.html">The Big Day</a></li>
+                <li><a href="nuptials.html">Nuptials</a></li>
+                <li><a href="greetings.html">Wish Greetings</a></li>
+                <li><a href="rsvp.html" class="active">RSVP</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content page-transition">
+                <h1>RSVP</h1>
+                <p class="subtitle">Please respond by August 5, 2026</p>
+                
+                <!-- RSVP INSTRUCTIONS -->
+                <div class="rsvp-instructions">
+                    <p><strong>Dear Guests,</strong></p>
+                    <p>Kindly fill out this form to confirm your attendance. Your response helps us make necessary arrangements to ensure everyone has a wonderful time celebrating with us.</p>
+                    <p style="margin-top: 1rem; color: var(--gray-dark);">
+                        <i class="fas fa-info-circle"></i> If you have any questions, please contact us directly.
+                    </p>
+                </div>
+                
+                <!-- RSVP FORM -->
+                <div class="rsvp-form-container">
+                    <form id="rsvpForm">
+                        <!-- PERSONAL INFORMATION SECTION -->
+                        <h3 style="margin-bottom: 1.5rem; color: var(--black);">Personal Information</h3>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="fullName">Full Name *</label>
+                            <input type="text" class="form-control" id="fullName" name="fullName" required 
+                                   placeholder="Enter your full name as it appears on the invitation">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="email">Email Address *</label>
+                            <input type="email" class="form-control" id="email" name="email" required 
+                                   placeholder="Your email address for confirmation">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label" for="phone">Phone Number</label>
+                            <input type="tel" class="form-control" id="phone" name="phone" 
+                                   placeholder="Optional: For urgent communication">
+                        </div>
+                        
+                        <!-- ATTENDANCE SECTION -->
+                        <h3 style="margin: 2.5rem 0 1.5rem; color: var(--black);">Attendance</h3>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Will you be attending? *</label>
+                            <div class="attendance-options">
+                                <label class="attendance-option" id="attendanceYes">
+                                    <input type="radio" name="attendance" value="yes" required>
+                                    <span>Yes, I'll be there!</span>
+                                </label>
+                                <label class="attendance-option" id="attendanceNo">
+                                    <input type="radio" name="attendance" value="no" required>
+                                    <span>No, I can't make it</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- NUMBER OF GUESTS -->
+                        <div class="form-group">
+                            <label class="form-label" for="guests">Number of Guests *</label>
+                            <select class="form-control" id="guests" name="guests" required>
+                                <option value="">Select number of guests</option>
+                                <option value="1">1 (Just me)</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5 or more</option>
+                            </select>
+                        </div>
+                        
+                        <!-- GUEST NAMES (Dynamic) -->
+                        <div class="guest-names-container" id="guestNamesContainer">
+                            <label class="form-label">Guest Names</label>
+                            <div id="guestNamesInputs">
+                                <!-- Dynamic inputs will be added here via JavaScript -->
+                            </div>
+                        </div>
+                        
+                        <!-- EVENTS ATTENDING -->
+                        <div class="form-group">
+                            <label class="form-label">Which events will you attend?</label>
+                            <div style="margin-top: 0.5rem;">
+                                <label style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                                    <input type="checkbox" name="events" value="ceremony">
+                                    <span>Wedding Ceremony (2:00 PM at Diocesan Shrine)</span>
+                                </label>
+                                <label style="display: flex; align-items: center; gap: 0.5rem;">
+                                    <input type="checkbox" name="events" value="reception">
+                                    <span>Reception (5:00 PM at Jardin De La Vida Pavillion)</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <!-- DIETARY RESTRICTIONS -->
+                        <div class="form-group">
+                            <label class="form-label" for="dietary">Dietary Restrictions or Allergies</label>
+                            <textarea class="form-control" id="dietary" name="dietary" rows="3" 
+                                      placeholder="Please list any dietary restrictions, allergies, or special meal requirements"></textarea>
+                            <p style="font-size: 0.9rem; color: var(--gray-dark); margin-top: 0.5rem;">
+                                <i class="fas fa-info-circle"></i> This helps us ensure everyone enjoys the meal.
+                            </p>
+                        </div>
+                        
+                        <!-- SONG REQUEST -->
+                        <div class="form-group">
+                            <label class="form-label" for="song">Song Request</label>
+                            <input type="text" class="form-control" id="song" name="song" 
+                                   placeholder="Request a song for the reception dance floor">
+                        </div>
+                        
+                        <!-- MESSAGE FOR THE COUPLE -->
+                        <div class="form-group">
+                            <label class="form-label" for="message">Message for the Couple</label>
+                            <textarea class="form-control" id="message" name="message" rows="4" 
+                                      placeholder="Share your well wishes, memories, or advice for the newlyweds"></textarea>
+                        </div>
+                        
+                        <!-- SUBMIT BUTTON -->
+                        <div style="text-align: center; margin-top: 3rem;">
+                            <button type="submit" class="btn" style="padding: 1rem 3rem; font-size: 1.1rem;">
+                                <i class="fas fa-paper-plane"></i> Submit RSVP
+                            </button>
+                        </div>
+                        
+                        <!-- REQUIRED FIELDS NOTE -->
+                        <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem; color: var(--gray-dark);">
+                            <i class="fas fa-asterisk" style="color: #dc3545; font-size: 0.7rem;"></i> Required fields
+                        </p>
+                    </form>
+                </div>
+                
+                <!-- FAQ SECTION -->
+                <div class="faq-section">
+                    <h2 style="text-align: center;">Frequently Asked Questions</h2>
+                    
+                    <div style="max-width: 800px; margin: 2rem auto;">
+                        <!-- FAQ ITEM 1 -->
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(1)">
+                                <span>When should I RSVP by?</span>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer" id="faqAnswer1">
+                                <p>Please RSVP by <strong>August 5, 2026</strong>. This gives us enough time to finalize seating arrangements, catering numbers, and other important details.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- FAQ ITEM 2 -->
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(2)">
+                                <span>Can I bring a plus one or children?</span>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer" id="faqAnswer2">
+                                <p>Your invitation will specify if a plus one is included. Please check your invitation details. Children are welcome! We have a special kids' menu and activity area planned.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- FAQ ITEM 3 -->
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(3)">
+                                <span>What is the dress code?</span>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer" id="faqAnswer3">
+                                <p>Elegant black attire. For gentlemen: black suit or barong tagalog with black pants. For ladies: black formal dress or gown. Please see <a href="bigday.html" style="color: var(--black); text-decoration: underline;">"The Big Day"</a> page for more details.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- FAQ ITEM 4 -->
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(4)">
+                                <span>Is there parking available?</span>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer" id="faqAnswer4">
+                                <p>Yes! The church has limited parking (arrive early). The reception venue has ample parking with complimentary valet service. Shuttle service will also be available from the church to the reception venue.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- FAQ ITEM 5 -->
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(5)">
+                                <span>What if I have dietary restrictions?</span>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer" id="faqAnswer5">
+                                <p>Please indicate any dietary restrictions or allergies in the RSVP form. We will work with our caterer to accommodate special dietary needs including vegetarian, vegan, gluten-free, and common allergies.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- FAQ ITEM 6 -->
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(6)">
+                                <span>Can I change my RSVP after submitting?</span>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer" id="faqAnswer6">
+                                <p>Yes, you can update your RSVP until August 5, 2026. Please contact us directly if you need to make changes after submitting. After August 5, changes may not be possible due to final arrangements.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- FAQ ITEM 7 -->
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(7)">
+                                <span>Where should I send gifts?</span>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer" id="faqAnswer7">
+                                <p>A gift table will be available at the reception venue. If you prefer to send gifts in advance, please contact us for shipping information. Your presence at our wedding is the greatest gift of all!</p>
+                            </div>
+                        </div>
+                        
+                        <!-- FAQ ITEM 8 -->
+                        <div class="faq-item">
+                            <div class="faq-question" onclick="toggleFAQ(8)">
+                                <span>Who should I contact with questions?</span>
+                                <span class="faq-toggle">+</span>
+                            </div>
+                            <div class="faq-answer" id="faqAnswer8">
+                                <p>Please contact:</p>
+                                <p>Guila: +63 912 345 6789</p>
+                                <p>Jeric: +63 987 654 3210</p>
+                                <p>Or email: guila.jeric.wedding@gmail.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Guila & Jeric</h3>
+                    <p>September 5, 2026</p>
+                    <p>Kawit & Noveleta, Cavite</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="story.html">Our Love Story</a></li>
+                        <li><a href="bigday.html">Event Details</a></li>
+                        <li><a href="nuptials.html">Wedding Party</a></li>
+                        <li><a href="greetings.html">Wish Greetings</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>For any questions, please contact:</p>
+                    <p>Guila: +63 912 345 6789</p>
+                    <p>Jeric: +63 987 654 3210</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 Guila & Jeric Wedding. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // ============================================
+        // ATTENDANCE OPTION SELECTION
+        // Adds visual feedback when selecting attendance
+        // ============================================
+        const attendanceYes = document.getElementById('attendanceYes');
+        const attendanceNo = document.getElementById('attendanceNo');
+        
+        if (attendanceYes && attendanceNo) {
+            // Add click handlers for visual feedback
+            attendanceYes.addEventListener('click', function() {
+                attendanceYes.classList.add('selected');
+                attendanceNo.classList.remove('selected');
+            });
+            
+            attendanceNo.addEventListener('click', function() {
+                attendanceNo.classList.add('selected');
+                attendanceYes.classList.remove('selected');
+            });
+            
+            // Also trigger on radio button change
+            document.querySelectorAll('input[name="attendance"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'yes') {
+                        attendanceYes.classList.add('selected');
+                        attendanceNo.classList.remove('selected');
+                    } else {
+                        attendanceNo.classList.add('selected');
+                        attendanceYes.classList.remove('selected');
+                    }
+                });
+            });
+        }
+        
+        // ============================================
+        // DYNAMIC GUEST NAME INPUTS
+        // Shows additional name fields based on guest count
+        // ============================================
+        const guestsSelect = document.getElementById('guests');
+        const guestNamesContainer = document.getElementById('guestNamesContainer');
+        const guestNamesInputs = document.getElementById('guestNamesInputs');
+        
+        if (guestsSelect && guestNamesContainer && guestNamesInputs) {
+            guestsSelect.addEventListener('change', function() {
+                const numGuests = parseInt(this.value);
+                guestNamesInputs.innerHTML = '';
+                
+                if (numGuests > 1) {
+                    guestNamesContainer.style.display = 'block';
+                    
+                    // Create input fields for each additional guest
+                    for (let i = 2; i <= numGuests; i++) {
+                        const div = document.createElement('div');
+                        div.style.marginBottom = '0.5rem';
+                        div.innerHTML = `
+                            <input type="text" class="form-control" 
+                                   name="guest${i}" 
+                                   placeholder="Full name of guest ${i}"
+                                   required>
+                        `;
+                        guestNamesInputs.appendChild(div);
+                    }
+                } else {
+                    guestNamesContainer.style.display = 'none';
+                }
+            });
+        }
+        
+        // ============================================
+        // FAQ TOGGLE FUNCTION
+        // Expands/collapses FAQ answers
+        // ============================================
+        function toggleFAQ(faqNumber) {
+            const answer = document.getElementById(`faqAnswer${faqNumber}`);
+            const toggle = answer.previousElementSibling.querySelector('.faq-toggle');
+            
+            if (answer.classList.contains('active')) {
+                answer.classList.remove('active');
+                toggle.textContent = '+';
+            } else {
+                answer.classList.add('active');
+                toggle.textContent = '−';
+            }
+        }
+        
+        // ============================================
+        // ENHANCED RSVP FORM VALIDATION
+        // ============================================
+        const rsvpForm = document.getElementById('rsvpForm');
+        if (rsvpForm) {
+            rsvpForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form data
+                const formData = new FormData(this);
+                const data = Object.fromEntries(formData);
+                
+                // Basic validation
+                if (!data.fullName || !data.email || !data.attendance || !data.guests) {
+                    showAlert('Please fill in all required fields.', 'error');
+                    return;
+                }
+                
+                // Validate email format
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(data.email)) {
+                    showAlert('Please enter a valid email address.', 'error');
+                    return;
+                }
+                
+                // Show loading state
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                submitBtn.disabled = true;
+                
+                // In production, replace this with your Google Apps Script URL
+                const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+                
+                // Simulate API call (remove setTimeout in production)
+                setTimeout(() => {
+                    // For demonstration - in production, send to Google Sheets
+                    console.log('RSVP Data:', data);
+                    
+                    // Show success message
+                    showAlert('Thank you for your RSVP! We look forward to celebrating with you.', 'success');
+                    
+                    // Reset form
+                    this.reset();
+                    guestNamesContainer.style.display = 'none';
+                    attendanceYes.classList.remove('selected');
+                    attendanceNo.classList.remove('selected');
+                    
+                    // Reset button
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                    
+                }, 1500);
+            });
+        }
+        
+        // ============================================
+        // ALERT MESSAGE FUNCTION
+        // Shows success/error messages to user
+        // ============================================
+        function showAlert(message, type) {
+            // Remove existing alerts
+            const existingAlerts = document.querySelectorAll('.custom-alert');
+            existingAlerts.forEach(alert => alert.remove());
+            
+            // Create alert element
+            const alertEl = document.createElement('div');
+            alertEl.className = `custom-alert ${type}`;
+            alertEl.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 1rem 2rem;
+                border-radius: 5px;
+                color: white;
+                font-weight: 500;
+                z-index: 9999;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                animation: slideIn 0.3s ease;
+            `;
+            
+            // Set background color based on type
+            if (type === 'success') {
+                alertEl.style.background = '#28a745';
+                alertEl.innerHTML = `<i class="fas fa-check-circle"></i> ${message}`;
+            } else {
+                alertEl.style.background = '#dc3545';
+                alertEl.innerHTML = `<i class="fas fa-exclamation-circle"></i> ${message}`;
+            }
+            
+            document.body.appendChild(alertEl);
+            
+            // Remove after 5 seconds
+            setTimeout(() => {
+                alertEl.style.animation = 'slideOut 0.3s ease';
+                setTimeout(() => {
+                    if (alertEl.parentNode) {
+                        document.body.removeChild(alertEl);
+                    }
+                }, 300);
+            }, 5000);
+        }
+        
+        // Add CSS for alert animations
+        const alertStyle = document.createElement('style');
+        alertStyle.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(alertStyle);
+    </script>
+</body>
+</html>
