@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- META TAGS: Essential for SEO and mobile responsiveness -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Big Day - Guila & Jeric</title>
+    
+    <!-- EXTERNAL RESOURCES: Fonts and icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- STYLESHEETS: Custom CSS files -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- GOOGLE MAPS API: For embedded maps -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initMap" async defer></script>
+    <style>
+        /* Additional styles specific to this page */
+        .map-container {
+            height: 300px;
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 2rem 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+        }
+        
+        .schedule-table tr {
+            border-bottom: 1px solid var(--gray-medium);
+        }
+        
+        .schedule-table tr:last-child {
+            border-bottom: none;
+        }
+        
+        .schedule-table td {
+            padding: 1rem 0;
+        }
+        
+        .schedule-table .time {
+            font-weight: 600;
+            width: 120px;
+        }
+        
+        .dress-code-section {
+            background: var(--gradient-light);
+            padding: 3rem;
+            border-radius: 10px;
+            margin: 3rem 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVIGATION: Fixed at top of all pages -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">G&J</a>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="story.html">Our Story</a></li>
+                <li><a href="bigday.html" class="active">The Big Day</a></li> <!-- Current page -->
+                <li><a href="nuptials.html">Nuptials</a></li>
+                <li><a href="greetings.html">Wish Greetings</a></li>
+                <li><a href="rsvp.html">RSVP</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION: Full-screen banner -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content page-transition">
+                <!-- PAGE HEADING -->
+                <h1>The Big Day</h1>
+                <p class="subtitle">September 5, 2026 | Kawit & Noveleta, Cavite</p>
+                
+                <!-- EVENT DETAILS: Two-column layout for ceremony and reception -->
+                <div class="event-details">
+                    
+                    <!-- CEREMONY CARD -->
+                    <div class="event-card">
+                        <div class="event-icon">
+                            <i class="fas fa-church"></i> <!-- Church icon -->
+                        </div>
+                        <h3>Ceremony</h3>
+                        <p><strong>Time:</strong> 2:00 PM</p>
+                        <p><strong>Location:</strong> Diocesan Shrine and Parish of St. Mary Magdalene</p>
+                        <p><strong>Address:</strong> Poblacion, Kawit, Cavite</p>
+                        
+                        <!-- CEREMONY MAP -->
+                        <div class="map-container" id="ceremonyMap">
+                            <!-- Map will be loaded via JavaScript -->
+                            <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: var(--gray-light);">
+                                <p><i class="fas fa-map-marker-alt"></i> Map Loading...</p>
+                            </div>
+                        </div>
+                        
+                        <p>The ceremony will be held at this beautiful historical church. Please arrive by 1:30 PM for seating.</p>
+                        <p><em>Note: The church has air conditioning, but we recommend bringing a light shawl.</em></p>
+                    </div>
+                    
+                    <!-- RECEPTION CARD -->
+                    <div class="event-card">
+                        <div class="event-icon">
+                            <i class="fas fa-glass-cheers"></i> <!-- Cheers icon -->
+                        </div>
+                        <h3>Reception</h3>
+                        <p><strong>Time:</strong> 5:00 PM</p>
+                        <p><strong>Location:</strong> Jardin De La Vida Pavillion</p>
+                        <p><strong>Address:</strong> 466 EPZA Diversion Rd, Magdalo, Noveleta</p>
+                        
+                        <!-- RECEPTION MAP -->
+                        <div class="map-container" id="receptionMap">
+                            <!-- Map will be loaded via JavaScript -->
+                            <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: var(--gray-light);">
+                                <p><i class="fas fa-map-marker-alt"></i> Map Loading...</p>
+                            </div>
+                        </div>
+                        
+                        <p>Cocktails will be served upon arrival followed by dinner, dancing, and celebrations!</p>
+                        <p><em>Note: Reception will be held in a beautiful garden pavilion.</em></p>
+                    </div>
+                </div>
+                
+                <!-- DRESS CODE SECTION -->
+                <div class="dress-code-section">
+                    <h2 style="text-align: center;">Dress Code</h2>
+                    <div style="text-align: center; margin-top: 2rem;">
+                        <div style="font-size: 4rem; color: var(--black); margin-bottom: 1rem;">
+                            <i class="fas fa-user-tie"></i> <!-- Dress code icon -->
+                        </div>
+                        <h3>Elegant Black Attire</h3>
+                        <p>We request our guests to wear elegant black attire to complement our minimalist theme.</p>
+                        
+                        <!-- DRESS CODE DETAILS -->
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 2rem;">
+                            <div>
+                                <h4>For Gentlemen</h4>
+                                <ul style="list-style: none; text-align: left; padding-left: 0;">
+                                    <li>✓ Black suit or tuxedo</li>
+                                    <li>✓ Black barong tagalog with black pants</li>
+                                    <li>✓ Black dress shoes</li>
+                                    <li>✓ Optional: Black tie or bow tie</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h4>For Ladies</h4>
+                                <ul style="list-style: none; text-align: left; padding-left: 0;">
+                                    <li>✓ Black formal dress or gown</li>
+                                    <li>✓ Cocktail dress in black</li>
+                                    <li>✓ Elegant separates in black</li>
+                                    <li>✓ Comfortable yet stylish shoes</li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <p style="margin-top: 2rem; font-style: italic; color: var(--gray-dark);">
+                            <i class="fas fa-info-circle"></i> Please note: The ceremony will be in an air-conditioned church, and the reception will be in a garden pavilion. Consider comfortable footwear for grass surfaces.
+                        </p>
+                    </div>
+                </div>
+                
+                <!-- PARKING INSTRUCTIONS -->
+                <div style="margin: 4rem 0;">
+                    <h2 style="text-align: center;">Parking Instructions</h2>
+                    <div class="event-details">
+                        
+                        <!-- CHURCH PARKING -->
+                        <div class="event-card">
+                            <div class="event-icon">
+                                <i class="fas fa-parking"></i> <!-- Parking icon -->
+                            </div>
+                            <h3>Church Parking</h3>
+                            <p>The church has limited parking available. We recommend carpooling if possible.</p>
+                            <p><strong>Alternative Parking:</strong> Public parking lot adjacent to Kawit Town Plaza (5-minute walk)</p>
+                            <p><strong>Security:</strong> Will be present to assist with parking arrangements</p>
+                            <p><strong>Note:</strong> Early arrival is recommended for parking convenience</p>
+                        </div>
+                        
+                        <!-- RECEPTION PARKING -->
+                        <div class="event-card">
+                            <div class="event-icon">
+                                <i class="fas fa-car"></i> <!-- Car icon -->
+                            </div>
+                            <h3>Reception Parking</h3>
+                            <p>Ample parking available at Jardin De La Vida Pavillion.</p>
+                            <p><strong>Valet Service:</strong> Complimentary valet parking will be provided</p>
+                            <p><strong>Shuttle Service:</strong> Available from church to reception venue (departs at 4:30 PM)</p>
+                            <p><strong>Note:</strong> Designated drivers will be available upon request</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- DAY SCHEDULE -->
+                <div style="margin: 4rem 0; text-align: center;">
+                    <h2>Day Schedule</h2>
+                    <p style="margin-bottom: 2rem;">Here's the timeline for our special day</p>
+                    
+                    <!-- SCHEDULE TABLE -->
+                    <table class="schedule-table">
+                        <tr>
+                            <td class="time">1:30 PM</td>
+                            <td>Guest Arrival at Church</td>
+                        </tr>
+                        <tr>
+                            <td class="time">2:00 PM</td>
+                            <td><strong>Wedding Ceremony</strong> begins</td>
+                        </tr>
+                        <tr>
+                            <td class="time">3:30 PM</td>
+                            <td>Photos & Congratulations at Church</td>
+                        </tr>
+                        <tr>
+                            <td class="time">4:30 PM</td>
+                            <td>Shuttle Service to Reception Venue</td>
+                        </tr>
+                        <tr>
+                            <td class="time">5:00 PM</td>
+                            <td><strong>Reception</strong> begins with Cocktails</td>
+                        </tr>
+                        <tr>
+                            <td class="time">6:00 PM</td>
+                            <td>Grand Entrance of Newlyweds</td>
+                        </tr>
+                        <tr>
+                            <td class="time">6:30 PM</td>
+                            <td>Dinner is served</td>
+                        </tr>
+                        <tr>
+                            <td class="time">7:30 PM</td>
+                            <td>Program & Speeches</td>
+                        </tr>
+                        <tr>
+                            <td class="time">8:30 PM</td>
+                            <td>First Dance & Party Begins</td>
+                        </tr>
+                        <tr>
+                            <td class="time">9:30 PM</td>
+                            <td>Cake Cutting & Dessert</td>
+                        </tr>
+                        <tr>
+                            <td class="time">10:00 PM</td>
+                            <td>Bouquet & Garter Toss</td>
+                        </tr>
+                        <tr>
+                            <td class="time">10:30 PM</td>
+                            <td>Send-off & Farewell</td>
+                        </tr>
+                    </table>
+                </div>
+                
+                <!-- ADDITIONAL INFORMATION -->
+                <div style="background: var(--gray-light); padding: 2rem; border-radius: 10px; margin-top: 3rem;">
+                    <h3 style="text-align: center;">Additional Information</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 1.5rem;">
+                        <div style="text-align: center;">
+                            <i class="fas fa-utensils" style="font-size: 2rem; margin-bottom: 1rem; color: var(--black);"></i>
+                            <p><strong>Dinner</strong><br>Buffet-style with Filipino and International cuisine</p>
+                        </div>
+                        <div style="text-align: center;">
+                            <i class="fas fa-music" style="font-size: 2rem; margin-bottom: 1rem; color: var(--black);"></i>
+                            <p><strong>Entertainment</strong><br>Live band and DJ for dancing</p>
+                        </div>
+                        <div style="text-align: center;">
+                            <i class="fas fa-child" style="font-size: 2rem; margin-bottom: 1rem; color: var(--black);"></i>
+                            <p><strong>Kids</strong><br>Children are welcome! Special kids' menu available</p>
+                        </div>
+                        <div style="text-align: center;">
+                            <i class="fas fa-gift" style="font-size: 2rem; margin-bottom: 1rem; color: var(--black);"></i>
+                            <p><strong>Gifts</strong><br>Gift table will be available at reception</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER: Consistent across all pages -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Guila & Jeric</h3>
+                    <p>September 5, 2026</p>
+                    <p>Kawit & Noveleta, Cavite</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="story.html">Our Love Story</a></li>
+                        <li><a href="nuptials.html">Wedding Party</a></li>
+                        <li><a href="rsvp.html">RSVP</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>For any questions, please contact:</p>
+                    <p>Guila: +63 912 345 6789</p>
+                    <p>Jeric: +63 987 654 3210</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2024 Guila & Jeric Wedding. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT: Custom scripts and Google Maps initialization -->
+    <script src="script.js"></script>
+    <script>
+        // ============================================
+        // GOOGLE MAPS INITIALIZATION
+        // Loads maps for ceremony and reception locations
+        // ============================================
+        function initMap() {
+            // Ceremony location coordinates (approximate for Kawit Church)
+            const ceremonyLocation = { lat: 14.4441, lng: 120.9019 };
+            
+            // Reception location coordinates (approximate for Noveleta)
+            const receptionLocation = { lat: 14.4294, lng: 120.8797 };
+            
+            // Create ceremony map
+            const ceremonyMap = new google.maps.Map(document.getElementById('ceremonyMap'), {
+                zoom: 15,
+                center: ceremonyLocation,
+                styles: [
+                    {
+                        featureType: "all",
+                        elementType: "geometry",
+                        stylers: [{ color: "#f5f5f5" }]
+                    },
+                    {
+                        featureType: "all",
+                        elementType: "labels.text.fill",
+                        stylers: [{ color: "#333333" }]
+                    }
+                ]
+            });
+            
+            // Add marker for ceremony location
+            new google.maps.Marker({
+                position: ceremonyLocation,
+                map: ceremonyMap,
+                title: "Diocesan Shrine and Parish of St. Mary Magdalene",
+                icon: {
+                    url: "https://maps.google.com/mapfiles/ms/icons/red-dot.png"
+                }
+            });
+            
+            // Create reception map
+            const receptionMap = new google.maps.Map(document.getElementById('receptionMap'), {
+                zoom: 15,
+                center: receptionLocation,
+                styles: [
+                    {
+                        featureType: "all",
+                        elementType: "geometry",
+                        stylers: [{ color: "#f5f5f5" }]
+                    },
+                    {
+                        featureType: "all",
+                        elementType: "labels.text.fill",
+                        stylers: [{ color: "#333333" }]
+                    }
+                ]
+            });
+            
+            // Add marker for reception location
+            new google.maps.Marker({
+                position: receptionLocation,
+                map: receptionMap,
+                title: "Jardin De La Vida Pavillion",
+                icon: {
+                    url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+                }
+            });
+        }
+        
+        // ============================================
+        // FALLBACK IF GOOGLE MAPS FAILS TO LOAD
+        // ============================================
+        window.onload = function() {
+            // Check if maps loaded successfully after 5 seconds
+            setTimeout(function() {
+                const ceremonyMapDiv = document.getElementById('ceremonyMap');
+                const receptionMapDiv = document.getElementById('receptionMap');
+                
+                // If maps failed to load, show static images
+                if (ceremonyMapDiv && ceremonyMapDiv.innerHTML.includes('Map Loading')) {
+                    ceremonyMapDiv.innerHTML = `
+                        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; background: var(--gray-light); padding: 1rem;">
+                            <i class="fas fa-map-marker-alt" style="font-size: 3rem; margin-bottom: 1rem; color: var(--gray-dark);"></i>
+                            <p><strong>Diocesan Shrine and Parish of St. Mary Magdalene</strong></p>
+                            <p>Poblacion, Kawit, Cavite</p>
+                            <p style="margin-top: 1rem; font-size: 0.9rem;">
+                                <a href="https://maps.google.com/?q=Diocesan+Shrine+and+Parish+of+St+Mary+Magdalene+Kawit+Cavite" 
+                                   target="_blank" 
+                                   style="color: var(--black); text-decoration: underline;">
+                                    Open in Google Maps
+                                </a>
+                            </p>
+                        </div>
+                    `;
+                }
+                
+                if (receptionMapDiv && receptionMapDiv.innerHTML.includes('Map Loading')) {
+                    receptionMapDiv.innerHTML = `
+                        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; background: var(--gray-light); padding: 1rem;">
+                            <i class="fas fa-map-marker-alt" style="font-size: 3rem; margin-bottom: 1rem; color: var(--gray-dark);"></i>
+                            <p><strong>Jardin De La Vida Pavillion</strong></p>
+                            <p>466 EPZA Diversion Rd, Magdalo, Noveleta</p>
+                            <p style="margin-top: 1rem; font-size: 0.9rem;">
+                                <a href="https://maps.google.com/?q=Jardin+De+La+Vida+Pavillion+Noveleta+Cavite" 
+                                   target="_blank" 
+                                   style="color: var(--black); text-decoration: underline;">
+                                    Open in Google Maps
+                                </a>
+                            </p>
+                        </div>
+                    `;
+                }
+            }, 5000);
+        };
+    </script>
+</body>
+</html>
