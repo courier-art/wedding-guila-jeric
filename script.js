@@ -255,7 +255,7 @@ document.addEventListener('DOMContentLoaded', function() {
             */
             
             // For testing (remove when implementing Google Sheets)
-            alert('Thank you for your RSVP! We look forward to celebrating with you.');
+            // alert('Thank you for your RSVP! We look forward to celebrating with you.');
             this.reset();
             submitBtn.textContent = originalText;
             submitBtn.disabled = false;

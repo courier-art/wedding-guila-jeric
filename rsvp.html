@@ -151,12 +151,13 @@
                                    placeholder="Enter your full name as it appears on the invitation">
                         </div>
                         
-                        <!-- <div class="form-group">
-                            <label class="form-label" for="email">Email Address *</label>
-                            <input type="email" class="form-control" id="email" name="email" required 
+                        <div class="form-group">
+                            <label class="form-label" for="email">Email Address</label>
+                            <input type="email" class="form-control" id="email" name="email"
                                    placeholder="Your email address for confirmation">
                         </div>
                         
+                        <!-- 
                         <div class="form-group">
                             <label class="form-label" for="phone">Phone Number</label>
                             <input type="tel" class="form-control" id="phone" name="phone" 
@@ -184,7 +185,7 @@
                         <div class="form-group">
                             <label class="form-label" for="guests">Number of Guests <i class="fas fa-asterisk" style="color: #dc3545; font-size: 0.7rem;"></i></label>
                             <select class="form-control" id="guests" name="guests" required>
-                                <option value="">Select number of guests</option>
+                                <!-- <option value="">Select number of guests</option> -->
                                 <option value="1">1 (Just me)</option>
                                 <option value="2">2</option>
                                 <option value="3">3</option>
@@ -206,11 +207,11 @@
                             <label class="form-label">Which events will you attend?</label>
                             <div style="margin-top: 0.5rem;">
                                 <label style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
-                                    <input type="checkbox" name="events" value="ceremony">
+                                    <input type="checkbox" name="events" value="Ceremony">
                                     <span>Wedding Ceremony (2:00 PM at Diocesan Shrine)</span>
                                 </label>
                                 <label style="display: flex; align-items: center; gap: 0.5rem;">
-                                    <input type="checkbox" name="events" value="reception">
+                                    <input type="checkbox" name="events" value="Reception">
                                     <span>Reception (5:00 PM at Jardin De La Vida Pavillion)</span>
                                 </label>
                             </div>
@@ -245,7 +246,14 @@
                             <button type="submit" class="btn" style="padding: 1rem 3rem; font-size: 1.1rem;">
                                 <i class="fas fa-paper-plane"></i> Submit RSVP
                             </button>
+
+                            <!-- <button id="autoTestBtn" class="btn" style="padding: 1rem 3rem; font-size: 1.1rem;">
+                        <i class="fas fa-vial"></i> Run Auto-Test
+                        </button> -->
+
                         </div>
+
+                        
                         
                         <!-- REQUIRED FIELDS NOTE -->
                         <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem; color: var(--gray-dark);">
@@ -468,63 +476,78 @@
                 toggle.textContent = '+';
             } else {
                 answer.classList.add('active');
-                toggle.textContent = '−';
+                toggle.textContent = '';
             }
         }
-        
+
         // ============================================
-        // ENHANCED RSVP FORM VALIDATION
+        // ENHANCED RSVP FORM VALIDATION & SUBMISSION
         // ============================================
         const rsvpForm = document.getElementById('rsvpForm');
         if (rsvpForm) {
             rsvpForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
-                // Get form data
+                // 1. Get form data
                 const formData = new FormData(this);
                 const data = Object.fromEntries(formData);
                 
-                // Basic validation
-                if (!data.fullName || !data.email || !data.attendance || !data.guests) {
+                // Handle checkboxes (events) specifically to join them into a string
+                const events = [];
+                this.querySelectorAll('input[name="events"]:checked').forEach(cb => {
+                    events.push(cb.value);
+                });
+                data.events = events.join(', ');
+
+                // 2. Basic validation
+                if (!data.fullName || !data.attendance || !data.guests) { //|| !data.email
                     showAlert('Please fill in all required fields.', 'error');
                     return;
                 }
                 
-                // Validate email format
-                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-                if (!emailRegex.test(data.email)) {
-                    showAlert('Please enter a valid email address.', 'error');
-                    return;
-                }
-                
-                // Show loading state
+                // 3. Show loading state
                 const submitBtn = this.querySelector('button[type="submit"]');
                 const originalText = submitBtn.innerHTML;
-                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
                 submitBtn.disabled = true;
                 
-                // In production, replace this with your Google Apps Script URL
-                const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+                const scriptURL = 'https://script.google.com/macros/s/AKfycbxUCFh3v2Wpel24P2zPtMRMsONpJzrKSz4SvN8s_246KQ1hyg2rtGblUDUJ-pZkE46Keg/exec';
                 
-                // Simulate API call (remove setTimeout in production)
-                setTimeout(() => {
-                    // For demonstration - in production, send to Google Sheets
-                    console.log('RSVP Data:', data);
-                    
+                // 4. Actual Send to Google Apps Script
+                fetch(scriptURL, {
+                    method: 'POST',
+                    mode: 'no-cors', 
+                    cache: 'no-cache',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                })
+                .then(() => {
                     // Show success message
                     showAlert('Thank you for your RSVP! We look forward to celebrating with you.', 'success');
-                    
+                    submitBtn.innerHTML = '<i class="fas fa-check"></i> RSVP Sent';
+                    submitBtn.style.background = '#28a745';
+
                     // Reset form
                     this.reset();
                     guestNamesContainer.style.display = 'none';
                     attendanceYes.classList.remove('selected');
                     attendanceNo.classList.remove('selected');
-                    
-                    // Reset button
-                    submitBtn.innerHTML = originalText;
+                })
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    showAlert('Something went wrong. Please try again.', 'error');
+                })
+                .finally(() => {
+                    // Reset button     
+                setTimeout(() => {
                     submitBtn.disabled = false;
-                    
-                }, 1500);
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.style.background = '#333';
+                }, 5000);
+
+                });
             });
         }
         
@@ -589,5 +612,64 @@
         `;
         document.head.appendChild(alertStyle);
     </script>
+
+<!-- ########################### TEST ##################################-->
+
+
+
+<script>
+document.getElementById('autoTestBtn').addEventListener('click', function() {
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxUCFh3v2Wpel24P2zPtMRMsONpJzrKSz4SvN8s_246KQ1hyg2rtGblUDUJ-pZkE46Keg/exec';
+    
+    // 1. Prepare Sample Data
+    const testData = {
+        fullName: "Test Guest " + Math.floor(Math.random() * 100),
+        email: "enosrigortan@gmail.com",
+        attendance: "yes",
+        guests: "3",
+        guest2: "Sample Guest Name",
+        guest3: "Another Sample Guest Name",
+        events: "ceremony, reception",
+        // dietary: "None",
+        // song: "Dancing Queen",
+        message: "This is a test submission from the browser button."
+    };
+
+    console.log("Starting test submission...", testData);
+    this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Testing...';
+    this.disabled = true;
+
+    // 2. Send the actual request to Google Apps Script
+    fetch(scriptURL, {
+        method: 'POST',
+        mode: 'no-cors', // Important for Google Apps Script
+        cache: 'no-cache',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(testData)
+    })
+    .then(() => {
+        showAlert('Test Data Sent! Check your Google Sheet.', 'success');
+        this.innerHTML = '<i class="fas fa-check"></i> Test Sent';
+        this.style.background = '#28a745';
+    })
+    .catch(error => {
+        console.error('Error!', error.message);
+        showAlert('Test Failed: ' + error.message, 'error');
+        this.innerHTML = 'Test Failed';
+        this.style.background = '#dc3545';
+    })
+    .finally(() => {
+        setTimeout(() => {
+            this.disabled = false;
+            this.innerHTML = '<i class="fas fa-vial"></i> Run Auto-Test';
+            this.style.background = '#333';
+        }, 3000);
+    });
+});
+</script>
+
+
 </body>
 </html>
