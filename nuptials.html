@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nuptials - Guila & Jeric</title>
+    
+    <!-- EXTERNAL RESOURCES -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- STYLESHEETS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- PAGE-SPECIFIC STYLES -->
+    <style>
+        /* Additional styles for nuptials page */
+        .section-spacing {
+            margin: 5rem 0;
+        }
+        
+        .role-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--black);
+            position: relative;
+            display: inline-block;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .role-title:after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--gradient-bg);
+        }
+        
+        .couple-section {
+            text-align: center;
+            margin: 4rem 0;
+            padding: 3rem;
+            background: var(--gradient-light);
+            border-radius: 10px;
+        }
+        
+        .couple-photo {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin: 2rem auto;
+            display: block;
+            border: 5px solid var(--white);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">G&J</a>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="story.html">Our Story</a></li>
+                <li><a href="bigday.html">The Big Day</a></li>
+                <li><a href="nuptials.html" class="active">Nuptials</a></li>
+                <li><a href="greetings.html">Wish Greetings</a></li>
+                <li><a href="rsvp.html">RSVP</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content page-transition">
+                <h1>Our Wedding Party</h1>
+                <p class="subtitle">The special people standing with us on our big day</p>
+                
+                <!-- BRIDE AND GROOM SECTION -->
+                <div class="couple-section">
+                    <h2>The Couple</h2>
+                    <div style="display: flex; justify-content: center; gap: 4rem; flex-wrap: wrap; margin-top: 2rem;">
+                        <div style="text-align: center;">
+                            <img src="images/image35.jpg" alt="Guila" class="couple-photo">
+                            <h3>Guila</h3>
+                            <p>The Bride</p>
+                        </div>
+                        <div style="text-align: center;">
+                            <img src="images/image36.jpg" alt="Jeric" class="couple-photo">
+                            <h3>Jeric</h3>
+                            <p>The Groom</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- PRINCIPAL SPONSORS -->
+                <div class="section-spacing">
+                    <h2 class="role-title">Principal Sponsors</h2>
+                    <p style="text-align: center; margin-bottom: 2rem;">Our beloved mentors and guides</p>
+                    <div class="nuptials-grid">
+                        <!-- SPONSOR 1-10: Edit names and relationships -->
+                        <div class="person-card">
+                            <img src="images/image01.jpg" alt="Sponsor">
+                            <h4>Mr. & Mrs. Antonio Santos</h4>
+                            <p>Godparents</p>
+                            <span class="role-badge">Sponsor</span>
+                        </div>
+                        <div class="person-card">
+                            <img src="images/image02.jpg" alt="Sponsor">
+                            <h4>Mr. & Mrs. Ricardo Reyes</h4>
+                            <p>Family Friends</p>
+                            <span class="role-badge">Sponsor</span>
+                        </div>
+                        <div class="person-card">
+                            <img src="images/image03.jpg" alt="Sponsor">
+                            <h4>Mr. & Mrs. Eduardo Cruz</h4>
+                            <p>Mentors</p>
+                            <span class="role-badge">Sponsor</span>
+                        </div>
+                        <div class="person-card">
+                            <img src="images/image04.jpg" alt="Sponsor">
+                            <h4>Mr. & Mrs. Roberto Torres</h4>
+                            <p>College Professors</p>
+                            <span class="role-badge">Sponsor</span>
+                        </div>
+                        <div class="person-card">
+                            <img src="images/image05.jpg" alt="Sponsor">
+                            <h4>Mr. & Mrs. Manuel Lopez</h4>
+                            <p>Family</p>
+                            <span class="role-badge">Sponsor</span>
+                        </div>
+                        <div class="person-card">
+                            <img src="images/image06.jpg" alt="Sponsor">
+                            <h4>Mr. & Mrs. Carlos Gonzales</h4>
+                            <p>Neighbors</p>
+                            <span class="role-badge">Sponsor</span>
+                        </div>
+                        <div class="person-card">
+                            <img src="images/image07.jpg" alt="Sponsor">
+                            <h4>Mr. & Mrs. Jose Ramirez</h4>
+                            <p>Business Partners</p>
+                            <span class="role-badge">Sponsor</span>
+                        </div>
+                        <div class="person-card">
+                            <img src="images/image08.jpg" alt="Sponsor">
+                            <h4>Mr. & Mrs. Juan Flores</h4>
+                            <p>Church Community</p>
+                            <span class="role-badge">Sponsor</span>
+                        </div>
+                        <div class="person-card">
+                            <img src="images/image09.jpg" alt="Sponsor">
+                            <h4>Mr. & Mrs. Miguel Vasquez</h4>
+                            <p>Family Friends</p>
+                            <span class="role-badge">Sponsor</span>
+                        </div>
+                        <div class="person-card">
+                            <img src="images/image10.jpg" alt="Sponsor">
+                            <h4>Mr. & Mrs. David Chua</h4>
+                            <p>Close Friends</p>
+                            <span class="role-badge">Sponsor</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- GROOMSMEN -->
+                <div class="section-spacing">
+                    <h2 class="role-title">Groomsmen</h2>
+                    <p style="text-align: center; margin-bottom: 2rem;">Jeric's closest friends and family</p>
+                    <div class="nuptials-grid">
+                        <!-- BEST MAN -->
+                        <div class="person-card">
+                            <img src="images/image11.jpg" alt="Best Man">
+                            <h4>Michael Santos</h4>
+                            <p>Best Man</p>
+                            <span class="role-badge">Best Man</span>
+                        </div>
+                        
+                        <!-- GROOMSMEN 2-10 -->
+                        <div class="person-card">
+                            <img src="images/image12.jpg" alt="Groomsman">
+                            <h4>David Reyes</h4>
+                            <p>Childhood Friend</p>
+                            <span class="role-badge">Groomsman</span>
+                        </div>
+                        <div class="person-card">
+                            <img src="images/image13.jpg" alt="Groomsman">
+                            <h4>James Cruz</h4>
+                            <p>College Roommate</p>
+                            <span class="role-badge">Groomsman</span>
+                        </div>
+                        <div class="person-card">
+                            <img src="images/image14.jpg" alt="Groomsman">
+                            <h4>Robert Torres</h4>
+                            <p>Cousin</p>
+                            <span class="role-badge">Groomsman</span>
+                        </div>
+                        <div class="person-card">
+                            <img src="images/image15.jpg" alt="Groomsman">
+                            <h4>John Lopez</h4>
+                            <p>Work Colleague</p>
+                            <span class="role-badge">Groomsman</span>
+                        </div>
+                        <div class="person-card">
+                            <img src="images/image16.jpg" alt="Groomsman">
+                            <h4>Paul Gonzales</h4>
+                            <p>High School Friend</p>
+                            <span class="role-badge">Groomsman</span>
+                        </div>
+                        <div class="person-card">
+                            <img src="images/image17.jpg" alt="Groomsman">
+                            <h4>Mark Ramirez</h4>
+                            <p>Brother</p>
+                            <span class="role-badge">Groomsman</span>
+                        </div>
+                        <div class="person-card">
+                            <img src="images/image18.jpg" alt="Groomsman">
+                            <h4>Andrew Flores</h4>
+                            <p>Childhood Friend</p>
+                            <span class="role-badge">Groomsman</span>
+                        </div>
+                        <div class="person-card">
+                            <img src="images/image19.jpg" alt="Groomsman">
+                            <h4>Steven Vasquez</h4>
+                            <p>College Friend</p>
+                            <span class="role-badge">Groomsman</span>
+                        </div>
+                        <div class="person-card">
+                            <img src="images/image20.jpg" alt="Groomsman">
+                            <h4>Brian Chua</h4>
+                            <p>Work Colleague</p>
+                            <span class="role-badge">Groomsman</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- BRIDESMAIDS -->
+                <div class="section-spacing">
+                    <h2 class="role-title">Bridesmaids</h2>
+                    <p style="text-align: center; margin-bottom: 2rem;">Guila's dearest friends and family</p>
+                    <div class="nuptials-grid">
+                        <!-- MAID OF HONOR -->
+                        <div class="person-card">
+                            <img src="images/image21.jpg" alt="Maid of Honor">
+                            <h4>Maria Santos</h4>
+                            <p>Maid of Honor</p>
+                            <span class="role-badge">Maid of Honor</span>
+                        </div>
+                        
+                        <!-- BRIDESMAIDS 2-10 -->
+                        <div class="person-card">
+                            <img src="images/image22.jpg" alt="Bridesmaid">
+                            <h4>Anna Reyes</h4>
+                            <p>Sister</p>
+                            <span class="role-badge">Bridesmaid</span>
+                        </div>
+                        <div class="person-card">
+                            <img src="images/image23.jpg" alt="Bridesmaid">
+                            <h4>Sarah Cruz</h4>
+                            <p>College Best Friend</p>
+                            <span class="role-badge">Bridesmaid</span>
+                        </div>
+                        <div class="person-card">
+                            <img src="images/image24.jpg" alt="Bridesmaid">
+                            <h4>Lisa Torres</h4>
+                            <p>Cousin</p>
+                            <span class="role-badge">Bridesmaid</span>
+                        </div>
+                        <div class="person-card">
+                            <img src="images/image25.jpg" alt="Bridesmaid">
+                            <h4>Michelle Lopez</h4>
+                            <p>High School Friend</p>
+                            <span class="role-badge">Bridesmaid</span>
+                        </div>
+                        <div class="person-card">
+                            <img src="images/image26.jpg" alt="Bridesmaid">
+                            <h4>Karen Gonzales</h4>
+                            <p>Work Colleague</p>
+                            <span class="role-badge">Bridesmaid</span>
+                        </div>
+                        <div class="person-card">
+                            <img src="images/image27.jpg" alt="Bridesmaid">
+                            <h4>Jessica Ramirez</h4>
+                            <p>Childhood Friend</p>
+                            <span class="role-badge">Bridesmaid</span>
+                        </div>
+                        <div class="person-card">
+                            <img src="images/image28.jpg" alt="Bridesmaid">
+                            <h4>Amanda Flores</h4>
+                            <p>College Roommate</p>
+                            <span class="role-badge">Bridesmaid</span>
+                        </div>
+                        <div class="person-card">
+                            <img src="images/image29.jpg" alt="Bridesmaid">
+                            <h4>Christine Vasquez</h4>
+                            <p>Sister-in-law</p>
+                            <span class="role-badge">Bridesmaid</span>
+                        </div>
+                        <div class="person-card">
+                            <img src="images/image30.jpg" alt="Bridesmaid">
+                            <h4>Jennifer Chua</h4>
+                            <p>Neighbor</p>
+                            <span class="role-badge">Bridesmaid</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- PARENTS OF THE COUPLE -->
+                <div class="section-spacing">
+                    <h2 class="role-title">Our Parents</h2>
+                    <p style="text-align: center; margin-bottom: 2rem;">With heartfelt gratitude to our families</p>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; margin-top: 2rem;">
+                        <div class="person-card" style="padding: 2rem;">
+                            <img src="images/image33.jpg" alt="Parents of the Bride">
+                            <h4>Mr. & Mrs. Dela Cruz</h4>
+                            <p>Parents of the Bride</p>
+                            <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--gray-dark);">
+                                For your endless love, support, and the beautiful woman you raised.
+                            </p>
+                        </div>
+                        <div class="person-card" style="padding: 2rem;">
+                            <img src="images/image34.jpg" alt="Parents of the Groom">
+                            <h4>Mr. & Mrs. Garcia</h4>
+                            <p>Parents of the Groom</p>
+                            <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--gray-dark);">
+                                For your guidance, wisdom, and the wonderful man you raised.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- FLOWER GIRL & RING BEARER -->
+                <div class="section-spacing" style="text-align: center;">
+                    <h2 class="role-title">Little Helpers</h2>
+                    <p style="margin-bottom: 2rem;">Our adorable young attendants</p>
+                    <div style="display: flex; justify-content: center; gap: 3rem; margin-top: 2rem; flex-wrap: wrap;">
+                        <div class="person-card" style="width: 200px;">
+                            <img src="images/image31.jpg" alt="Flower Girl">
+                            <h4>Sophia Lim</h4>
+                            <p>Flower
