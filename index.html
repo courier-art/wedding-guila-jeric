@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- META TAGS: Essential for SEO and mobile responsiveness -->
+    <meta charset="UTF-8"> <!-- Character encoding -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Mobile responsive -->
+    <title>Guila & Jeric - Wedding</title> <!-- Page title shown in browser tab -->
+    
+    <!-- EXTERNAL RESOURCES: Fonts and icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- STYLESHEETS: Custom CSS files -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- NAVIGATION: Fixed at top of all pages -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <!-- LOGO: Clickable link to home page -->
+            <a href="index.html" class="logo">G&J</a>
+            
+            <!-- MOBILE MENU BUTTON: Only visible on mobile -->
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i> <!-- Hamburger icon -->
+            </button>
+            
+            <!-- NAVIGATION LINKS: List of all pages -->
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li> <!-- Current page -->
+                <li><a href="story.html">Our Story</a></li>
+                <li><a href="bigday.html">The Big Day</a></li>
+                <li><a href="nuptials.html">Nuptials</a></li>
+                <li><a href="greetings.html">Wish Greetings</a></li>
+                <li><a href="rsvp.html">RSVP</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- HERO SECTION: Full-screen banner with background -->
+    <section class="hero home-hero">
+        <div class="container">
+            <div class="hero-content page-transition">
+                <!-- MAIN HEADING: Couple names -->
+                <h1>Guila & Jeric</h1>
+                
+                <!-- SUBTITLE: Wedding date -->
+                <p class="subtitle">September 5, 2026</p>
+                
+                <!-- CLASSROOM THEME SECTION: High school nostalgia -->
+                <div class="classroom-setup">
+                    <h2>Waiting for the Bell to Ring</h2>
+                    <p>Just like our high school days, waiting for the bell that signals recess or the end of class...</p>
+                    <p>Now we're waiting for another bell - one that will mark the beginning of our forever together.</p>
+                    
+                    <!-- LORDICON BELL: Animated interactive bell -->
+                    <div class="lordicon-bell"></div>
+                    
+                    <p><em>Click the bell above to hear our wedding bell chime!</em></p>
+                </div>
+                
+                <!-- COUNTDOWN TIMER: Days until wedding -->
+                <div class="countdown">
+                    <h2 class="countdown-title">Counting Down to Our Special Day</h2>
+                    <div class="countdown-container">
+                        <!-- COUNTDOWN ITEMS: Display days, hours, minutes, seconds -->
+                        <div class="countdown-item">
+                            <span class="countdown-number" id="days">00</span>
+                            <span class="countdown-label">Days</span>
+                        </div>
+                        <div class="countdown-item">
+                            <span class="countdown-number" id="hours">00</span>
+                            <span class="countdown-label">Hours</span>
+                        </div>
+                        <div class="countdown-item">
+                            <span class="countdown-number" id="minutes">00</span>
+                            <span class="countdown-label">Minutes</span>
+                        </div>
+                        <div class="countdown-item">
+                            <span class="countdown-number" id="seconds">00</span>
+                            <span class="countdown-label">Seconds</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- WELCOME MESSAGE: Personal note to guests -->
+                <div class="welcome-message">
+                    <h2>A Warm Welcome</h2>
+                    <p>Dear Family and Friends,</p>
+                    <p>We are thrilled to invite you to share in our joy as we exchange vows and begin our journey together as husband and wife. This website is our way of keeping you informed about all the details of our special day.</p>
+                    <p>Thank you for being a part of our lives and for sharing in this beautiful moment with us.</p>
+                    <p>With love,</p>
+                    <p class="signature">Guila & Jeric</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER: Consistent across all pages -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <!-- FOOTER SECTION 1: Basic info -->
+                <div class="footer-section">
+                    <h3>Guila & Jeric</h3>
+                    <p>September 5, 2026</p>
+                    <p>Kawit & Noveleta, Cavite</p>
+                </div>
+                
+                <!-- FOOTER SECTION 2: Quick navigation -->
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="story.html">Our Love Story</a></li>
+                        <li><a href="bigday.html">Event Details</a></li>
+                        <li><a href="nuptials.html">Wedding Party</a></li>
+                        <li><a href="rsvp.html">RSVP</a></li>
+                    </ul>
+                </div>
+                
+                <!-- FOOTER SECTION 3: Contact information -->
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>For any questions, please contact:</p>
+                    <p>Guila: +63 912 345 6789</p>
+                    <p>Jeric: +63 987 654 3210</p>
+                </div>
+            </div>
+            
+            <!-- COPYRIGHT: Legal information -->
+            <div class="copyright">
+                <p>&copy; 2024 Guila & Jeric Wedding. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT: Load custom scripts last for performance -->
+    <script src="script.js"></script>
+</body>
+</html>
