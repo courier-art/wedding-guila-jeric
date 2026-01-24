@@ -553,7 +553,7 @@ footer {
     background: var(--gradient-bg);
     color: var(--white);
     padding: 4rem 0 2rem;
-    margin-top: 4rem;
+    margin-top: 0.25rem;
 }
 
 .footer-content {
