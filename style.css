@@ -666,7 +666,7 @@ footer {
         width: 100%;
         height: 100%;
         background: rgba(0,0,0,0.5);
-        z-index: 1000;
+        z-index: 999;
         opacity: 0;
         visibility: hidden;
         transition: var(--transition);
@@ -742,5 +742,39 @@ footer {
     to {
         opacity: 1;
         transform: translateY(0);
+    }
+}
+
+/* ============================================
+   FIX FOR MOBILE MENU CLICK ISSUE
+   Minimal fix - add this at the end of file
+   ============================================ */
+
+@media (max-width: 768px) {
+    /* Make sure menu items are clickable */
+    .nav-links a {
+        pointer-events: auto !important;
+        position: relative;
+        z-index: 1002;
+    }
+    
+    /* Ensure overlay doesn't block clicks */
+    .nav-overlay {
+        pointer-events: none; /* Overlay won't block clicks */
+    }
+    
+    /* But make overlay clickable to close menu */
+    .nav-overlay.active {
+        pointer-events: auto; /* Can click overlay to close */
+    }
+    
+    /* Make menu items clearly clickable */
+    .nav-links li {
+        cursor: pointer;
+    }
+    
+    /* Remove any hover effects that might interfere */
+    .nav-links a:after {
+        display: none;
     }
 }
