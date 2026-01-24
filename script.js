@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Play sound
         playBellSound();
 
-        // 4. After 4 seconds, stop the animation and sound
+        // 4. After 7 seconds, stop the animation and sound
         setTimeout(() => {
             bellIcon.setAttribute('trigger', 'in'); // Return to static
             bellIcon.setAttribute('state', 'in-bell');
