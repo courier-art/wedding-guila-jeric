@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nuptials - Guila & Jeric</title>
+    <title>Wish Greetings - Guila & Jeric</title>
     
     <!-- EXTERNAL RESOURCES -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -14,48 +14,37 @@
     
     <!-- PAGE-SPECIFIC STYLES -->
     <style>
-        /* Additional styles for nuptials page */
-        .section-spacing {
-            margin: 5rem 0;
-        }
-        
-        .role-title {
-            text-align: center;
-            margin-bottom: 2rem;
-            color: var(--black);
-            position: relative;
-            display: inline-block;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-        
-        .role-title:after {
-            content: '';
-            position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 100%;
-            height: 2px;
-            background: var(--gradient-bg);
-        }
-        
-        .couple-section {
-            text-align: center;
-            margin: 4rem 0;
+        /* Additional styles for greetings page */
+        .message-form-container {
+            max-width: 600px;
+            margin: 3rem auto;
             padding: 3rem;
-            background: var(--gradient-light);
+            background: var(--white);
             border-radius: 10px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+            border: 1px solid var(--gray-medium);
         }
         
-        .couple-photo {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin: 2rem auto;
-            display: block;
-            border: 5px solid var(--white);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        .character-count {
+            text-align: right;
+            font-size: 0.9rem;
+            color: var(--gray-dark);
+            margin-top: 0.5rem;
+        }
+        
+        .message-prompt {
+            text-align: center;
+            font-style: italic;
+            color: var(--gray-dark);
+            margin-bottom: 2rem;
+        }
+        
+        .messages-intro {
+            text-align: center;
+            margin-bottom: 3rem;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
         }
     </style>
 </head>
@@ -70,8 +59,8 @@
                 <li><a href="index.html">Home</a></li>
                 <li><a href="story.html">Our Story</a></li>
                 <li><a href="bigday.html">The Big Day</a></li>
-                <li><a href="nuptials.html" class="active">Nuptials</a></li>
-                <li><a href="greetings.html">Wish Greetings</a></li>
+                <li><a href="nuptials.html">Nuptials</a></li>
+                <li><a href="greetings.html" class="active">Wish Greetings</a></li>
                 <li><a href="rsvp.html">RSVP</a></li>
             </ul>
         </div>
@@ -80,326 +69,130 @@
     <section class="hero">
         <div class="container">
             <div class="hero-content page-transition">
-                <h1>Our Wedding Party</h1>
-                <p class="subtitle">The special people standing with us on our big day</p>
+                <h1>Wish Greetings</h1>
+                <p class="subtitle">Leave a message for the newlyweds</p>
                 
-                <!-- BRIDE AND GROOM SECTION -->
-                <div class="couple-section">
-                    <h2>The Couple</h2>
-                    <div style="display: flex; justify-content: center; gap: 4rem; flex-wrap: wrap; margin-top: 2rem;">
-                        <div style="text-align: center;">
-                            <img src="images/image35.jpg" alt="Guila" class="couple-photo">
-                            <h3>Guila</h3>
-                            <p>The Bride</p>
-                        </div>
-                        <div style="text-align: center;">
-                            <img src="images/image36.jpg" alt="Jeric" class="couple-photo">
-                            <h3>Jeric</h3>
-                            <p>The Groom</p>
-                        </div>
-                    </div>
+                <!-- INTRODUCTION -->
+                <div class="messages-intro">
+                    <p>Your words of love, encouragement, and wisdom mean the world to us. Please share your thoughts, memories, or well wishes that we can cherish forever.</p>
+                    <p style="margin-top: 1rem;"><em>Messages will be displayed below and saved in our wedding memory book.</em></p>
                 </div>
                 
-                <!-- PRINCIPAL SPONSORS -->
-                <div class="section-spacing">
-                    <h2 class="role-title">Principal Sponsors</h2>
-                    <p style="text-align: center; margin-bottom: 2rem;">Our beloved mentors and guides</p>
-                    <div class="nuptials-grid">
-                        <!-- SPONSOR 1-10: Edit names and relationships -->
-                        <div class="person-card">
-                            <img src="images/image01.jpg" alt="Sponsor">
-                            <h4>Mr. & Mrs. Antonio Santos</h4>
-                            <p>Godparents</p>
-                            <span class="role-badge">Sponsor</span>
-                        </div>
-                        <div class="person-card">
-                            <img src="images/image02.jpg" alt="Sponsor">
-                            <h4>Mr. & Mrs. Ricardo Reyes</h4>
-                            <p>Family Friends</p>
-                            <span class="role-badge">Sponsor</span>
-                        </div>
-                        <div class="person-card">
-                            <img src="images/image03.jpg" alt="Sponsor">
-                            <h4>Mr. & Mrs. Eduardo Cruz</h4>
-                            <p>Mentors</p>
-                            <span class="role-badge">Sponsor</span>
-                        </div>
-                        <div class="person-card">
-                            <img src="images/image04.jpg" alt="Sponsor">
-                            <h4>Mr. & Mrs. Roberto Torres</h4>
-                            <p>College Professors</p>
-                            <span class="role-badge">Sponsor</span>
-                        </div>
-                        <div class="person-card">
-                            <img src="images/image05.jpg" alt="Sponsor">
-                            <h4>Mr. & Mrs. Manuel Lopez</h4>
-                            <p>Family</p>
-                            <span class="role-badge">Sponsor</span>
-                        </div>
-                        <div class="person-card">
-                            <img src="images/image06.jpg" alt="Sponsor">
-                            <h4>Mr. & Mrs. Carlos Gonzales</h4>
-                            <p>Neighbors</p>
-                            <span class="role-badge">Sponsor</span>
-                        </div>
-                        <div class="person-card">
-                            <img src="images/image07.jpg" alt="Sponsor">
-                            <h4>Mr. & Mrs. Jose Ramirez</h4>
-                            <p>Business Partners</p>
-                            <span class="role-badge">Sponsor</span>
-                        </div>
-                        <div class="person-card">
-                            <img src="images/image08.jpg" alt="Sponsor">
-                            <h4>Mr. & Mrs. Juan Flores</h4>
-                            <p>Church Community</p>
-                            <span class="role-badge">Sponsor</span>
-                        </div>
-                        <div class="person-card">
-                            <img src="images/image09.jpg" alt="Sponsor">
-                            <h4>Mr. & Mrs. Miguel Vasquez</h4>
-                            <p>Family Friends</p>
-                            <span class="role-badge">Sponsor</span>
-                        </div>
-                        <div class="person-card">
-                            <img src="images/image10.jpg" alt="Sponsor">
-                            <h4>Mr. & Mrs. David Chua</h4>
-                            <p>Close Friends</p>
-                            <span class="role-badge">Sponsor</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- GROOMSMEN -->
-                <div class="section-spacing">
-                    <h2 class="role-title">Groomsmen</h2>
-                    <p style="text-align: center; margin-bottom: 2rem;">Jeric's closest friends and family</p>
-                    <div class="nuptials-grid">
-                        <!-- BEST MAN -->
-                        <div class="person-card">
-                            <img src="images/image11.jpg" alt="Best Man">
-                            <h4>Michael Santos</h4>
-                            <p>Best Man</p>
-                            <span class="role-badge">Best Man</span>
+                <!-- MESSAGE FORM -->
+                <div class="message-form-container">
+                    <h2 style="text-align: center; margin-bottom: 2rem;">Send Your Wishes</h2>
+                    
+                    <form id="messageForm">
+                        <!-- NAME FIELD -->
+                        <div class="form-group">
+                            <label class="form-label" for="name">Your Name *</label>
+                            <input type="text" class="form-control" id="name" name="name" required 
+                                   placeholder="Enter your full name">
                         </div>
                         
-                        <!-- GROOMSMEN 2-10 -->
-                        <div class="person-card">
-                            <img src="images/image12.jpg" alt="Groomsman">
-                            <h4>David Reyes</h4>
-                            <p>Childhood Friend</p>
-                            <span class="role-badge">Groomsman</span>
-                        </div>
-                        <div class="person-card">
-                            <img src="images/image13.jpg" alt="Groomsman">
-                            <h4>James Cruz</h4>
-                            <p>College Roommate</p>
-                            <span class="role-badge">Groomsman</span>
-                        </div>
-                        <div class="person-card">
-                            <img src="images/image14.jpg" alt="Groomsman">
-                            <h4>Robert Torres</h4>
-                            <p>Cousin</p>
-                            <span class="role-badge">Groomsman</span>
-                        </div>
-                        <div class="person-card">
-                            <img src="images/image15.jpg" alt="Groomsman">
-                            <h4>John Lopez</h4>
-                            <p>Work Colleague</p>
-                            <span class="role-badge">Groomsman</span>
-                        </div>
-                        <div class="person-card">
-                            <img src="images/image16.jpg" alt="Groomsman">
-                            <h4>Paul Gonzales</h4>
-                            <p>High School Friend</p>
-                            <span class="role-badge">Groomsman</span>
-                        </div>
-                        <div class="person-card">
-                            <img src="images/image17.jpg" alt="Groomsman">
-                            <h4>Mark Ramirez</h4>
-                            <p>Brother</p>
-                            <span class="role-badge">Groomsman</span>
-                        </div>
-                        <div class="person-card">
-                            <img src="images/image18.jpg" alt="Groomsman">
-                            <h4>Andrew Flores</h4>
-                            <p>Childhood Friend</p>
-                            <span class="role-badge">Groomsman</span>
-                        </div>
-                        <div class="person-card">
-                            <img src="images/image19.jpg" alt="Groomsman">
-                            <h4>Steven Vasquez</h4>
-                            <p>College Friend</p>
-                            <span class="role-badge">Groomsman</span>
-                        </div>
-                        <div class="person-card">
-                            <img src="images/image20.jpg" alt="Groomsman">
-                            <h4>Brian Chua</h4>
-                            <p>Work Colleague</p>
-                            <span class="role-badge">Groomsman</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- BRIDESMAIDS -->
-                <div class="section-spacing">
-                    <h2 class="role-title">Bridesmaids</h2>
-                    <p style="text-align: center; margin-bottom: 2rem;">Guila's dearest friends and family</p>
-                    <div class="nuptials-grid">
-                        <!-- MAID OF HONOR -->
-                        <div class="person-card">
-                            <img src="images/image21.jpg" alt="Maid of Honor">
-                            <h4>Maria Santos</h4>
-                            <p>Maid of Honor</p>
-                            <span class="role-badge">Maid of Honor</span>
+                        <!-- RELATIONSHIP FIELD (Optional) -->
+                        <div class="form-group">
+                            <label class="form-label" for="relationship">Your Relationship to the Couple</label>
+                            <input type="text" class="form-control" id="relationship" name="relationship" 
+                                   placeholder="E.g., Friend, Family, Colleague, etc.">
                         </div>
                         
-                        <!-- BRIDESMAIDS 2-10 -->
-                        <div class="person-card">
-                            <img src="images/image22.jpg" alt="Bridesmaid">
-                            <h4>Anna Reyes</h4>
-                            <p>Sister</p>
-                            <span class="role-badge">Bridesmaid</span>
+                        <!-- MESSAGE FIELD -->
+                        <div class="form-group">
+                            <label class="form-label" for="message">Your Message *</label>
+                            <textarea class="form-control" id="message" name="message" rows="6" 
+                                      required placeholder="Share your thoughts, memories, or well wishes..."
+                                      maxlength="500"></textarea>
+                            <div class="character-count">
+                                <span id="charCount">0</span>/500 characters
+                            </div>
                         </div>
-                        <div class="person-card">
-                            <img src="images/image23.jpg" alt="Bridesmaid">
-                            <h4>Sarah Cruz</h4>
-                            <p>College Best Friend</p>
-                            <span class="role-badge">Bridesmaid</span>
+                        
+                        <!-- SUBMIT BUTTON -->
+                        <div style="text-align: center; margin-top: 2rem;">
+                            <button type="submit" class="btn">
+                                <i class="fas fa-paper-plane"></i> Send Message
+                            </button>
                         </div>
-                        <div class="person-card">
-                            <img src="images/image24.jpg" alt="Bridesmaid">
-                            <h4>Lisa Torres</h4>
-                            <p>Cousin</p>
-                            <span class="role-badge">Bridesmaid</span>
-                        </div>
-                        <div class="person-card">
-                            <img src="images/image25.jpg" alt="Bridesmaid">
-                            <h4>Michelle Lopez</h4>
-                            <p>High School Friend</p>
-                            <span class="role-badge">Bridesmaid</span>
-                        </div>
-                        <div class="person-card">
-                            <img src="images/image26.jpg" alt="Bridesmaid">
-                            <h4>Karen Gonzales</h4>
-                            <p>Work Colleague</p>
-                            <span class="role-badge">Bridesmaid</span>
-                        </div>
-                        <div class="person-card">
-                            <img src="images/image27.jpg" alt="Bridesmaid">
-                            <h4>Jessica Ramirez</h4>
-                            <p>Childhood Friend</p>
-                            <span class="role-badge">Bridesmaid</span>
-                        </div>
-                        <div class="person-card">
-                            <img src="images/image28.jpg" alt="Bridesmaid">
-                            <h4>Amanda Flores</h4>
-                            <p>College Roommate</p>
-                            <span class="role-badge">Bridesmaid</span>
-                        </div>
-                        <div class="person-card">
-                            <img src="images/image29.jpg" alt="Bridesmaid">
-                            <h4>Christine Vasquez</h4>
-                            <p>Sister-in-law</p>
-                            <span class="role-badge">Bridesmaid</span>
-                        </div>
-                        <div class="person-card">
-                            <img src="images/image30.jpg" alt="Bridesmaid">
-                            <h4>Jennifer Chua</h4>
-                            <p>Neighbor</p>
-                            <span class="role-badge">Bridesmaid</span>
-                        </div>
-                    </div>
+                        
+                        <!-- PRIVACY NOTE -->
+                        <p style="text-align: center; margin-top: 1rem; font-size: 0.9rem; color: var(--gray-dark);">
+                            * Required fields. Your message will be visible to other guests.
+                        </p>
+                    </form>
                 </div>
                 
-                <!-- PARENTS OF THE COUPLE -->
-                <div class="section-spacing">
-                    <h2 class="role-title">Our Parents</h2>
-                    <p style="text-align: center; margin-bottom: 2rem;">With heartfelt gratitude to our families</p>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 3rem; margin-top: 2rem;">
-                        <div class="person-card" style="padding: 2rem;">
-                            <img src="images/image33.jpg" alt="Parents of the Bride">
-                            <h4>Mr. & Mrs. Dela Cruz</h4>
-                            <p>Parents of the Bride</p>
-                            <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--gray-dark);">
-                                For your endless love, support, and the beautiful woman you raised.
-                            </p>
-                        </div>
-                        <div class="person-card" style="padding: 2rem;">
-                            <img src="images/image34.jpg" alt="Parents of the Groom">
-                            <h4>Mr. & Mrs. Garcia</h4>
-                            <p>Parents of the Groom</p>
-                            <p style="margin-top: 1rem; font-size: 0.9rem; color: var(--gray-dark);">
-                                For your guidance, wisdom, and the wonderful man you raised.
-                            </p>
-                        </div>
+                <!-- MESSAGES GRID -->
+                <h2 style="text-align: center; margin-top: 4rem;">Messages from Friends & Family</h2>
+                <p class="message-prompt">Scroll through love notes from our favorite people</p>
+                
+                <div class="messages-grid">
+                    <!-- SAMPLE MESSAGE 1 -->
+                    <div class="message-card">
+                        <div class="message-author">Maria Santos</div>
+                        <div class="message-date">June 15, 2024 • Family Friend</div>
+                        <p>So happy for both of you! Wishing you a lifetime of love and happiness. Can't wait to celebrate with you! Seeing your relationship grow has been such a joy.</p>
                     </div>
+                    
+                    <!-- SAMPLE MESSAGE 2 -->
+                    <div class="message-card">
+                        <div class="message-author">Michael Reyes</div>
+                        <div class="message-date">June 12, 2024 • Best Man</div>
+                        <p>Congratulations! May your marriage be filled with all the right ingredients: a heap of love, a dash of humor, a touch of romance, and a spoonful of understanding. So proud to stand by your side, Jeric!</p>
+                    </div>
+                    
+                    <!-- SAMPLE MESSAGE 3 -->
+                    <div class="message-card">
+                        <div class="message-author">Sarah & David Cruz</div>
+                        <div class="message-date">June 10, 2024 • College Friends</div>
+                        <p>Wishing you both all the happiness in the world as you begin this new chapter together. We're so excited to witness your special day! Remember all those late-night study sessions? Now you get to study life together!</p>
+                    </div>
+                    
+                    <!-- SAMPLE MESSAGE 4 -->
+                    <div class="message-card">
+                        <div class="message-author">The Torres Family</div>
+                        <div class="message-date">June 8, 2024 • Neighbors</div>
+                        <p>To the beautiful couple - may your love continue to grow with each passing day. Congratulations on finding your forever person! We've watched your love story unfold from across the street and it's been beautiful to see.</p>
+                    </div>
+                    
+                    <!-- SAMPLE MESSAGE 5 -->
+                    <div class="message-card">
+                        <div class="message-author">James Lopez</div>
+                        <div class="message-date">June 5, 2024 • Work Colleague</div>
+                        <p>So proud of you both! Wishing you a marriage as wonderful as your friendship has been all these years. May your teamwork in life be as successful as your teamwork on our projects!</p>
+                    </div>
+                    
+                    <!-- SAMPLE MESSAGE 6 -->
+                    <div class="message-card">
+                        <div class="message-author">Anna Gonzales</div>
+                        <div class="message-date">June 3, 2024 • Maid of Honor</div>
+                        <p>Your love story has been so inspiring to watch unfold. May your wedding day be just the beginning of a lifetime filled with wonderful moments. Guila, I'm so happy to see you this happy!</p>
+                    </div>
+                    
+                    <!-- MORE MESSAGES WILL BE ADDED DYNAMICALLY VIA JAVASCRIPT -->
                 </div>
                 
-                <!-- FLOWER GIRL & RING BEARER -->
-                <div class="section-spacing" style="text-align: center;">
-                    <h2 class="role-title">Little Helpers</h2>
-                    <p style="margin-bottom: 2rem;">Our adorable young attendants</p>
-                    <div style="display: flex; justify-content: center; gap: 3rem; margin-top: 2rem; flex-wrap: wrap;">
-                        <div class="person-card" style="width: 200px;">
-                            <img src="images/image31.jpg" alt="Flower Girl">
-                            <h4>Sophia Lim</h4>
-                            <p>Flower Girl</p>
-                            <span class="role-badge">Age 6</span>
-                            <p style="font-size: 0.9rem; margin-top: 0.5rem; color: var(--gray-dark);">
-                                Niece of the Bride
-                            </p>
+                <!-- INSTRUCTIONS FOR GUESTS -->
+                <div style="background: var(--gradient-light); padding: 2rem; border-radius: 10px; margin-top: 3rem; text-align: center;">
+                    <h3>Tips for Your Message</h3>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 1.5rem;">
+                        <div>
+                            <i class="fas fa-heart" style="color: var(--black); font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
+                            <p><strong>Share a Memory</strong><br>A special moment you shared with the couple</p>
                         </div>
-                        <div class="person-card" style="width: 200px;">
-                            <img src="images/image32.jpg" alt="Ring Bearer">
-                            <h4>Noah Tan</h4>
-                            <p>Ring Bearer</p>
-                            <span class="role-badge">Age 7</span>
-                            <p style="font-size: 0.9rem; margin-top: 0.5rem; color: var(--gray-dark);">
-                                Nephew of the Groom
-                            </p>
+                        <div>
+                            <i class="fas fa-lightbulb" style="color: var(--black); font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
+                            <p><strong>Offer Advice</strong><br>Wisdom from your own marriage or relationships</p>
+                        </div>
+                        <div>
+                            <i class="fas fa-laugh" style="color: var(--black); font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
+                            <p><strong>Tell a Funny Story</strong><br>Share a lighthearted moment or inside joke</p>
+                        </div>
+                        <div>
+                            <i class="fas fa-pray" style="color: var(--black); font-size: 1.5rem; margin-bottom: 0.5rem;"></i>
+                            <p><strong>Send Blessings</strong><br>Your prayers and well-wishes for their future</p>
                         </div>
                     </div>
-                </div>
-                
-                <!-- ADDITIONAL ROLES -->
-                <div class="section-spacing">
-                    <h2 class="role-title">Additional Roles</h2>
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 2rem;">
-                        <div class="person-card">
-                            <i class="fas fa-book" style="font-size: 2rem; margin-bottom: 1rem; color: var(--black);"></i>
-                            <h4>Fr. Antonio Reyes</h4>
-                            <p>Officiating Priest</p>
-                        </div>
-                        <div class="person-card">
-                            <i class="fas fa-music" style="font-size: 2rem; margin-bottom: 1rem; color: var(--black);"></i>
-                            <h4>Gabriel Santos</h4>
-                            <p>Musician</p>
-                        </div>
-                        <div class="person-card">
-                            <i class="fas fa-camera" style="font-size: 2rem; margin-bottom: 1rem; color: var(--black);"></i>
-                            <h4>Luis Torres</h4>
-                            <p>Photographer</p>
-                        </div>
-                        <div class="person-card">
-                            <i class="fas fa-video" style="font-size: 2rem; margin-bottom: 1rem; color: var(--black);"></i>
-                            <h4>Carlos Ramirez</h4>
-                            <p>Videographer</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- THANK YOU MESSAGE -->
-                <div style="text-align: center; padding: 3rem; background: var(--gradient-light); border-radius: 10px; margin-top: 4rem;">
-                    <h2>A Special Thank You</h2>
-                    <p style="max-width: 800px; margin: 1rem auto;">
-                        To all our sponsors, wedding party members, and loved ones who are sharing in our joy,
-                        thank you for your love, support, and presence in our lives. Each of you holds a special
-                        place in our hearts, and we are honored to have you stand with us as we begin this new chapter.
-                    </p>
-                    <p style="font-style: italic; margin-top: 1rem;">
-                        With all our love,<br>
-                        <span style="font-family: 'Playfair Display', serif; font-size: 1.2rem;">Guila & Jeric</span>
-                    </p>
                 </div>
             </div>
         </div>
@@ -419,6 +212,7 @@
                         <li><a href="index.html">Home</a></li>
                         <li><a href="story.html">Our Love Story</a></li>
                         <li><a href="bigday.html">Event Details</a></li>
+                        <li><a href="nuptials.html">Wedding Party</a></li>
                         <li><a href="rsvp.html">RSVP</a></li>
                     </ul>
                 </div>
@@ -436,5 +230,144 @@
     </footer>
 
     <script src="script.js"></script>
+    <script>
+        // ============================================
+        // CHARACTER COUNT FOR MESSAGE TEXTAREA
+        // Shows remaining characters as user types
+        // ============================================
+        const messageTextarea = document.getElementById('message');
+        const charCount = document.getElementById('charCount');
+        
+        if (messageTextarea && charCount) {
+            // Update character count on input
+            messageTextarea.addEventListener('input', function() {
+                const length = this.value.length;
+                charCount.textContent = length;
+                
+                // Change color when approaching limit
+                if (length > 450) {
+                    charCount.style.color = '#dc3545'; // Red
+                } else if (length > 400) {
+                    charCount.style.color = '#ffc107'; // Yellow
+                } else {
+                    charCount.style.color = ''; // Default
+                }
+            });
+            
+            // Initialize count
+            charCount.textContent = messageTextarea.value.length;
+        }
+        
+        // ============================================
+        // ENHANCED MESSAGE FORM SUBMISSION
+        // With validation and better user feedback
+        // ============================================
+        const messageForm = document.getElementById('messageForm');
+        if (messageForm) {
+            messageForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Get form data
+                const formData = new FormData(this);
+                const name = formData.get('name').trim();
+                const relationship = formData.get('relationship').trim();
+                const message = formData.get('message').trim();
+                
+                // Basic validation
+                if (!name || !message) {
+                    alert('Please fill in all required fields.');
+                    return;
+                }
+                
+                if (message.length < 10) {
+                    alert('Please write a message of at least 10 characters.');
+                    return;
+                }
+                
+                // Show loading state
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+                submitBtn.disabled = true;
+                
+                // Simulate API call (replace with actual backend in production)
+                setTimeout(() => {
+                    // Create new message card
+                    const messagesGrid = document.querySelector('.messages-grid');
+                    const messageCard = document.createElement('div');
+                    messageCard.className = 'message-card';
+                    messageCard.innerHTML = `
+                        <div class="message-author">${name}</div>
+                        <div class="message-date">Just now${relationship ? ` • ${relationship}` : ''}</div>
+                        <p>${message}</p>
+                    `;
+                    
+                    // Add fade-in animation
+                    messageCard.style.opacity = '0';
+                    messageCard.style.transform = 'translateY(20px)';
+                    messageCard.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    
+                    // Add message to top of grid
+                    messagesGrid.prepend(messageCard);
+                    
+                    // Trigger animation
+                    setTimeout(() => {
+                        messageCard.style.opacity = '1';
+                        messageCard.style.transform = 'translateY(0)';
+                    }, 10);
+                    
+                    // Reset form
+                    this.reset();
+                    charCount.textContent = '0';
+                    
+                    // Show success message
+                    const successMsg = document.createElement('div');
+                    successMsg.style.cssText = `
+                        position: fixed;
+                        top: 20px;
+                        right: 20px;
+                        background: #28a745;
+                        color: white;
+                        padding: 1rem 2rem;
+                        border-radius: 5px;
+                        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+                        z-index: 9999;
+                        animation: slideIn 0.3s ease;
+                    `;
+                    successMsg.innerHTML = `
+                        <i class="fas fa-check-circle"></i> Message sent successfully!
+                    `;
+                    document.body.appendChild(successMsg);
+                    
+                    // Remove success message after 3 seconds
+                    setTimeout(() => {
+                        successMsg.style.animation = 'slideOut 0.3s ease';
+                        setTimeout(() => {
+                            document.body.removeChild(successMsg);
+                        }, 300);
+                    }, 3000);
+                    
+                    // Reset button
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                    
+                }, 1000); // Simulate network delay
+            });
+        }
+        
+        // Add CSS for animations
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideIn {
+                from { transform: translateX(100%); opacity: 0; }
+                to { transform: translateX(0); opacity: 1; }
+            }
+            @keyframes slideOut {
+                from { transform: translateX(0); opacity: 1; }
+                to { transform: translateX(100%); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
 </body>
 </html>
