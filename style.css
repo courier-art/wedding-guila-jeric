@@ -208,6 +208,9 @@ p {
     background-position: center;   /* Center the image */
     background-attachment: fixed;  /* Parallax effect on desktop */
     color: var(--white);           /* White text for dark background */
+
+  background-size: cover;
+  background-attachment: scroll;
 }
 
 .home-hero h1,
@@ -215,6 +218,9 @@ p {
 .home-hero h3,
 .home-hero p {
     color: var(--white);           /* Ensure text is visible on dark background */
+
+
+
 }
 
 /* Classroom setup section */
@@ -675,6 +681,35 @@ footer {
     .nav-overlay.active {
         opacity: 1;
         visibility: visible;
+    }
+
+
+    .home-hero {
+        /* 1. Make the image 3x wider than the screen to show only the middle 1/3 */
+        /* 'auto' maintains the image's original aspect ratio height-wise */
+        background-size: 300% auto; 
+        
+        /* 2. Center horizontally (50%) and start at the very top (0%) */
+        background-position: 50% 0%;
+        background-attachment: scroll;
+        background-repeat: no-repeat;
+
+        /* 3. Attach the scroll-driven animation */
+        animation: mobile-strip-parallax linear forwards;
+        animation-timeline: view();
+        /* Starts when hero enters, ends when hero leaves */
+        animation-range: entry 0% exit 100%;
+    }
+
+    @keyframes mobile-strip-parallax {
+        from { 
+            /* Middle horizontal, top vertical */
+            background-position: 49.5% -15%; 
+        }
+        to { 
+            /* Middle horizontal, bottom vertical */
+            background-position: 49.5% 100%; 
+        }
     }
     
     /* Adjust hero padding for mobile */
