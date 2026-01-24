@@ -565,11 +565,11 @@ footer {
 
 .footer-section h3 {
     margin-bottom: 1.5rem;
-    color: var(--white);
+    color: var(--red);
 }
 
 .footer-section h3:after {
-    background-color: var(--white);
+    background-color: var(--red);
 }
 
 .footer-links {
