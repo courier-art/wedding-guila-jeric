@@ -8,6 +8,7 @@
     
     <!-- EXTERNAL RESOURCES: Fonts and icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.lordicon.com/lordicon.js"></script> <!-- Lordicon library for animated icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
     
     <!-- STYLESHEETS: Custom CSS files -->
@@ -54,7 +55,17 @@
                     <p>Now we're waiting for another bell - one that will mark the beginning of our forever together.</p>
                     
                     <!-- LORDICON BELL: Animated interactive bell -->
-                    <div class="lordicon-bell"></div>
+                    <!-- <div class="lordicon-bell"></div> -->
+                    <!-- Lordicon Animated Bell -->
+                    <lord-icon
+                        id="weddingBell"
+                        src="https://cdn.lordicon.com/qtpaiyhf.json"
+                        trigger="in"
+                        delay="150"
+                        state="in-bell"
+                        colors="primary:#ffffff"
+                        style="width:250px;height:250px;cursor:pointer">
+                    </lord-icon>
                     
                     <p><em>Click the bell above to hear our wedding bell chime!</em></p>
                 </div>

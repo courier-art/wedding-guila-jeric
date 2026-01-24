@@ -170,42 +170,49 @@ document.addEventListener('DOMContentLoaded', function() {
     // LORDICON BELL ANIMATION
     // Controls the interactive bell animation
     // ============================================
-    const lordIconDiv = document.querySelector('.lordicon-bell');
-    if (lordIconDiv) {
-        // Load Lordicon script dynamically
-        const script = document.createElement('script');
-        script.src = 'https://cdn.lordicon.com/lordicon.js';
-        document.head.appendChild(script);
-        
-        // When Lordicon loads, configure the bell
-        script.onload = function() {
-            // Create Lordicon instance
-            const bellIcon = lottie.loadAnimation({
-                container: lordIconDiv,
-                renderer: 'svg',
-                loop: false,
-                autoplay: false,
-                path: 'https://cdn.lordicon.com/qtpaiyhf.json'
-            });
+
+    // 1. Initialize Audio
+    const bellSound = new Audio('bell.wav');
+    bellSound.preload = 'auto';
+
+    const bellIcon = document.getElementById('weddingBell');
+
+    // 2. Play sound on initial page load (triggered by the 'in' animation)
+    // Most browsers require a click first, so we attempt to play after the 1.5s delay
+    setTimeout(() => {
+       // playBellSound();
+    },100);
+
+    // 3. Handle the Click Event
+    bellIcon.addEventListener('click', () => {
+        // Switch icon to loop state
+        bellIcon.setAttribute('trigger', 'loop');
+        bellIcon.setAttribute('state', 'loop-bell');
+
+        // Play sound
+        playBellSound();
+
+        // 4. After 4 seconds, stop the animation and sound
+        setTimeout(() => {
+            bellIcon.setAttribute('trigger', 'in'); // Return to static
+            bellIcon.setAttribute('state', 'in-bell');
             
-            // Make bell clickable
-            lordIconDiv.style.cursor = 'pointer';
-            
-            // Play animation on click
-            lordIconDiv.addEventListener('click', function() {
-                bellIcon.play();
-                
-                // Play bell sound (optional)
-                const audio = new Audio('https://assets.mixkit.co/sfx/preview/mixkit-school-bell-789.mp3');
-                audio.play().catch(e => console.log('Audio play failed:', e));
-                
-                // Reset animation after it completes
-                setTimeout(() => {
-                    bellIcon.goToAndStop(0, true);
-                }, 2000);
-            });
-        };
+            // Fade out sound or stop it
+            stopBellSound();
+        }, 4000);
+    });
+
+    function playBellSound() {
+        bellSound.currentTime = 0;
+        bellSound.play().catch(e => console.log("User interaction required for audio"));
     }
+
+    function stopBellSound() {
+        // Gently stop the sound
+        bellSound.pause();
+        bellSound.currentTime = 0;
+    }
+
     
     // ============================================
     // RSVP FORM SUBMISSION
