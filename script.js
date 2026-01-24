@@ -171,9 +171,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // Controls the interactive bell animation
     // ============================================
 
+    // 0. Force the browser to download the file into cache immediately
+    fetch('bell.wav')
+    .then(response => response.blob())
+    .then(() => console.log("Bell sound cached and ready"));
+
     // 1. Initialize Audio
     const bellSound = new Audio('bell.wav');
     bellSound.preload = 'auto';
+    bellSound.load(); // Preload the audio
 
     const bellIcon = document.getElementById('weddingBell');
 
@@ -199,7 +205,7 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Fade out sound or stop it
             stopBellSound();
-        }, 4000);
+        }, 7000);
     });
 
     function playBellSound() {
