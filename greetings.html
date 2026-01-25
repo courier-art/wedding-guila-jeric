@@ -419,70 +419,7 @@
         // ============================================
         // FETCH MESSAGES FROM GOOGLE SHEETS
         // ============================================
-        // async function fetchMessages() {
-        //     try {
-        //         const now = Date.now();
-        //         // Only fetch if it's been at least 5 seconds since last fetch
-        //         if (now - lastFetchTime < 5000 && allMessages.length > 0) {
-        //             return;
-        //         }
-                
-        //         lastFetchTime = now;
-                
-        //         const response = await fetch(`${SCRIPT_URL}?action=getData`);
-        //         const result = await response.json();
-                
-        //         const loadingElement = document.getElementById('loadingMessages');
-        //         if (loadingElement) {
-        //             loadingElement.style.display = 'none';
-        //         }
-                
-        //         if (result.success && result.data && result.data.length > 0) {
-        //             // Process new messages
-        //             let hasNewMessages = false;
-        //             result.data.forEach(msg => {
-        //                 const msgId = `${msg.name}-${msg.message}-${msg.timestamp}`;
-                        
-        //                 if (!displayedMessages.has(msgId)) {
-        //                     allMessages.unshift({
-        //                         name: msg.name || 'Anonymous',
-        //                         relationship: msg.relationship || '',
-        //                         message: msg.message || '',
-        //                         timestamp: msg.timestamp || new Date().toISOString(),
-        //                         id: msgId,
-        //                         isNew: true
-        //                     });
-        //                     displayedMessages.add(msgId);
-        //                     hasNewMessages = true;
-        //                 }
-        //             });
-                    
-        //             // Limit total messages stored
-        //             if (allMessages.length > MAX_MESSAGES) {
-        //                 allMessages = allMessages.slice(0, MAX_MESSAGES);
-        //             }
-                    
-        //             // If we have new messages and space for more bubbles, add them
-        //             if (hasNewMessages && activeBubbles.length < MAX_BUBBLES && allMessages.length > 0) {
-        //                 addBubble();
-        //             }
-                    
-        //         } else {
-        //             // No messages yet
-        //             const container = document.getElementById('floatingMessages');
-        //             if (container && allMessages.length === 0 && activeBubbles.length === 0) {
-        //                 container.innerHTML = '<div class="no-messages">No messages yet. Be the first to send your warm wishes!</div>';
-        //             }
-        //         }
-        //     } catch (error) {
-        //         console.error('Error fetching messages:', error);
-        //         const loadingElement = document.getElementById('loadingMessages');
-        //         if (loadingElement) {
-        //             loadingElement.innerHTML = '<div class="no-messages">Unable to load messages. Please try again later.</div>';
-        //         }
-        //     }
-        // }
-
+        
         async function fetchMessages() {
             try {
                 const now = Date.now();
@@ -777,13 +714,20 @@
         // SHOW ALERT MESSAGE
         // ============================================
         function showAlert(message, type = 'success') {
-            // Remove existing alerts
+            // Remove existing alerts to prevent stacking
             const existingAlerts = document.querySelectorAll('.custom-alert');
             existingAlerts.forEach(alert => alert.remove());
             
             // Create alert
             const alertDiv = document.createElement('div');
             alertDiv.className = `custom-alert ${type}`;
+            
+            // ADD THIS PART: Set the content inside the alert
+            const icon = type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+            alertDiv.innerHTML = `
+                <i class="fas ${icon}"></i>
+                <span>${message}</span>
+            `;
             
             document.body.appendChild(alertDiv);
             
