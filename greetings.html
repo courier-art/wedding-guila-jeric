@@ -46,6 +46,97 @@
             margin-left: auto;
             margin-right: auto;
         }
+        
+        /* NEW: Floating messages container */
+        .messages-grid {
+            position: relative;
+            min-height: 600px; /* Give space for floating */
+            overflow: hidden;
+            margin: 4rem 0;
+            padding: 2rem;
+            background: rgba(245, 245, 245, 0.3);
+            border-radius: 15px;
+            border: 1px solid rgba(224, 224, 224, 0.3);
+        }
+        
+        /* NEW: Individual floating message cards */
+        .message-card {
+            position: absolute !important; /* Override existing positioning */
+            padding: 1.5rem;
+            border: 1px solid var(--gray-medium);
+            border-radius: 10px;
+            background: var(--white);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            width: 280px; /* Fixed width for floating */
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 1;
+            animation: floatMessage linear infinite;
+            animation-play-state: running;
+        }
+        
+        /* NEW: Different floating speeds and patterns */
+        .message-card:nth-child(odd) {
+            animation-duration: 25s;
+        }
+        
+        .message-card:nth-child(even) {
+            animation-duration: 35s;
+        }
+        
+        .message-card:nth-child(3n) {
+            animation-duration: 30s;
+            animation-direction: reverse;
+        }
+        
+        /* NEW: Stop animation on hover */
+        .message-card:hover {
+            animation-play-state: paused;
+            transform: scale(1.05) !important;
+            z-index: 10 !important;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        /* NEW: Floating animation */
+        @keyframes floatMessage {
+            0% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+            25% {
+                transform: translate(100px, 50px) rotate(1deg);
+            }
+            50% {
+                transform: translate(50px, 100px) rotate(-1deg);
+            }
+            75% {
+                transform: translate(-50px, 50px) rotate(1deg);
+            }
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+        }
+        
+        /* NEW: Adjust for mobile */
+        @media (max-width: 768px) {
+            .messages-grid {
+                min-height: 400px;
+                padding: 1rem;
+            }
+            
+            .message-card {
+                width: 240px;
+                position: relative !important;
+                margin-bottom: 1rem;
+                animation: none !important;
+            }
+            
+            /* On mobile, stack messages normally */
+            .messages-grid {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -124,49 +215,49 @@
                 
                 <!-- MESSAGES GRID -->
                 <h2 style="text-align: center; margin-top: 4rem;">Messages from Friends & Family</h2>
-                <p class="message-prompt">Scroll through love notes from our favorite people</p>
+                <p class="message-prompt">Hover over any message to pause its movement</p>
                 
-                <div class="messages-grid">
+                <div class="messages-grid" id="floatingMessages">
                     <!-- SAMPLE MESSAGE 1 -->
-                    <div class="message-card">
+                    <div class="message-card" style="left: 10%; top: 10%;">
                         <div class="message-author">Maria Santos</div>
                         <div class="message-date">June 15, 2024 • Family Friend</div>
-                        <p>So happy for both of you! Wishing you a lifetime of love and happiness. Can't wait to celebrate with you! Seeing your relationship grow has been such a joy.</p>
+                        <p>So happy for both of you! Wishing you a lifetime of love and happiness. Can't wait to celebrate with you!</p>
                     </div>
                     
                     <!-- SAMPLE MESSAGE 2 -->
-                    <div class="message-card">
+                    <div class="message-card" style="left: 60%; top: 20%;">
                         <div class="message-author">Michael Reyes</div>
                         <div class="message-date">June 12, 2024 • Best Man</div>
-                        <p>Congratulations! May your marriage be filled with all the right ingredients: a heap of love, a dash of humor, a touch of romance, and a spoonful of understanding. So proud to stand by your side, Jeric!</p>
+                        <p>Congratulations! May your marriage be filled with all the right ingredients: a heap of love and a dash of humor!</p>
                     </div>
                     
                     <!-- SAMPLE MESSAGE 3 -->
-                    <div class="message-card">
+                    <div class="message-card" style="left: 30%; top: 50%;">
                         <div class="message-author">Sarah & David Cruz</div>
                         <div class="message-date">June 10, 2024 • College Friends</div>
-                        <p>Wishing you both all the happiness in the world as you begin this new chapter together. We're so excited to witness your special day! Remember all those late-night study sessions? Now you get to study life together!</p>
+                        <p>Wishing you both all the happiness in the world as you begin this new chapter together!</p>
                     </div>
                     
                     <!-- SAMPLE MESSAGE 4 -->
-                    <div class="message-card">
+                    <div class="message-card" style="left: 70%; top: 60%;">
                         <div class="message-author">The Torres Family</div>
                         <div class="message-date">June 8, 2024 • Neighbors</div>
-                        <p>To the beautiful couple - may your love continue to grow with each passing day. Congratulations on finding your forever person! We've watched your love story unfold from across the street and it's been beautiful to see.</p>
+                        <p>To the beautiful couple - may your love continue to grow with each passing day.</p>
                     </div>
                     
                     <!-- SAMPLE MESSAGE 5 -->
-                    <div class="message-card">
+                    <div class="message-card" style="left: 20%; top: 70%;">
                         <div class="message-author">James Lopez</div>
                         <div class="message-date">June 5, 2024 • Work Colleague</div>
-                        <p>So proud of you both! Wishing you a marriage as wonderful as your friendship has been all these years. May your teamwork in life be as successful as your teamwork on our projects!</p>
+                        <p>So proud of you both! Wishing you a marriage as wonderful as your friendship has been.</p>
                     </div>
                     
                     <!-- SAMPLE MESSAGE 6 -->
-                    <div class="message-card">
+                    <div class="message-card" style="left: 50%; top: 30%;">
                         <div class="message-author">Anna Gonzales</div>
                         <div class="message-date">June 3, 2024 • Maid of Honor</div>
-                        <p>Your love story has been so inspiring to watch unfold. May your wedding day be just the beginning of a lifetime filled with wonderful moments. Guila, I'm so happy to see you this happy!</p>
+                        <p>Your love story has been so inspiring to watch unfold. May your wedding day be just the beginning!</p>
                     </div>
                     
                     <!-- MORE MESSAGES WILL BE ADDED DYNAMICALLY VIA JAVASCRIPT -->
@@ -233,47 +324,86 @@
     <script>
         // ============================================
         // CHARACTER COUNT FOR MESSAGE TEXTAREA
-        // Shows remaining characters as user types
         // ============================================
         const messageTextarea = document.getElementById('message');
         const charCount = document.getElementById('charCount');
         
         if (messageTextarea && charCount) {
-            // Update character count on input
             messageTextarea.addEventListener('input', function() {
                 const length = this.value.length;
                 charCount.textContent = length;
                 
-                // Change color when approaching limit
                 if (length > 450) {
-                    charCount.style.color = '#dc3545'; // Red
+                    charCount.style.color = '#dc3545';
                 } else if (length > 400) {
-                    charCount.style.color = '#ffc107'; // Yellow
+                    charCount.style.color = '#ffc107';
                 } else {
-                    charCount.style.color = ''; // Default
+                    charCount.style.color = '';
                 }
             });
             
-            // Initialize count
             charCount.textContent = messageTextarea.value.length;
         }
         
         // ============================================
+        // NEW: RANDOM POSITION GENERATOR FOR MESSAGES
+        // ============================================
+        function positionMessagesRandomly() {
+            const messages = document.querySelectorAll('.message-card');
+            const container = document.getElementById('floatingMessages');
+            
+            if (!container || messages.length === 0) return;
+            
+            const containerWidth = container.offsetWidth - 280; // Account for card width
+            const containerHeight = container.offsetHeight - 200; // Account for card height
+            
+            messages.forEach(message => {
+                // Only position if not already positioned by inline styles
+                if (!message.style.left || !message.style.top) {
+                    const left = Math.random() * containerWidth;
+                    const top = Math.random() * containerHeight;
+                    
+                    message.style.left = `${left}px`;
+                    message.style.top = `${top}px`;
+                }
+            });
+        }
+        
+        // ============================================
+        // NEW: ANIMATION TOGGLE ON HOVER
+        // ============================================
+        function setupMessageHover() {
+            const messages = document.querySelectorAll('.message-card');
+            
+            messages.forEach(message => {
+                // Set random animation delay
+                const randomDelay = Math.random() * 10;
+                message.style.animationDelay = `${randomDelay}s`;
+                
+                // Hover to pause animation
+                message.addEventListener('mouseenter', function() {
+                    this.style.animationPlayState = 'paused';
+                });
+                
+                message.addEventListener('mouseleave', function() {
+                    this.style.animationPlayState = 'running';
+                });
+            });
+        }
+        
+        // ============================================
         // ENHANCED MESSAGE FORM SUBMISSION
-        // With validation and better user feedback
         // ============================================
         const messageForm = document.getElementById('messageForm');
         if (messageForm) {
             messageForm.addEventListener('submit', function(e) {
                 e.preventDefault();
                 
-                // Get form data
                 const formData = new FormData(this);
                 const name = formData.get('name').trim();
                 const relationship = formData.get('relationship').trim();
                 const message = formData.get('message').trim();
                 
-                // Basic validation
                 if (!name || !message) {
                     alert('Please fill in all required fields.');
                     return;
@@ -290,30 +420,53 @@
                 submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
                 submitBtn.disabled = true;
                 
-                // Simulate API call (replace with actual backend in production)
                 setTimeout(() => {
-                    // Create new message card
-                    const messagesGrid = document.querySelector('.messages-grid');
+                    const messagesGrid = document.getElementById('floatingMessages');
                     const messageCard = document.createElement('div');
                     messageCard.className = 'message-card';
+                    
+                    // NEW: Set random initial position for new message
+                    const containerWidth = messagesGrid.offsetWidth - 280;
+                    const containerHeight = messagesGrid.offsetHeight - 200;
+                    const left = Math.random() * containerWidth;
+                    const top = Math.random() * containerHeight;
+                    
+                    messageCard.style.left = `${left}px`;
+                    messageCard.style.top = `${top}px`;
+                    
+                    // NEW: Set random animation properties
+                    const durations = [25, 30, 35];
+                    const randomDuration = durations[Math.floor(Math.random() * durations.length)];
+                    const randomDelay = Math.random() * 10;
+                    
+                    messageCard.style.animationDuration = `${randomDuration}s`;
+                    messageCard.style.animationDelay = `${randomDelay}s`;
+                    
                     messageCard.innerHTML = `
                         <div class="message-author">${name}</div>
                         <div class="message-date">Just now${relationship ? ` • ${relationship}` : ''}</div>
                         <p>${message}</p>
                     `;
                     
-                    // Add fade-in animation
+                    // Add hover functionality to new message
+                    messageCard.addEventListener('mouseenter', function() {
+                        this.style.animationPlayState = 'paused';
+                    });
+                    
+                    messageCard.addEventListener('mouseleave', function() {
+                        this.style.animationPlayState = 'running';
+                    });
+                    
+                    // Add fade-in effect
                     messageCard.style.opacity = '0';
-                    messageCard.style.transform = 'translateY(20px)';
+                    messageCard.style.transform = 'scale(0.8)';
                     messageCard.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
                     
-                    // Add message to top of grid
-                    messagesGrid.prepend(messageCard);
+                    messagesGrid.appendChild(messageCard);
                     
-                    // Trigger animation
                     setTimeout(() => {
                         messageCard.style.opacity = '1';
-                        messageCard.style.transform = 'translateY(0)';
+                        messageCard.style.transform = 'scale(1)';
                     }, 10);
                     
                     // Reset form
@@ -339,7 +492,6 @@
                     `;
                     document.body.appendChild(successMsg);
                     
-                    // Remove success message after 3 seconds
                     setTimeout(() => {
                         successMsg.style.animation = 'slideOut 0.3s ease';
                         setTimeout(() => {
@@ -347,27 +499,40 @@
                         }, 300);
                     }, 3000);
                     
-                    // Reset button
                     submitBtn.innerHTML = originalText;
                     submitBtn.disabled = false;
                     
-                }, 1000); // Simulate network delay
+                }, 1000);
             });
         }
         
-        // Add CSS for animations
-        const style = document.createElement('style');
-        style.textContent = `
-            @keyframes slideIn {
-                from { transform: translateX(100%); opacity: 0; }
-                to { transform: translateX(0); opacity: 1; }
-            }
-            @keyframes slideOut {
-                from { transform: translateX(0); opacity: 1; }
-                to { transform: translateX(100%); opacity: 0; }
-            }
-        `;
-        document.head.appendChild(style);
+        // ============================================
+        // INITIALIZE ON PAGE LOAD
+        // ============================================
+        document.addEventListener('DOMContentLoaded', function() {
+            // Position existing messages randomly
+            positionMessagesRandomly();
+            
+            // Setup hover functionality
+            setupMessageHover();
+            
+            // Add CSS for animations
+            const style = document.createElement('style');
+            style.textContent = `
+                @keyframes slideIn {
+                    from { transform: translateX(100%); opacity: 0; }
+                    to { transform: translateX(0); opacity: 1; }
+                }
+                @keyframes slideOut {
+                    from { transform: translateX(0); opacity: 1; }
+                    to { transform: translateX(100%); opacity: 0; }
+                }
+            `;
+            document.head.appendChild(style);
+            
+            // NEW: Reposition on window resize
+            window.addEventListener('resize', positionMessagesRandomly);
+        });
     </script>
 </body>
 </html>
