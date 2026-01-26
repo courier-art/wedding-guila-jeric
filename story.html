@@ -11,6 +11,67 @@
     
     <!-- STYLESHEETS -->
     <link rel="stylesheet" href="style.css">
+    
+    <!-- PAGE-SPECIFIC STYLES -->
+    <style>
+        /* Image styles for timeline */
+        .timeline-image {
+            width: 100%;
+            max-width: 400px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 10px;
+            margin: 1.5rem auto;
+            display: block;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            transition: all 0.5s ease;
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        
+        .timeline-image.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Different image styles for odd/even items */
+        .timeline-item:nth-child(odd) .timeline-image {
+            border-left: 5px solid var(--gradient-bg);
+        }
+        
+        .timeline-item:nth-child(even) .timeline-image {
+            border-right: 5px solid var(--gradient-bg);
+        }
+        
+        /* Image hover effects */
+        .timeline-image:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+        }
+        
+        /* Fade-in animation for timeline items */
+        .timeline-item {
+            animation: fadeInUp 0.8s ease forwards;
+            animation-delay: calc(var(--item-index) * 0.2s);
+            opacity: 0;
+        }
+        
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .timeline-image {
+                max-width: 300px;
+                height: 200px;
+                margin: 1rem auto;
+            }
+        }
+    </style>
 </head>
 <body>
     <!-- NAVIGATION: Same structure as home page -->
@@ -22,7 +83,7 @@
             </button>
             <ul class="nav-links">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="story.html" class="active">Our Story</a></li> <!-- This page is active -->
+                <li><a href="story.html" class="active">Our Story</a></li>
                 <li><a href="bigday.html">The Big Day</a></li>
                 <li><a href="nuptials.html">Nuptials</a></li>
                 <li><a href="greetings.html">Wish Greetings</a></li>
@@ -31,7 +92,7 @@
         </div>
     </nav>
 
-    <!-- HERO SECTION: Without background image for this page -->
+    <!-- HERO SECTION -->
     <section class="hero">
         <div class="container">
             <div class="hero-content page-transition">
@@ -39,65 +100,77 @@
                 <h1>Our Love Story</h1>
                 <p class="subtitle">A timeline of our journey together</p>
                 
-                <!-- TIMELINE CONTAINER: Chronological events -->
+                <!-- TIMELINE CONTAINER -->
                 <div class="timeline">
                     
                     <!-- TIMELINE ITEM 1: First meeting -->
-                    <div class="timeline-item">
+                    <div class="timeline-item" style="--item-index: 0;">
                         <div class="timeline-content">
-                            <div class="timeline-date">2015</div> <!-- Date marker -->
+                            <div class="timeline-date">2015</div>
                             <h3>High School Sweethearts</h3>
+                            <img src="images/story01.jpg" alt="High school days" class="timeline-image" 
+                                 onerror="this.src='https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80'">
                             <p>We first met in our senior year of high school. Jeric sat behind Guila in math class, and they would pass notes during boring lectures. Their first date was at the school canteen, sharing a halo-halo after class.</p>
                         </div>
                     </div>
                     
                     <!-- TIMELINE ITEM 2: College years -->
-                    <div class="timeline-item">
+                    <div class="timeline-item" style="--item-index: 1;">
                         <div class="timeline-content">
                             <div class="timeline-date">2018</div>
                             <h3>College Adventures</h3>
+                            <img src="images/story02.jpg" alt="College years" class="timeline-image"
+                                 onerror="this.src='https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80'">
                             <p>Though we attended different universities, we made it work with weekend visits and endless video calls. Jeric would take the bus to visit Guila every other weekend, creating memories in both campuses.</p>
                         </div>
                     </div>
                     
                     <!-- TIMELINE ITEM 3: Moving in together -->
-                    <div class="timeline-item">
+                    <div class="timeline-item" style="--item-index: 2;">
                         <div class="timeline-content">
                             <div class="timeline-date">2020</div>
                             <h3>First Apartment Together</h3>
+                            <img src="images/story03.jpg" alt="First apartment" class="timeline-image"
+                                 onerror="this.src='https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80'">
                             <p>After graduation, we moved into our first apartment. It was small but full of love. We learned to cook together, hosted game nights with friends, and built our first home together.</p>
                         </div>
                     </div>
                     
                     <!-- TIMELINE ITEM 4: Special trip -->
-                    <div class="timeline-item">
+                    <div class="timeline-item" style="--item-index: 3;">
                         <div class="timeline-content">
                             <div class="timeline-date">2023</div>
                             <h3>The Trip to Baguio</h3>
+                            <img src="images/story04.jpg" alt="Baguio trip" class="timeline-image"
+                                 onerror="this.src='https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80'">
                             <p>During a weekend getaway to Baguio, we rediscovered why we fell in love. Long walks in the pine forest, sharing hot chocolate at Café by the Ruins, and planning our future together.</p>
                         </div>
                     </div>
                     
                     <!-- TIMELINE ITEM 5: Proposal -->
-                    <div class="timeline-item">
+                    <div class="timeline-item" style="--item-index: 4;">
                         <div class="timeline-content">
                             <div class="timeline-date">December 2024</div>
                             <h3>The Proposal</h3>
+                            <img src="images/story05.jpg" alt="Proposal moment" class="timeline-image"
+                                 onerror="this.src='https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80'">
                             <p>Jeric planned a surprise dinner at our favorite restaurant. After dessert, he got down on one knee in front of our family and closest friends. Guila said "Yes!" through happy tears. The ring was placed just as the clock struck midnight on New Year's Eve.</p>
                         </div>
                     </div>
                     
                     <!-- TIMELINE ITEM 6: Wedding planning -->
-                    <div class="timeline-item">
+                    <div class="timeline-item" style="--item-index: 5;">
                         <div class="timeline-content">
                             <div class="timeline-date">2025 - Present</div>
                             <h3>Planning Our Forever</h3>
+                            <img src="images/story06.jpg" alt="Wedding planning" class="timeline-image"
+                                 onerror="this.src='https://images.unsplash.com/photo-1465495976277-4387d4b0e4a6?ixlib=rb-1.2.1&auto=format&fit=crop&w=400&q=80'">
                             <p>Now we're planning our wedding day, excited to start our journey as husband and wife. Every decision, from the venue to the smallest detail, is filled with love and anticipation for our future together.</p>
                         </div>
                     </div>
                 </div>
                 
-                <!-- QUOTE SECTION: Romantic quote from couple -->
+                <!-- QUOTE SECTION -->
                 <div class="quote-section" style="text-align: center; margin-top: 4rem; padding: 3rem; background: var(--gray-light); border-radius: 10px;">
                     <h2 style="margin-bottom: 1rem;">"In you, I've found the love of my life and my closest, truest friend."</h2>
                     <p>- Guila & Jeric</p>
@@ -106,7 +179,7 @@
         </div>
     </section>
 
-    <!-- FOOTER: Same as home page -->
+    <!-- FOOTER -->
     <footer>
         <div class="container">
             <div class="footer-content">
@@ -139,5 +212,59 @@
     </footer>
 
     <script src="script.js"></script>
+    
+    <!-- MINIMAL SCRIPT FOR IMAGE ANIMATIONS -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Function to check if element is in viewport
+            function isInViewport(element) {
+                const rect = element.getBoundingClientRect();
+                return (
+                    rect.top >= 0 &&
+                    rect.left >= 0 &&
+                    rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                    rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+                );
+            }
+            
+            // Function to handle image animations
+            function animateImages() {
+                const images = document.querySelectorAll('.timeline-image');
+                
+                images.forEach(image => {
+                    if (isInViewport(image) && !image.classList.contains('visible')) {
+                        image.classList.add('visible');
+                    }
+                });
+            }
+            
+            // Initial animation check
+            animateImages();
+            
+            // Animate on scroll
+            window.addEventListener('scroll', animateImages);
+            
+            // Animate on resize
+            window.addEventListener('resize', animateImages);
+            
+            // Staggered animation for timeline items
+            const timelineItems = document.querySelectorAll('.timeline-item');
+            timelineItems.forEach((item, index) => {
+                // Set custom property for staggered animation
+                item.style.setProperty('--item-index', index);
+                
+                // Animate when in view
+                const observer = new IntersectionObserver((entries) => {
+                    entries.forEach(entry => {
+                        if (entry.isIntersecting) {
+                            entry.target.style.animationPlayState = 'running';
+                        }
+                    });
+                }, { threshold: 0.1 });
+                
+                observer.observe(item);
+            });
+        });
+    </script>
 </body>
 </html>
