@@ -265,5 +265,217 @@
             });
         });
     </script>
+    
+<!-- =========================================== -->
+<!-- BACKGROUND MUSIC FOR STORY PAGE - START HERE -->
+<!-- =========================================== -->
+
+<!-- Add this JUST BEFORE the closing </body> tag -->
+
+<!-- Music Player -->
+<div id="musicPlayer" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; display: none;">
+    <!-- Audio elements -->
+    <audio id="song1" preload="auto">
+        <source src="story-song1.mp3" type="audio/mpeg">
+        Your browser does not support audio.
+    </audio>
+    
+    <audio id="song2" preload="auto">
+        <source src="story-song2.mp3" type="audio/mpeg">
+        Your browser does not support audio.
+    </audio>
+    
+    <!-- Control Button -->
+    <button id="musicToggle" style="
+        width: 50px; 
+        height: 50px; 
+        border-radius: 50%;
+        background: var(--gradient-bg); 
+        color: white;
+        border: none; 
+        cursor: pointer; 
+        font-size: 1.2rem;
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    ">
+        <i class="fas fa-music"></i>
+    </button>
+</div>
+
+<!-- Music Script -->
+<script>
+    // WAIT FOR PAGE TO LOAD
+    window.addEventListener('load', function() {
+        const musicPlayer = document.getElementById('musicPlayer');
+        const toggleBtn = document.getElementById('musicToggle');
+        const song1 = document.getElementById('song1');
+        const song2 = document.getElementById('song2');
+        
+        // SHOW MUSIC PLAYER
+        musicPlayer.style.display = 'block';
+        
+        // MUSIC STATE
+        let currentSong = song1;
+        let isPlaying = false;
+        
+        // SET VOLUME (30% - soft background music)
+        song1.volume = 0.3;
+        song2.volume = 0.3;
+        
+        // ===========================================
+        // SONG TRANSITION - SMOOTH CROSSFADE
+        // ===========================================
+        function fadeOut(song, callback) {
+            let vol = song.volume;
+            const fadeInterval = setInterval(() => {
+                vol -= 0.05;
+                if (vol <= 0) {
+                    vol = 0;
+                    clearInterval(fadeInterval);
+                    song.pause();
+                    if (callback) callback();
+                }
+                song.volume = vol;
+            }, 100);
+        }
+        
+        function fadeIn(song, callback) {
+            song.volume = 0;
+            let vol = 0;
+            const fadeInterval = setInterval(() => {
+                vol += 0.05;
+                if (vol >= 0.3) {
+                    vol = 0.3;
+                    clearInterval(fadeInterval);
+                    if (callback) callback();
+                }
+                song.volume = vol;
+            }, 100);
+        }
+        
+        function crossFade(fromSong, toSong) {
+            fadeOut(fromSong, function() {
+                toSong.currentTime = 0;
+                toSong.play();
+                fadeIn(toSong);
+            });
+        }
+        
+        // ===========================================
+        // PLAYBACK CONTROL
+        // ===========================================
+        function playNextSong() {
+            if (currentSong === song1) {
+                crossFade(song1, song2);
+                currentSong = song2;
+            } else {
+                crossFade(song2, song1);
+                currentSong = song1;
+            }
+        }
+        
+        function togglePlayback() {
+            if (isPlaying) {
+                // PAUSE MUSIC WITH FADE OUT
+                fadeOut(currentSong, function() {
+                    currentSong.pause();
+                    toggleBtn.innerHTML = '<i class="fas fa-play"></i>';
+                    toggleBtn.style.background = 'var(--gray-medium)';
+                });
+                isPlaying = false;
+            } else {
+                // PLAY MUSIC WITH FADE IN
+                currentSong.play();
+                fadeIn(currentSong);
+                toggleBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                toggleBtn.style.background = 'var(--gradient-bg)';
+                isPlaying = true;
+            }
+        }
+        
+        // ===========================================
+        // EVENT LISTENERS
+        // ===========================================
+        
+        // When a song ends, play the next one
+        song1.addEventListener('ended', playNextSong);
+        song2.addEventListener('ended', playNextSong);
+        
+        // Toggle button click
+        toggleBtn.addEventListener('click', togglePlayback);
+        
+        // ===========================================
+        // AUTO-START MUSIC
+        // ===========================================
+        
+        // Start music automatically after 2 seconds
+        setTimeout(function() {
+            currentSong.play();
+            fadeIn(currentSong);
+            toggleBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            toggleBtn.style.background = 'var(--gradient-bg)';
+            isPlaying = true;
+            
+            // Show brief notification
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                bottom: 80px;
+                right: 20px;
+                background: var(--gradient-bg);
+                color: white;
+                padding: 10px 15px;
+                border-radius: 8px;
+                font-size: 0.9rem;
+                z-index: 1001;
+                animation: musicFade 3s ease forwards;
+            `;
+            notification.innerHTML = '<i class="fas fa-music"></i> Background music started';
+            document.body.appendChild(notification);
+            
+            // Remove notification after 3 seconds
+            setTimeout(() => notification.remove(), 3000);
+        }, 2000);
+        
+        // ===========================================
+        // ADD ANIMATION STYLE
+        // ===========================================
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes musicFade {
+                0% { opacity: 0; transform: translateY(10px); }
+                20% { opacity: 1; transform: translateY(0); }
+                80% { opacity: 1; transform: translateY(0); }
+                100% { opacity: 0; transform: translateY(-10px); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // ===========================================
+        // ERROR HANDLING
+        // ===========================================
+        function handleMusicError() {
+            console.log('Music file not found or error occurred');
+            toggleBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
+            toggleBtn.style.background = '#dc3545';
+            toggleBtn.title = 'Music file not found';
+            
+            // Hide after 5 seconds
+            setTimeout(() => {
+                musicPlayer.style.display = 'none';
+            }, 5000);
+        }
+        
+        song1.addEventListener('error', handleMusicError);
+        song2.addEventListener('error', handleMusicError);
+    });
+</script>
+
+<!-- =========================================== -->
+<!-- BACKGROUND MUSIC FOR STORY PAGE - END HERE -->
+<!-- =========================================== -->
 </body>
 </html>
