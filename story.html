@@ -266,21 +266,17 @@
     </script>
     
 <!-- =========================================== -->
-<!-- BACKGROUND MUSIC FOR STORY PAGE - START HERE -->
+<!-- BACKGROUND MUSIC FOR STORY PAGE - AUTO PLAY ONCE -->
 <!-- =========================================== -->
 
 <!-- Add this JUST BEFORE the closing </body> tag -->
 
 <!-- Music Player -->
-<div id="musicPlayer" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000; display: none;">
-    <!-- Audio elements -->
-    <audio id="song1" preload="auto">
+<div id="musicPlayer" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+    <!-- Single Audio Element -->
+    <audio id="backgroundMusic" preload="auto">
+        <!-- CHANGE THIS TO YOUR MP3 FILENAME -->
         <source src="story-song1.mp3" type="audio/mpeg">
-        Your browser does not support audio.
-    </audio>
-    
-    <audio id="song2" preload="auto">
-        <source src="story-song2.mp3" type="audio/mpeg">
         Your browser does not support audio.
     </audio>
     
@@ -306,119 +302,56 @@
 
 <!-- Music Script -->
 <script>
-    // WAIT FOR PAGE TO LOAD
-    window.addEventListener('load', function() {
-        const musicPlayer = document.getElementById('musicPlayer');
+    // MUSIC MANAGER
+    document.addEventListener('DOMContentLoaded', function() {
+        const music = document.getElementById('backgroundMusic');
         const toggleBtn = document.getElementById('musicToggle');
-        const song1 = document.getElementById('song1');
-        const song2 = document.getElementById('song2');
         
-        // SHOW MUSIC PLAYER
-        musicPlayer.style.display = 'block';
-        
-        // MUSIC STATE
-        let currentSong = song1;
+        // SET VOLUME (30% - soft background)
+        music.volume = 0.3;
         let isPlaying = false;
-        
-        // SET VOLUME (30% - soft background music)
-        song1.volume = 0.3;
-        song2.volume = 0.3;
+        let hasPlayedOnce = false;
         
         // ===========================================
-        // SONG TRANSITION - SMOOTH CROSSFADE
+        // AUTO-PLAY ONCE WHEN PAGE LOADS
         // ===========================================
-        function fadeOut(song, callback) {
-            let vol = song.volume;
-            const fadeInterval = setInterval(() => {
-                vol -= 0.05;
-                if (vol <= 0) {
-                    vol = 0;
-                    clearInterval(fadeInterval);
-                    song.pause();
-                    if (callback) callback();
-                }
-                song.volume = vol;
-            }, 100);
-        }
-        
-        function fadeIn(song, callback) {
-            song.volume = 0;
-            let vol = 0;
-            const fadeInterval = setInterval(() => {
-                vol += 0.05;
-                if (vol >= 0.3) {
-                    vol = 0.3;
-                    clearInterval(fadeInterval);
-                    if (callback) callback();
-                }
-                song.volume = vol;
-            }, 100);
-        }
-        
-        function crossFade(fromSong, toSong) {
-            fadeOut(fromSong, function() {
-                toSong.currentTime = 0;
-                toSong.play();
-                fadeIn(toSong);
-            });
-        }
-        
-        // ===========================================
-        // PLAYBACK CONTROL
-        // ===========================================
-        function playNextSong() {
-            if (currentSong === song1) {
-                crossFade(song1, song2);
-                currentSong = song2;
-            } else {
-                crossFade(song2, song1);
-                currentSong = song1;
-            }
-        }
-        
-        function togglePlayback() {
-            if (isPlaying) {
-                // PAUSE MUSIC WITH FADE OUT
-                fadeOut(currentSong, function() {
-                    currentSong.pause();
+        function autoPlayOnce() {
+            // Check if we already played once
+            if (hasPlayedOnce) return;
+            
+            // Try to play automatically
+            const playPromise = music.play();
+            
+            if (playPromise !== undefined) {
+                playPromise.then(() => {
+                    // Successfully started playing
+                    isPlaying = true;
+                    hasPlayedOnce = true;
+                    toggleBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                    toggleBtn.style.background = 'var(--gradient-bg)';
+                    
+                    console.log('Music auto-played successfully');
+                    
+                    // Show subtle notification
+                    showNotification('Music started automatically');
+                    
+                }).catch(error => {
+                    // Auto-play was blocked by browser
+                    console.log('Auto-play prevented, user needs to click:', error);
                     toggleBtn.innerHTML = '<i class="fas fa-play"></i>';
                     toggleBtn.style.background = 'var(--gray-medium)';
+                    toggleBtn.title = "Click to play music";
+                    
+                    // Show instruction notification
+                    showNotification('Click the music button to play');
                 });
-                isPlaying = false;
-            } else {
-                // PLAY MUSIC WITH FADE IN
-                currentSong.play();
-                fadeIn(currentSong);
-                toggleBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                toggleBtn.style.background = 'var(--gradient-bg)';
-                isPlaying = true;
             }
         }
         
         // ===========================================
-        // EVENT LISTENERS
+        // NOTIFICATION FUNCTION
         // ===========================================
-        
-        // When a song ends, play the next one
-        song1.addEventListener('ended', playNextSong);
-        song2.addEventListener('ended', playNextSong);
-        
-        // Toggle button click
-        toggleBtn.addEventListener('click', togglePlayback);
-        
-        // ===========================================
-        // AUTO-START MUSIC
-        // ===========================================
-        
-        // Start music automatically after 2 seconds
-        setTimeout(function() {
-            currentSong.play();
-            fadeIn(currentSong);
-            toggleBtn.innerHTML = '<i class="fas fa-pause"></i>';
-            toggleBtn.style.background = 'var(--gradient-bg)';
-            isPlaying = true;
-            
-            // Show brief notification
+        function showNotification(message) {
             const notification = document.createElement('div');
             notification.style.cssText = `
                 position: fixed;
@@ -430,51 +363,111 @@
                 border-radius: 8px;
                 font-size: 0.9rem;
                 z-index: 1001;
-                animation: musicFade 3s ease forwards;
+                animation: fadeInOut 3s ease forwards;
+                max-width: 200px;
+                text-align: center;
             `;
-            notification.innerHTML = '<i class="fas fa-music"></i> Background music started';
+            notification.innerHTML = `<i class="fas fa-music"></i> ${message}`;
             document.body.appendChild(notification);
             
-            // Remove notification after 3 seconds
-            setTimeout(() => notification.remove(), 3000);
-        }, 2000);
+            // Remove after 3 seconds
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.style.animation = 'fadeOut 0.5s ease forwards';
+                    setTimeout(() => notification.remove(), 500);
+                }
+            }, 3000);
+        }
         
         // ===========================================
-        // ADD ANIMATION STYLE
+        // TOGGLE PLAY/PAUSE
+        // ===========================================
+        function togglePlayback() {
+            if (isPlaying) {
+                // PAUSE
+                music.pause();
+                toggleBtn.innerHTML = '<i class="fas fa-play"></i>';
+                toggleBtn.style.background = 'var(--gray-medium)';
+                isPlaying = false;
+            } else {
+                // PLAY
+                music.play();
+                toggleBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                toggleBtn.style.background = 'var(--gradient-bg)';
+                isPlaying = true;
+                hasPlayedOnce = true; // Mark as played
+            }
+        }
+        
+        // ===========================================
+        // SETUP EVENT LISTENERS
+        // ===========================================
+        toggleBtn.addEventListener('click', togglePlayback);
+        
+        // When music ends, update button
+        music.addEventListener('ended', function() {
+            toggleBtn.innerHTML = '<i class="fas fa-play"></i>';
+            toggleBtn.style.background = 'var(--gray-medium)';
+            isPlaying = false;
+        });
+        
+        // ===========================================
+        // AUTO-START LOGIC
+        // ===========================================
+        
+        // Method 1: Try immediate auto-play
+        setTimeout(autoPlayOnce, 500); // Half second delay
+        
+        // Method 2: Also try on user interaction (if auto-play blocked)
+        document.addEventListener('click', function firstInteraction() {
+            if (!hasPlayedOnce) {
+                autoPlayOnce();
+                document.removeEventListener('click', firstInteraction);
+            }
+        });
+        
+        // Method 3: Try when user scrolls (common interaction)
+        document.addEventListener('scroll', function firstScroll() {
+            if (!hasPlayedOnce) {
+                autoPlayOnce();
+                document.removeEventListener('scroll', firstScroll);
+            }
+        }, { once: true });
+        
+        // ===========================================
+        // ERROR HANDLING
+        // ===========================================
+        music.addEventListener('error', function() {
+            console.log('Music file not found');
+            toggleBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
+            toggleBtn.style.background = '#dc3545';
+            toggleBtn.title = 'Music file not found';
+            
+            // Show error notification
+            showNotification('Music file not found. Please check file name.');
+        });
+        
+        // ===========================================
+        // ADD ANIMATION STYLES
         // ===========================================
         const style = document.createElement('style');
         style.textContent = `
-            @keyframes musicFade {
+            @keyframes fadeInOut {
                 0% { opacity: 0; transform: translateY(10px); }
                 20% { opacity: 1; transform: translateY(0); }
                 80% { opacity: 1; transform: translateY(0); }
                 100% { opacity: 0; transform: translateY(-10px); }
             }
+            @keyframes fadeOut {
+                to { opacity: 0; transform: translateY(-10px); }
+            }
         `;
         document.head.appendChild(style);
-        
-        // ===========================================
-        // ERROR HANDLING
-        // ===========================================
-        function handleMusicError() {
-            console.log('Music file not found or error occurred');
-            toggleBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
-            toggleBtn.style.background = '#dc3545';
-            toggleBtn.title = 'Music file not found';
-            
-            // Hide after 5 seconds
-            setTimeout(() => {
-                musicPlayer.style.display = 'none';
-            }, 5000);
-        }
-        
-        song1.addEventListener('error', handleMusicError);
-        song2.addEventListener('error', handleMusicError);
     });
 </script>
 
 <!-- =========================================== -->
-<!-- BACKGROUND MUSIC FOR STORY PAGE - END HERE -->
+<!-- BACKGROUND MUSIC - END -->
 <!-- =========================================== -->
 </body>
 </html>
