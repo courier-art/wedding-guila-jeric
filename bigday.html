@@ -433,6 +433,344 @@
             }, 5000);
         };
     </script>
-    <script src="music-player.js"></script>
+
+<!-- =========================================== -->
+<!-- GLOBAL BACKGROUND MUSIC - PLAYS ACROSS ALL TABS -->
+<!-- =========================================== -->
+
+<!-- Add this JUST BEFORE the closing </body> tag in EVERY HTML FILE -->
+
+<!-- Music Player -->
+<div id="musicPlayer" style="position: fixed; bottom: 20px; right: 20px; z-index: 1000;">
+    <!-- Audio Elements for TWO SONGS -->
+    <audio id="backgroundMusic1" preload="auto">
+        <!-- CHANGE THIS TO YOUR FIRST MP3 FILENAME -->
+        <source src="story-song2.mp3" type="audio/mpeg">
+        Your browser does not support audio.
+    </audio>
+    
+    <audio id="backgroundMusic2" preload="auto">
+        <!-- CHANGE THIS TO YOUR SECOND MP3 FILENAME -->
+        <source src="story-song1.mp3" type="audio/mpeg">
+        Your browser does not support audio.
+    </audio>
+    
+    <!-- Control Button - Same as your design -->
+    <button id="musicToggle" style="
+        width: 50px; 
+        height: 50px; 
+        border-radius: 50%;
+        background: var(--gradient-bg); 
+        color: white;
+        border: none; 
+        cursor: pointer; 
+        font-size: 1.2rem;
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        transition: all 0.3s ease;
+    ">
+        <i class="fas fa-music"></i>
+    </button>
+</div>
+
+<!-- Music Script - UPDATED FOR CROSS-TAB PLAYBACK -->
+<script>
+    // GLOBAL MUSIC MANAGER - PLAYS ACROSS ALL TABS
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get audio elements
+        const music1 = document.getElementById('backgroundMusic1');
+        const music2 = document.getElementById('backgroundMusic2');
+        const toggleBtn = document.getElementById('musicToggle');
+        
+        // SET VOLUME (30% - soft background)
+        music1.volume = 0.3;
+        music2.volume = 0.3;
+        
+        // Music state
+        let currentMusic = music1;
+        let isPlaying = false;
+        let hasAutoPlayed = false;
+        
+        // ===========================================
+        // LOCALSTORAGE STATE MANAGEMENT
+        // ===========================================
+        function saveMusicState() {
+            const state = {
+                isPlaying: isPlaying,
+                currentSong: currentMusic === music1 ? 1 : 2,
+                currentTime: currentMusic.currentTime,
+                hasAutoPlayed: hasAutoPlayed,
+                timestamp: Date.now()
+            };
+            localStorage.setItem('globalWeddingMusic', JSON.stringify(state));
+        }
+        
+        function loadMusicState() {
+            try {
+                const saved = localStorage.getItem('globalWeddingMusic');
+                if (saved) {
+                    const state = JSON.parse(saved);
+                    
+                    // Restore playback state
+                    isPlaying = state.isPlaying;
+                    hasAutoPlayed = state.hasAutoPlayed || false;
+                    
+                    // Set current song
+                    currentMusic = state.currentSong === 2 ? music2 : music1;
+                    
+                    // Restore playback position (within last 5 minutes)
+                    if (state.currentTime && isPlaying) {
+                        const timeSinceSave = (Date.now() - state.timestamp) / 1000;
+                        if (timeSinceSave < 300) { // 5 minutes
+                            currentMusic.currentTime = state.currentTime;
+                        }
+                    }
+                    
+                    console.log('Loaded music state:', state);
+                    return true;
+                }
+            } catch (e) {
+                console.log('Error loading music state:', e);
+            }
+            return false;
+        }
+        
+        // ===========================================
+        // SONG TRANSITION
+        // ===========================================
+        music1.addEventListener('ended', function() {
+            console.log('Song 1 ended, playing Song 2');
+            currentMusic = music2;
+            currentMusic.currentTime = 0;
+            currentMusic.play()
+                .then(() => {
+                    saveMusicState();
+                })
+                .catch(e => console.log('Play error:', e));
+        });
+        
+        music2.addEventListener('ended', function() {
+            console.log('Song 2 ended, playing Song 1');
+            currentMusic = music1;
+            currentMusic.currentTime = 0;
+            currentMusic.play()
+                .then(() => {
+                    saveMusicState();
+                })
+                .catch(e => console.log('Play error:', e));
+        });
+        
+        // ===========================================
+        // UPDATE BUTTON VISUALS
+        // ===========================================
+        function updateButton() {
+            if (isPlaying) {
+                toggleBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                toggleBtn.style.background = 'var(--gradient-bg)';
+            } else {
+                toggleBtn.innerHTML = '<i class="fas fa-play"></i>';
+                toggleBtn.style.background = 'var(--gray-medium)';
+            }
+        }
+        
+        // ===========================================
+        // TOGGLE PLAY/PAUSE
+        // ===========================================
+        function togglePlayback() {
+            if (isPlaying) {
+                // PAUSE
+                currentMusic.pause();
+                isPlaying = false;
+                toggleBtn.innerHTML = '<i class="fas fa-play"></i>';
+                toggleBtn.style.background = 'var(--gray-medium)';
+            } else {
+                // PLAY
+                currentMusic.play()
+                    .then(() => {
+                        isPlaying = true;
+                        hasAutoPlayed = true;
+                        toggleBtn.innerHTML = '<i class="fas fa-pause"></i>';
+                        toggleBtn.style.background = 'var(--gradient-bg)';
+                    })
+                    .catch(error => {
+                        console.log('Play error:', error);
+                    });
+            }
+            saveMusicState();
+        }
+        
+        // ===========================================
+        // AUTO-PLAY FUNCTION
+        // ===========================================
+        function tryAutoPlay() {
+            if (hasAutoPlayed) return;
+            
+            console.log('Attempting auto-play...');
+            
+            currentMusic.play()
+                .then(() => {
+                    isPlaying = true;
+                    hasAutoPlayed = true;
+                    updateButton();
+                    saveMusicState();
+                    
+                    console.log('Auto-play successful!');
+                    
+                    // Show notification
+                    showNotification('Music started automatically');
+                    
+                }).catch(error => {
+                    console.log('Auto-play blocked:', error);
+                    toggleBtn.innerHTML = '<i class="fas fa-play"></i>';
+                    toggleBtn.style.background = 'var(--gray-medium)';
+                    toggleBtn.title = "Click to play music";
+                    
+                    // Try on user interaction
+                    const tryOnInteraction = () => {
+                        if (!hasAutoPlayed) {
+                            currentMusic.play()
+                                .then(() => {
+                                    isPlaying = true;
+                                    hasAutoPlayed = true;
+                                    updateButton();
+                                    saveMusicState();
+                                });
+                        }
+                    };
+                    
+                    // Try on first user interaction
+                    document.addEventListener('click', tryOnInteraction, { once: true });
+                    document.addEventListener('touchstart', tryOnInteraction, { once: true });
+                });
+        }
+        
+        // ===========================================
+        // NOTIFICATION FUNCTION
+        // ===========================================
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                bottom: 80px;
+                right: 20px;
+                background: var(--gradient-bg);
+                color: white;
+                padding: 10px 15px;
+                border-radius: 8px;
+                font-size: 0.9rem;
+                z-index: 1001;
+                animation: fadeInOut 3s ease forwards;
+                max-width: 200px;
+                text-align: center;
+            `;
+            notification.innerHTML = `<i class="fas fa-music"></i> ${message}`;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                if (notification.parentNode) {
+                    notification.style.animation = 'fadeOut 0.5s ease forwards';
+                    setTimeout(() => notification.remove(), 500);
+                }
+            }, 3000);
+        }
+        
+        // ===========================================
+        // SETUP EVENT LISTENERS
+        // ===========================================
+        toggleBtn.addEventListener('click', togglePlayback);
+        
+        // ===========================================
+        // INITIALIZE MUSIC PLAYER
+        // ===========================================
+        function initializeMusic() {
+            // Load saved state from localStorage
+            const hasSavedState = loadMusicState();
+            
+            // Update button based on loaded state
+            updateButton();
+            
+            if (hasSavedState && isPlaying) {
+                // Resume playback if it was playing
+                console.log('Resuming playback...');
+                currentMusic.play()
+                    .then(() => {
+                        console.log('Music resumed');
+                    })
+                    .catch(e => {
+                        console.log('Resume failed:', e);
+                        isPlaying = false;
+                        updateButton();
+                    });
+            } else {
+                // Try auto-play on first visit
+                setTimeout(tryAutoPlay, 500);
+            }
+            
+            // Save state regularly
+            window.addEventListener('beforeunload', saveMusicState);
+            setInterval(saveMusicState, 5000); // Save every 5 seconds
+            
+            // Listen for storage changes (other tabs)
+            window.addEventListener('storage', function(event) {
+                if (event.key === 'globalWeddingMusic') {
+                    console.log('Music state updated from another tab');
+                    loadMusicState();
+                    updateButton();
+                    
+                    // If music should be playing, resume
+                    if (isPlaying && currentMusic.paused) {
+                        currentMusic.play()
+                            .catch(e => console.log('Resume from other tab failed:', e));
+                    }
+                }
+            });
+        }
+        
+        // ===========================================
+        // ERROR HANDLING
+        // ===========================================
+        music1.addEventListener('error', function() {
+            console.log('Music file 1 not found');
+            toggleBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
+            toggleBtn.style.background = '#dc3545';
+            toggleBtn.title = 'Music file not found';
+        });
+        
+        music2.addEventListener('error', function() {
+            console.log('Music file 2 not found');
+            toggleBtn.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
+            toggleBtn.style.background = '#dc3545';
+            toggleBtn.title = 'Music file not found';
+        });
+        
+        // ===========================================
+        // ADD ANIMATION STYLES
+        // ===========================================
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInOut {
+                0% { opacity: 0; transform: translateY(10px); }
+                20% { opacity: 1; transform: translateY(0); }
+                80% { opacity: 1; transform: translateY(0); }
+                100% { opacity: 0; transform: translateY(-10px); }
+            }
+            @keyframes fadeOut {
+                to { opacity: 0; transform: translateY(-10px); }
+            }
+        `;
+        document.head.appendChild(style);
+        
+        // ===========================================
+        // START EVERYTHING
+        // ===========================================
+        initializeMusic();
+    });
+</script>
+
+<!-- =========================================== -->
+<!-- GLOBAL BACKGROUND MUSIC - END -->
+<!-- =========================================== -->
 </body>
 </html>
