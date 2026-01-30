@@ -547,15 +547,6 @@
         <!-- STORY BLOCK 2: College Years - Grid Layout Example -->
         <div class="story-block" style="--item-index: 1;">
             <div class="story-images-container">
-                <!-- Layout Selector (Optional) -->
-                <div class="layout-selector">
-                    <button class="layout-btn active" data-layout="grid">
-                        <i class="fas fa-th"></i>
-                    </button>
-                    <button class="layout-btn" data-layout="carousel">
-                        <i class="fas fa-exchange-alt"></i>
-                    </button>
-                </div>
                 
                 <!-- Grid Layout Images -->
                 <div class="story-images-grid">
@@ -581,12 +572,57 @@
             </div>
         </div>
         
+         <!-- STORY BLOCK 1: First Meeting - Carousel Example -->
+        <div class="story-block" style="--item-index: 0;">
+            <div class="story-images-container">
+                <!-- Carousel Navigation -->
+                <button class="nav-arrow prev"><i class="fas fa-chevron-left"></i></button>
+                <button class="nav-arrow next"><i class="fas fa-chevron-right"></i></button>
+                
+                <!-- Image Counter -->
+                <div class="image-counter">1/3</div>
+                
+                <!-- Images Gallery -->
+                <div class="story-images-gallery">
+                    <div class="story-image">
+                        <img src="pictures/guia.jpg" alt="Guila and Jeric in high school uniform">
+                        <div class="image-caption">Our high school days</div>
+                    </div>
+                    <div class="story-image">
+                        <img src="pictures/einel.png" alt="First date at school canteen">
+                        <div class="image-caption">First date sharing halo-halo</div>
+                    </div>
+                    <div class="story-image">
+                        <img src="pictures/judy.jpg" alt="High school graduation">
+                        <div class="image-caption">Graduating together</div>
+                    </div>
+                </div>
+                
+                <!-- Dots Indicator -->
+                <div class="image-dots">
+                    <button class="image-dot active" data-index="0"></button>
+                    <button class="image-dot" data-index="1"></button>
+                    <button class="image-dot" data-index="2"></button>
+                </div>
+            </div>
+            
+            <div class="story-content">
+                <span class="story-year">2015</span>
+                <h3>High School Sweethearts</h3>
+                <p class="story-excerpt">We first met in our senior year of high school. Jeric sat behind Guila in math class, and they would pass notes during boring lectures. Our first date was at the school canteen, sharing a halo-halo after class.</p>
+            </div>
+        </div>       
+
+
         <!-- STORY BLOCK 3: First Home - Collage Layout Example -->
         <div class="story-block" style="--item-index: 2;">
             <div class="story-images-container">
                 <div class="story-images-collage">
                     <div class="story-image">
                         <img src="images/story03.jpg" alt="Our first apartment living room">
+                    </div>
+                    <div class="story-image">
+                        <img src="images/story03b.jpg" alt="Cooking together">
                     </div>
                     <div class="story-image">
                         <img src="images/story03b.jpg" alt="Cooking together">
