@@ -461,7 +461,7 @@
         height: 50px; 
         border-radius: 50%;
         background: var(--gradient-bg); 
-        color: white;
+        color: black;
         border: none; 
         cursor: pointer; 
         font-size: 1.2rem;
@@ -568,7 +568,7 @@
         function updateButton() {
             if (isPlaying) {
                 toggleBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                toggleBtn.style.background = 'var(--gradient-bg)';
+                toggleBtn.style.background = 'var(--gray-medium)';
             } else {
                 toggleBtn.innerHTML = '<i class="fas fa-play"></i>';
                 toggleBtn.style.background = 'var(--gray-medium)';
@@ -592,7 +592,7 @@
                         isPlaying = true;
                         hasAutoPlayed = true;
                         toggleBtn.innerHTML = '<i class="fas fa-pause"></i>';
-                        toggleBtn.style.background = 'var(--gradient-bg)';
+                        toggleBtn.style.background = 'var(--gray-medium)';
                     })
                     .catch(error => {
                         console.log('Play error:', error);
