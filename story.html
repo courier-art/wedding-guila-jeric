@@ -147,9 +147,9 @@
         /* Option 1: Grid layout (2x2 or 3x3) */
         .story-images-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(2,1fr);
             gap: 10px;
-            height: 500px;
+            height: 40rem;
             padding: 10px;
         }
         
@@ -829,7 +829,6 @@
             const images = container.querySelectorAll('img');
             images.forEach(img => {
                 // Add loading animation
-                img.style.opacity = '0';
                 img.style.transition = 'opacity 0.5s ease';
 
                 // When image loads

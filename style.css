@@ -814,3 +814,36 @@ footer {
         display: none;
     }
 }
+
+/* Mobile image fix for Story.html */
+@media (max-width: 768px) {
+    .story-images-container {
+        height: auto !important;
+    }
+    
+    .story-images-gallery {
+        height: 21rem !important;
+    }
+    
+    .story-images-grid {
+        grid-template-columns: repeat(2, minmax(0,1fr)) !important;
+        gap: 5px !important;
+        margin-bottom: 11rem !important;
+    }
+    
+    .story-images-grid .story-image {
+        height: 200px !important;
+        margin-bottom: 5px !important;
+    }
+    
+    .story-images-grid .story-image:last-child {
+        margin-bottom: 0 !important;
+    }
+    
+    /* Ensure all images fill their containers */
+    .story-image img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: cover !important;
+    }
+}
