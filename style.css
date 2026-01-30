@@ -183,7 +183,6 @@ p {
    Full-height banner sections for each page
    ============================================ */
 .hero {
-    min-height: 100vh;             /* At least full viewport height */
     display: flex;
     align-items: center;
     position: relative;
