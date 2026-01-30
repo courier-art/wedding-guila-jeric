@@ -14,7 +14,7 @@
     
     <!-- PAGE-SPECIFIC STYLES -->
     <style>
-        /* ===== FULL-WIDTH STORY BLOCKS DESIGN ===== */
+        /* ===== MULTI-IMAGE STORY BLOCKS DESIGN ===== */
         
         /* Story blocks container */
         .story-blocks {
@@ -34,28 +34,185 @@
             animation-delay: calc(var(--item-index) * 0.2s);
         }
         
-        /* Image side (60% width) */
-        .story-image {
+        /* ===== MULTI-IMAGE CAROUSEL CONTAINER ===== */
+        .story-images-container {
             flex: 0 0 60%;
             position: relative;
             overflow: hidden;
             border-radius: 12px;
             box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            background: var(--gray-light);
+        }
+        
+        /* Image gallery - horizontal layout */
+        .story-images-gallery {
+            display: flex;
+            width: 100%;
+            height: 500px;
+            transition: transform 0.5s ease;
+        }
+        
+        /* Individual image in gallery */
+        .story-image {
+            flex: 0 0 100%;
+            height: 100%;
+            position: relative;
         }
         
         .story-image img {
             width: 100%;
-            height: 500px;
+            height: 100%;
             object-fit: cover;
-            transition: transform 0.7s ease;
             display: block;
         }
         
-        .story-image:hover img {
-            transform: scale(1.05);
+        /* Image counter */
+        .image-counter {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            z-index: 10;
+            backdrop-filter: blur(5px);
         }
         
-        /* Text side (40% width) */
+        /* Navigation arrows */
+        .nav-arrow {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.9);
+            color: var(--black);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .nav-arrow:hover {
+            background: white;
+            transform: translateY(-50%) scale(1.1);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+        }
+        
+        .nav-arrow.prev {
+            left: 20px;
+        }
+        
+        .nav-arrow.next {
+            right: 20px;
+        }
+        
+        /* Image dots indicator */
+        .image-dots {
+            position: absolute;
+            bottom: 20px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            z-index: 10;
+        }
+        
+        .image-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            padding: 0;
+        }
+        
+        .image-dot.active {
+            background: white;
+            transform: scale(1.2);
+        }
+        
+        /* ===== MULTI-IMAGE LAYOUT OPTIONS ===== */
+        /* Option 1: Grid layout (2x2 or 3x3) */
+        .story-images-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            height: 500px;
+            padding: 10px;
+        }
+        
+        .story-images-grid.col-3 {
+            grid-template-columns: repeat(3, 1fr);
+        }
+        
+        .story-images-grid .story-image {
+            border-radius: 8px;
+            overflow: hidden;
+            height: auto;
+        }
+        
+        .story-images-grid .story-image:first-child:only-child {
+            grid-column: 1 / -1;
+        }
+        
+        .story-images-grid .story-image:first-child:nth-last-child(2),
+        .story-images-grid .story-image:first-child:nth-last-child(2) ~ .story-image {
+            grid-column: span 1;
+        }
+        
+        .story-images-grid .story-image:first-child:nth-last-child(3),
+        .story-images-grid .story-image:first-child:nth-last-child(3) ~ .story-image {
+            grid-column: span 1;
+        }
+        
+        /* Option 2: Collage layout */
+        .story-images-collage {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: repeat(12, 1fr);
+            gap: 10px;
+            height: 500px;
+            padding: 10px;
+        }
+        
+        .story-images-collage .story-image {
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .story-images-collage .story-image:nth-child(1) {
+            grid-column: 1 / span 8;
+            grid-row: 1 / span 8;
+        }
+        
+        .story-images-collage .story-image:nth-child(2) {
+            grid-column: 9 / span 4;
+            grid-row: 1 / span 4;
+        }
+        
+        .story-images-collage .story-image:nth-child(3) {
+            grid-column: 9 / span 4;
+            grid-row: 5 / span 8;
+        }
+        
+        .story-images-collage .story-image:nth-child(4) {
+            grid-column: 1 / span 8;
+            grid-row: 9 / span 4;
+        }
+        
+        /* ===== CONTENT SIDE ===== */
         .story-content {
             flex: 0 0 40%;
             padding: 3rem;
@@ -103,7 +260,25 @@
             margin: 0;
         }
         
-        /* Quote section */
+        /* Story image captions */
+        .image-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(0,0,0,0.7));
+            color: white;
+            padding: 20px;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .story-image:hover .image-caption {
+            opacity: 1;
+        }
+        
+        /* ===== QUOTE SECTION ===== */
         .quote-section {
             background: linear-gradient(135deg, rgba(10,10,10,0.05) 0%, rgba(26,26,26,0.05) 100%);
             border-left: 4px solid var(--black);
@@ -130,14 +305,51 @@
             font-style: italic;
         }
         
-        /* Mobile responsive */
+        /* ===== LAYOUT SELECTOR ===== */
+        .layout-selector {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+            display: flex;
+            gap: 5px;
+            background: rgba(0,0,0,0.7);
+            padding: 8px;
+            border-radius: 8px;
+            backdrop-filter: blur(5px);
+        }
+        
+        .layout-btn {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .layout-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+        
+        .layout-btn.active {
+            background: white;
+            color: var(--black);
+        }
+        
+        /* ===== RESPONSIVE DESIGN ===== */
         @media (max-width: 992px) {
             .story-block {
                 flex-direction: column !important;
                 margin-bottom: 4rem;
             }
             
-            .story-image,
+            .story-images-container,
             .story-content {
                 flex: 0 0 100%;
                 width: 100%;
@@ -147,7 +359,9 @@
                 padding: 2rem 1rem;
             }
             
-            .story-image img {
+            .story-images-gallery,
+            .story-images-grid,
+            .story-images-collage {
                 height: 400px;
             }
             
@@ -166,8 +380,25 @@
                 padding: 0 1rem;
             }
             
-            .story-image img {
+            .story-images-gallery,
+            .story-images-grid,
+            .story-images-collage {
                 height: 300px;
+            }
+            
+            .story-images-grid {
+                grid-template-columns: 1fr;
+                gap: 5px;
+            }
+            
+            .story-images-collage {
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(4, 1fr);
+            }
+            
+            .story-images-collage .story-image {
+                grid-column: 1 !important;
+                grid-row: auto !important;
             }
             
             .story-content h3 {
@@ -175,6 +406,12 @@
             }
             
             .story-excerpt {
+                font-size: 1rem;
+            }
+            
+            .nav-arrow {
+                width: 35px;
+                height: 35px;
                 font-size: 1rem;
             }
             
@@ -188,7 +425,9 @@
         }
         
         @media (max-width: 480px) {
-            .story-image img {
+            .story-images-gallery,
+            .story-images-grid,
+            .story-images-collage {
                 height: 250px;
             }
             
@@ -199,6 +438,17 @@
             
             .story-content h3 {
                 font-size: 1.4rem;
+            }
+            
+            .nav-arrow {
+                width: 30px;
+                height: 30px;
+                font-size: 0.9rem;
+            }
+            
+            .image-counter {
+                font-size: 0.8rem;
+                padding: 4px 10px;
             }
             
             .quote-section h2 {
@@ -214,7 +464,7 @@
             }
         }
         
-        /* Background image styling for hero */
+        /* Hero section */
         .hero.story-hero .hero-content {
             padding-top: 150px;
             padding-bottom: 80px;
@@ -253,12 +503,40 @@
     <!-- STORY BLOCKS -->
     <div class="story-blocks">
         
-        <!-- STORY BLOCK 1: First Meeting -->
+        <!-- STORY BLOCK 1: First Meeting - Carousel Example -->
         <div class="story-block" style="--item-index: 0;">
-            <div class="story-image">
-                <img src="wbonding1.jpg" alt="High school sweethearts" 
-                     onerror="this.src='https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80'">
+            <div class="story-images-container">
+                <!-- Carousel Navigation -->
+                <button class="nav-arrow prev"><i class="fas fa-chevron-left"></i></button>
+                <button class="nav-arrow next"><i class="fas fa-chevron-right"></i></button>
+                
+                <!-- Image Counter -->
+                <div class="image-counter">1/3</div>
+                
+                <!-- Images Gallery -->
+                <div class="story-images-gallery">
+                    <div class="story-image">
+                        <img src="pictures/guia.jpg" alt="Guila and Jeric in high school uniform">
+                        <div class="image-caption">Our high school days</div>
+                    </div>
+                    <div class="story-image">
+                        <img src="pictures/einel.png" alt="First date at school canteen">
+                        <div class="image-caption">First date sharing halo-halo</div>
+                    </div>
+                    <div class="story-image">
+                        <img src="pictures/judy.jpg" alt="High school graduation">
+                        <div class="image-caption">Graduating together</div>
+                    </div>
+                </div>
+                
+                <!-- Dots Indicator -->
+                <div class="image-dots">
+                    <button class="image-dot active" data-index="0"></button>
+                    <button class="image-dot" data-index="1"></button>
+                    <button class="image-dot" data-index="2"></button>
+                </div>
             </div>
+            
             <div class="story-content">
                 <span class="story-year">2015</span>
                 <h3>High School Sweethearts</h3>
@@ -266,12 +544,36 @@
             </div>
         </div>
         
-        <!-- STORY BLOCK 2: College Years -->
+        <!-- STORY BLOCK 2: College Years - Grid Layout Example -->
         <div class="story-block" style="--item-index: 1;">
-            <div class="story-image">
-                <img src="images/story02.jpg" alt="College adventures" 
-                     onerror="this.src='https://images.unsplash.com/photo-1523580494863-6f3031224c94?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80'">
+            <div class="story-images-container">
+                <!-- Layout Selector (Optional) -->
+                <div class="layout-selector">
+                    <button class="layout-btn active" data-layout="grid">
+                        <i class="fas fa-th"></i>
+                    </button>
+                    <button class="layout-btn" data-layout="carousel">
+                        <i class="fas fa-exchange-alt"></i>
+                    </button>
+                </div>
+                
+                <!-- Grid Layout Images -->
+                <div class="story-images-grid">
+                    <div class="story-image">
+                        <img src="images/story02.jpg" alt="Visiting each other's universities">
+                    </div>
+                    <div class="story-image">
+                        <img src="images/story02b.jpg" alt="Campus dates">
+                    </div>
+                    <div class="story-image">
+                        <img src="images/story02c.jpg" alt="Study sessions together">
+                    </div>
+                    <div class="story-image">
+                        <img src="images/story02d.jpg" alt="Weekend adventures">
+                    </div>
+                </div>
             </div>
+            
             <div class="story-content">
                 <span class="story-year">2018</span>
                 <h3>College Adventures</h3>
@@ -279,12 +581,22 @@
             </div>
         </div>
         
-        <!-- STORY BLOCK 3: First Home -->
+        <!-- STORY BLOCK 3: First Home - Collage Layout Example -->
         <div class="story-block" style="--item-index: 2;">
-            <div class="story-image">
-                <img src="images/story03.jpg" alt="First apartment together" 
-                     onerror="this.src='https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80'">
+            <div class="story-images-container">
+                <div class="story-images-collage">
+                    <div class="story-image">
+                        <img src="images/story03.jpg" alt="Our first apartment living room">
+                    </div>
+                    <div class="story-image">
+                        <img src="images/story03b.jpg" alt="Cooking together">
+                    </div>
+                    <div class="story-image">
+                        <img src="images/story03c.jpg" alt="Game nights with friends">
+                    </div>
+                </div>
             </div>
+            
             <div class="story-content">
                 <span class="story-year">2020</span>
                 <h3>Our First Home</h3>
@@ -292,44 +604,8 @@
             </div>
         </div>
         
-        <!-- STORY BLOCK 4: Baguio Trip -->
-        <div class="story-block" style="--item-index: 3;">
-            <div class="story-image">
-                <img src="images/story04.jpg" alt="Baguio getaway" 
-                     onerror="this.src='https://images.unsplash.com/photo-1552733407-5d5c46c3bb3b?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80'">
-            </div>
-            <div class="story-content">
-                <span class="story-year">2023</span>
-                <h3>Baguio Getaway</h3>
-                <p class="story-excerpt">During a weekend in Baguio, we rediscovered why we fell in love. Long walks in the pine forest, sharing hot chocolate at Café by the Ruins, and planning our future together.</p>
-            </div>
-        </div>
+        <!-- Add more story blocks as needed -->
         
-        <!-- STORY BLOCK 5: The Proposal -->
-        <div class="story-block" style="--item-index: 4;">
-            <div class="story-image">
-                <img src="images/story05.jpg" alt="The proposal" 
-                     onerror="this.src='https://images.unsplash.com/photo-1511285560929-80b456fea0bc?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80'">
-            </div>
-            <div class="story-content">
-                <span class="story-year">December 2024</span>
-                <h3>The Proposal</h3>
-                <p class="story-excerpt">Jeric planned a surprise dinner at our favorite restaurant. After dessert, he got down on one knee in front of our family and closest friends. Guila said "Yes!" through happy tears as midnight struck on New Year's Eve.</p>
-            </div>
-        </div>
-        
-        <!-- STORY BLOCK 6: Wedding Planning -->
-        <div class="story-block" style="--item-index: 5;">
-            <div class="story-image">
-                <img src="images/story06.jpg" alt="Planning our forever" 
-                     onerror="this.src='https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80'">
-            </div>
-            <div class="story-content">
-                <span class="story-year">2025 - Present</span>
-                <h3>Planning Our Forever</h3>
-                <p class="story-excerpt">Now we're planning our wedding day, excited to start our journey as husband and wife. Every decision, from the venue to the smallest detail, is filled with love and anticipation for our future together.</p>
-            </div>
-        </div>
     </div>
 
     <!-- QUOTE SECTION -->
@@ -366,20 +642,20 @@
                     <p><a href="https://m.me/100000514694513" class="phone-link" target="_blank" rel="noopener noreferrer" aria-label="Message Guila and Jeric on Messenger">💬 Message us on Messenger</a></p>
                 </div>
             </div>
-
-     <style>
-        /* Make phone numbers look like regular text on all devices */
-        .phone-link {
-            text-decoration: none;
-            color: inherit;
-            cursor: pointer;
-        }
-        .phone-link:hover,
-        .phone-link:focus {
-            text-decoration: none;
-            color: inherit;
-        }
-    </style>
+            
+          // Make phone numbers look like regular text on all devices//
+            <style>
+                .phone-link {
+                    text-decoration: none;
+                    color: inherit;
+                    cursor: pointer;
+                }
+                .phone-link:hover,
+                .phone-link:focus {
+                    text-decoration: none;
+                    color: inherit;
+                }
+            </style>
 
             <div class="copyright">
                 <p>&copy; 2026 Guila & Jeric Wedding. All rights reserved.</p>
@@ -389,9 +665,14 @@
 
     <script src="script.js"></script>
     
-    <!-- STORY BLOCK ANIMATIONS -->
+    <!-- MULTI-IMAGE CAROUSEL FUNCTIONALITY -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize all carousels
+            document.querySelectorAll('.story-images-container').forEach(container => {
+                initImageContainer(container);
+            });
+            
             // Animate story blocks on scroll
             function animateStoryBlocks() {
                 const blocks = document.querySelectorAll('.story-block');
@@ -408,28 +689,126 @@
             
             // Initial check
             animateStoryBlocks();
-            
+
             // Check on scroll
             window.addEventListener('scroll', animateStoryBlocks);
+        });
+        
+        function initImageContainer(container) {
+            const gallery = container.querySelector('.story-images-gallery');
+            const grid = container.querySelector('.story-images-grid');
+            const collage = container.querySelector('.story-images-collage');
+            const prevBtn = container.querySelector('.nav-arrow.prev');
+            const nextBtn = container.querySelector('.nav-arrow.next');
+            const dots = container.querySelectorAll('.image-dot');
+            const counter = container.querySelector('.image-counter');
+            const layoutBtns = container.querySelectorAll('.layout-btn');
+            
+            let currentIndex = 0;
+            let totalImages = 0;
+            let currentLayout = 'carousel'; // 'carousel', 'grid', or 'collage'
+            
+            // Determine which layout is active
+            if (gallery) {
+                totalImages = gallery.children.length;
+                currentLayout = 'carousel';
+            } else if (grid) {
+                totalImages = grid.children.length;
+                currentLayout = 'grid';
+            } else if (collage) {
+                totalImages = collage.children.length;
+                currentLayout = 'collage';
+            }
+            
+            // Carousel functionality
+            if (gallery && prevBtn && nextBtn) {
+                function updateCarousel() {
+                    gallery.style.transform = `translateX(-${currentIndex * 100}%)`;
+                    
+                    // Update counter
+                    if (counter) {
+                        counter.textContent = `${currentIndex + 1}/${totalImages}`;
+                    }
+                    
+                    // Update dots
+                    dots.forEach((dot, index) => {
+                        dot.classList.toggle('active', index === currentIndex);
+                    });
+                }
+                
+                prevBtn.addEventListener('click', () => {
+                    currentIndex = currentIndex > 0 ? currentIndex - 1 : totalImages - 1;
+                    updateCarousel();
+                });
+                
+                nextBtn.addEventListener('click', () => {
+                    currentIndex = currentIndex < totalImages - 1 ? currentIndex + 1 : 0;
+                    updateCarousel();
+                });
+                
+                // Dot click events
+                dots.forEach(dot => {
+                    dot.addEventListener('click', function() {
+                        currentIndex = parseInt(this.dataset.index);
+                        updateCarousel();
+                    });
+                });
+                
+                // Auto-advance carousel (optional)
+                let autoAdvance = setInterval(() => {
+                    currentIndex = currentIndex < totalImages - 1 ? currentIndex + 1 : 0;
+                    updateCarousel();
+                }, 5000);
+                
+                // Pause auto-advance on hover
+                container.addEventListener('mouseenter', () => clearInterval(autoAdvance));
+                container.addEventListener('mouseleave', () => {
+                    autoAdvance = setInterval(() => {
+                        currentIndex = currentIndex < totalImages - 1 ? currentIndex + 1 : 0;
+                        updateCarousel();
+                    }, 5000);
+                });
+                
+                // Initialize
+                updateCarousel();
+            }
+            
+            // Layout switcher functionality
+            if (layoutBtns.length > 0) {
+                layoutBtns.forEach(btn => {
+                    btn.addEventListener('click', function() {
+                        const layout = this.dataset.layout;
+                        
+                        // Update active button
+                        layoutBtns.forEach(b => b.classList.remove('active'));
+                        this.classList.add('active');
+                        
+                        // Switch layouts (you can extend this to actually change layouts)
+                        console.log('Switching to layout:', layout);
+                        // You would need to implement actual layout switching here
+                    });
+                });
+            }
             
             // Lazy load images
-            const images = document.querySelectorAll('.story-image img');
+            const images = container.querySelectorAll('img');
             images.forEach(img => {
                 // Add loading animation
                 img.style.opacity = '0';
                 img.style.transition = 'opacity 0.5s ease';
-                
+
                 // When image loads
                 img.addEventListener('load', function() {
                     this.style.opacity = '1';
                 });
-                
+
                 // If image has error
                 img.addEventListener('error', function() {
                     this.style.opacity = '1';
+                    this.src = 'https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80';
                 });
             });
-        });
+        }
     </script>
 
 <!-- =========================================== -->
