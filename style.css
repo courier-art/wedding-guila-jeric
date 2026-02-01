@@ -63,27 +63,29 @@ h2 {
     font-size: 2.5rem;
     position: relative;
     display: inline-block;
-    margin-bottom: 3rem;
+    margin-bottom: 1rem;
 }
 
-/* Underline effect for h2 headings */
+/* Underline effect for h2 headings 
 h2:after {
     content: '';
     position: absolute;
-    bottom: -10px;
+    bottom: -5px;
     left: 0;
-    width: 60px;
+    width: 100px;
     height: 2px;
     background-color: var(--black);
-}
+}*/
 
 h3 {
     font-size: 1.5rem;
+    font-family: 'Playfair Display', serif;
 }
 
 p {
     margin-bottom: 1.5rem;
     font-size: 1.1rem;
+    font-family: 'playfair Display', serif;
 }
 
 /* ============================================
