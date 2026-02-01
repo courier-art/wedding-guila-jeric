@@ -28,7 +28,7 @@ body {
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
     color: var(--black);
     line-height: 1.6;
-    background-color: var(--white);
+    background: linear-gradient(135deg, rgba(10,10,10,0.05) 0%, rgba(26,26,26,0.05) 100%);
     overflow-x: hidden;            /* Prevent horizontal scrolling */
 }
 
