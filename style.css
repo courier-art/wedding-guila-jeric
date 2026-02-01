@@ -518,6 +518,7 @@ p {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 500;
+    font-family: playfair Display, serif;
 }
 
 .form-control {
@@ -525,7 +526,7 @@ p {
     padding: 1rem;
     border: 1px solid var(--gray-medium);
     font-size: 1rem;
-    font-family: inherit;
+    font-family: playfair Display, serif;
     transition: var(--transition);
     border-radius: 5px;
 }
