@@ -448,7 +448,7 @@ p {
 .person-card img {
     width: 120px;
     height: 120px;
-    border-radius: 50%;            /* Circular images */
+    border-radius: 15%;            /* Circular images */
     object-fit: cover;             /* Crop image to fit circle */
     margin-bottom: 1rem;
     background-color: var(--gray-light); /* Placeholder color */
