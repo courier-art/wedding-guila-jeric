@@ -97,14 +97,27 @@
                         <p><strong>Location:</strong> Diocesan Shrine and Parish of St. Mary Magdalene</p>
                         <p><strong>Address:</strong> Poblacion, Kawit, Cavite</p>
                         
-                        <!-- CEREMONY MAP -->
-                        <div class="map-container" id="ceremonyMap">
-                            <!-- Map will be loaded via JavaScript -->
-                            <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: var(--gray-light);">
-                                <p><i class="fas fa-map-marker-alt"></i> Map Loading...</p>
-                            </div>
-                        </div>
-                        
+        <!-- CEREMONY MAP -->
+<div class="map-container" id="ceremonyMap" style="position: relative; overflow: hidden;">
+    <a href="https://maps.app.goo.gl/UV3RU6fNVWdJJrar7" 
+       target="_blank" 
+       style="display: block; width: 100%; height: 100%; text-decoration: none; position: relative;">
+        <!-- Background Image -->
+        <img src="pictures/guia.jpg" 
+             alt="Diocesan Shrine and Parish of St. Mary Magdalene" 
+             style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;">
+        <!-- Dark Overlay for Readability -->
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4);"></div>
+        <!-- Clickable Content Overlay -->
+        <div style="position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 2rem; text-align: center; color: white;">      
+            <!-- Subtle Hint -->
+            <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.8; font-style: italic;position: absolute; bottom: 10px;">
+                Click anywhere to view location
+            </p>
+        </div>
+
+    </a>
+</div>                  
                         <p>The ceremony will be held at this beautiful historical church. Please arrive by 1:30 PM for seating.</p>
                     </div>
                     
@@ -119,12 +132,25 @@
                         <p><strong>Address:</strong> 466 EPZA Diversion Rd, Magdalo, Noveleta</p>
                         
                         <!-- RECEPTION MAP -->
-                        <div class="map-container" id="receptionMap">
-                            <!-- Map will be loaded via JavaScript -->
-                            <div style="display: flex; align-items: center; justify-content: center; height: 100%; background: var(--gray-light);">
-                                <p><i class="fas fa-map-marker-alt"></i> Map Loading...</p>
-                            </div>
-                        </div>
+<div class="map-container" id="receptionMap" style="position: relative; overflow: hidden;">
+    <a href="https://maps.app.goo.gl/aJZHp66P1HF7Vidk9" 
+       target="_blank" 
+       style="display: block; width: 100%; height: 100%; text-decoration: none; position: relative;">
+        <!-- Background Image -->
+        <img src="pictures/guia.jpg" 
+             alt="Diocesan Shrine and Parish of St. Mary Magdalene" 
+             style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;">
+        <!-- Dark Overlay for Readability -->
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.4);"></div>
+        <!-- Clickable Content Overlay -->
+        <div style="position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; padding: 2rem; text-align: center; color: white;">      
+            <!-- Subtle Hint -->
+            <p style="margin-top: 1.5rem; font-size: 0.85rem; opacity: 0.8; font-style: italic; position: absolute; bottom: 10px;">
+                Click anywhere to view location
+            </p>
+        </div>
+    </a>
+</div>                 
                         
                         <p>Cocktails will be served upon arrival followed by dinner, dancing, and celebrations!</p>
                     </div>
@@ -363,6 +389,7 @@
         // GOOGLE MAPS INITIALIZATION
         // Loads maps for ceremony and reception locations
         // ============================================
+        
         function initMap() {
             // Ceremony location coordinates (approximate for Kawit Church)
             const ceremonyLocation = { lat: 14.4441, lng: 120.9019 };
@@ -370,108 +397,8 @@
             // Reception location coordinates (approximate for Noveleta)
             const receptionLocation = { lat: 14.4294, lng: 120.8797 };
             
-            // Create ceremony map
-            const ceremonyMap = new google.maps.Map(document.getElementById('ceremonyMap'), {
-                zoom: 15,
-                center: ceremonyLocation,
-                styles: [
-                    {
-                        featureType: "all",
-                        elementType: "geometry",
-                        stylers: [{ color: "#f5f5f5" }]
-                    },
-                    {
-                        featureType: "all",
-                        elementType: "labels.text.fill",
-                        stylers: [{ color: "#333333" }]
-                    }
-                ]
-            });
-            
-            // Add marker for ceremony location
-            new google.maps.Marker({
-                position: ceremonyLocation,
-                map: ceremonyMap,
-                title: "Diocesan Shrine and Parish of St. Mary Magdalene",
-                icon: {
-                    url: "https://maps.google.com/mapfiles/ms/icons/red-dot.png"
-                }
-            });
-            
-            // Create reception map
-            const receptionMap = new google.maps.Map(document.getElementById('receptionMap'), {
-                zoom: 15,
-                center: receptionLocation,
-                styles: [
-                    {
-                        featureType: "all",
-                        elementType: "geometry",
-                        stylers: [{ color: "#f5f5f5" }]
-                    },
-                    {
-                        featureType: "all",
-                        elementType: "labels.text.fill",
-                        stylers: [{ color: "#333333" }]
-                    }
-                ]
-            });
-            
-            // Add marker for reception location
-            new google.maps.Marker({
-                position: receptionLocation,
-                map: receptionMap,
-                title: "Jardin De La Vida Pavillion",
-                icon: {
-                    url: "https://maps.google.com/mapfiles/ms/icons/blue-dot.png"
-                }
-            });
-        }
-        
-        // ============================================
-        // FALLBACK IF GOOGLE MAPS FAILS TO LOAD
-        // ============================================
-        window.onload = function() {
-            // Check if maps loaded successfully after 5 seconds
-            setTimeout(function() {
-                const ceremonyMapDiv = document.getElementById('ceremonyMap');
-                const receptionMapDiv = document.getElementById('receptionMap');
-                
-                // If maps failed to load, show static images
-                if (ceremonyMapDiv && ceremonyMapDiv.innerHTML.includes('Map Loading')) {
-                    ceremonyMapDiv.innerHTML = `
-                        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; background: var(--gray-light); padding: 1rem;">
-                            <i class="fas fa-map-marker-alt" style="font-size: 3rem; margin-bottom: 1rem; color: var(--gray-dark);"></i>
-                            <p><strong>Diocesan Shrine and Parish of St. Mary Magdalene</strong></p>
-                            <p>Poblacion, Kawit, Cavite</p>
-                            <p style="margin-top: 1rem; font-size: 0.9rem;">
-                                <a href="https://maps.google.com/?q=Diocesan+Shrine+and+Parish+of+St+Mary+Magdalene+Kawit+Cavite" 
-                                   target="_blank" 
-                                   style="color: var(--black); text-decoration: underline;">
-                                    Open in Google Maps
-                                </a>
-                            </p>
-                        </div>
-                    `;
-                }
-                
-                if (receptionMapDiv && receptionMapDiv.innerHTML.includes('Map Loading')) {
-                    receptionMapDiv.innerHTML = `
-                        <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; background: var(--gray-light); padding: 1rem;">
-                            <i class="fas fa-map-marker-alt" style="font-size: 3rem; margin-bottom: 1rem; color: var(--gray-dark);"></i>
-                            <p><strong>Jardin De La Vida Pavillion</strong></p>
-                            <p>466 EPZA Diversion Rd, Magdalo, Noveleta</p>
-                            <p style="margin-top: 1rem; font-size: 0.9rem;">
-                                <a href="https://maps.google.com/?q=Jardin+De+La+Vida+Pavillion+Noveleta+Cavite" 
-                                   target="_blank" 
-                                   style="color: var(--black); text-decoration: underline;">
-                                    Open in Google Maps
-                                </a>
-                            </p>
-                        </div>
-                    `;
-                }
-            }, 5000);
-        };
+
+
     </script>
 
 <!-- =========================================== -->
