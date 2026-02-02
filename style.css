@@ -421,6 +421,22 @@ p {
     overflow: hidden;              /* Keep map within rounded corners */
 }
 
+.attire-card {
+    padding: 2rem;
+    border: 1px solid var(--gray-medium);
+    border-radius: 20px;
+    text-align: center;
+    background: var(--white);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: var(--transition);
+    font-family: playfair Display, serif;
+}
+
+.attire-card:hover {
+    transform: translateY(-5px);   /* Lift card on hover */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
 /* ============================================
    NUPTIALS GRID
    Grid layout for wedding party members
