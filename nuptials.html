@@ -83,22 +83,50 @@
                 <h1>Our Wedding Party</h1>
                 <p class="subtitle">The special people standing with us on our big day</p>
                 
-                <!-- BRIDE AND GROOM SECTION -->
-                <div class="couple-section">
-                    <h2>The Couple</h2>
-                    <div style="display: flex; justify-content: center; gap: 4rem; flex-wrap: wrap; margin-top: 2rem;">
-                        <div style="text-align: center;">
-                            <img src="images/image35.jpg" alt="Guila" class="couple-photo">
-                            <h3>Guila</h3>
-                            <p>The Bride</p>
+            <!-- BRIDE AND GROOM - Polaroid Style -->
+            <div class="couple-section" style="margin: 4rem 0;">
+                <div style="position: relative; display: inline-block; margin: 0 auto;">
+                    <h2 style="font-family: 'Playfair Display', serif; font-size: 2.5rem; text-align: center; margin-bottom: 3rem;">
+                        The Couple
+                    </h2>
+                    <div style="position: absolute; top: -20px; right: -20px; width: 40px; height: 40px; background: #f8e9e0; border-radius: 50%;"></div>
+                    <div style="position: absolute; bottom: -20px; left: -20px; width: 40px; height: 40px; background: #f8e9e0; border-radius: 50%;"></div>
+                </div>
+                
+                <div style="display: flex; justify-content: center; gap: 6rem; flex-wrap: wrap; margin-top: 3rem;">
+                    <!-- Bride Polaroid -->
+                    <div style="transform: rotate(-3deg); transition: transform 0.3s ease;" 
+                         onmouseover="this.style.transform='rotate(-1deg) scale(1.05)'" 
+                         onmouseout="this.style.transform='rotate(-3deg)'">
+                        <div style="background: white; padding: 1.5rem 1.5rem 3rem 1.5rem; box-shadow: 0 20px 40px rgba(138, 110, 94, 0.15); border: 1px solid #f0e6df; position: relative;">
+                            <div style="width: 280px; height: 280px; overflow: hidden; background: #f8f3ef; display: flex; align-items: center; justify-content: center;">
+                                <img src="pictures/guia.jpg" alt="Guila" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div style="margin-top: 1.5rem; text-align: center;">
+                                <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #5d4a3e; margin: 0;">Guila</h3>
+                                <p style="color: #8a6e5e; font-style: italic; margin-top: 0.5rem;">The Bride</p>
+                                <div style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); width: 60%; height: 1px; background: linear-gradient(90deg, transparent, #e8c4b8, transparent);"></div>
+                            </div>
                         </div>
-                        <div style="text-align: center;">
-                            <img src="images/image36.jpg" alt="Jeric" class="couple-photo">
-                            <h3>Jeric</h3>
-                            <p>The Groom</p>
+                    </div>
+                    
+                    <!-- Groom Polaroid -->
+                    <div style="transform: rotate(3deg); transition: transform 0.3s ease;" 
+                         onmouseover="this.style.transform='rotate(1deg) scale(1.05)'" 
+                         onmouseout="this.style.transform='rotate(3deg)'">
+                        <div style="background: white; padding: 1.5rem 1.5rem 3rem 1.5rem; box-shadow: 0 20px 40px rgba(138, 110, 94, 0.15); border: 1px solid #f0e6df; position: relative;">
+                            <div style="width: 280px; height: 280px; overflow: hidden; background: #f8f3ef; display: flex; align-items: center; justify-content: center;">
+                                <img src="pictures/guia.jpg" alt="Jeric" style="width: 100%; height: 100%; object-fit: cover;">
+                            </div>
+                            <div style="margin-top: 1.5rem; text-align: center;">
+                                <h3 style="font-family: 'Playfair Display', serif; font-size: 1.8rem; color: #5d4a3e; margin: 0;">Jeric</h3>
+                                <p style="color: #8a6e5e; font-style: italic; margin-top: 0.5rem;">The Groom</p>
+                                <div style="position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); width: 60%; height: 1px; background: linear-gradient(90deg, transparent, #e8c4b8, transparent);"></div>
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
                 
                 <!-- PRINCIPAL SPONSORS -->
                 <div class="section-spacing">
