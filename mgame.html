@@ -1,0 +1,1410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wedding Game - Guila & Jeric</title>
+    
+    <!-- EXTERNAL RESOURCES -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    
+    <!-- STYLESHEETS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <style>
+        /* GAME SPECIFIC STYLES */
+        .game-container {
+            max-width: 900px;
+            margin: 120px auto 40px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .game-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: #000;
+        }
+
+        .game-subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 0.9rem;
+        }
+
+        /* NAME INPUT SECTION */
+        .name-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        .name-section h2 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 20px;
+            color: #000;
+        }
+
+        .name-input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .name-input-group input {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .name-input-group input:focus {
+            outline: none;
+            border-color: #000;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            background: #000;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn:hover {
+            background: #333;
+            transform: translateY(-2px);
+        }
+
+        .btn:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+  
+        .btn.loading {
+            background: #666;
+            cursor: wait;
+            pointer-events: none;
+        }
+
+        /* Loading spinner animation */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 14px;
+            height: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+            vertical-align: middle;
+        }
+  
+        .btn.loading:hover {
+            transform: none;
+        }
+
+        .btn-secondary {
+            background: #666;
+        }
+
+        .btn-secondary:hover {
+            background: #555;
+        }
+
+        .current-player {
+            margin-top: 15px;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            font-size: 1.1rem;
+        }
+
+        /* GAME CANVAS */
+        .game-canvas-container {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            display: none;
+            position: relative;
+        }
+
+        .game-canvas-container.active {
+            display: block;
+        }
+
+        .canvas-wrapper {
+            position: relative;
+            display: inline-block;
+            margin: 0 auto;
+        }
+
+        /* PLAY BUTTON OVERLAY - FIXED POSITIONING */
+        .play-button-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            z-index: 10;
+        }
+
+        .play-button-overlay.hidden {
+            display: none;
+        }
+
+        .play-btn {
+            padding: 20px 50px;
+            background: #000;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .play-btn:hover {
+            background: #333;
+            transform: scale(1.05);
+        }
+
+        .play-btn i {
+            margin-right: 10px;
+        }
+
+        #gameCanvas {
+            border: 3px solid #000;
+            border-radius: 10px;
+            max-width: 100%;
+            display: block;
+            cursor: pointer;
+            touch-action: none;
+            position: relative;
+            z-index: 1;
+        }
+
+        #gameCanvas.disabled {
+            pointer-events: none;
+        }
+
+        .game-info {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding: 15px;
+            background: #f5f5f5;
+            border-radius: 8px;
+        }
+
+        .game-info-item {
+            text-align: center;
+        }
+
+        .game-info-label {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+
+        .game-info-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #000;
+        }
+
+        /* LEADERBOARD */
+        .leaderboard-section {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+
+        .leaderboard-section h2 {
+            font-family: 'Playfair Display', serif;
+            margin-bottom: 20px;
+            color: #000;
+        }
+
+        .leaderboard-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .leaderboard-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin-bottom: 10px;
+            background: #f5f5f5;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .leaderboard-item:hover {
+            background: #e5e5e5;
+        }
+
+        .leaderboard-item.top-1 {
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            color: white;
+        }
+
+        .leaderboard-item.top-2 {
+            background: linear-gradient(135deg, #C0C0C0 0%, #999 100%);
+            color: white;
+        }
+
+        .leaderboard-item.top-3 {
+            background: linear-gradient(135deg, #CD7F32 0%, #8B4513 100%);
+            color: white;
+        }
+
+        .leaderboard-rank {
+            font-weight: bold;
+            font-size: 1.2rem;
+            width: 40px;
+        }
+
+        .leaderboard-name {
+            flex: 1;
+            text-align: left;
+            font-weight: 500;
+        }
+
+        .leaderboard-score {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+        }
+
+        .error-message {
+            background: #fee;
+            color: #c33;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .success-message {
+            background: #efe;
+            color: #3c3;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        /* GAME OVER OVERLAY */
+        .game-over-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .game-over-overlay.active {
+            display: flex;
+        }
+
+        .game-over-content {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 400px;
+            margin: 20px;
+        }
+
+        .game-over-content h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 20px;
+        }
+
+        .game-over-content .final-score {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #000;
+            margin: 20px 0;
+        }
+
+        .game-over-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .game-over-buttons .btn {
+            flex: 1;
+        }
+
+        /* CUSTOM CONFIRMATION MODAL */
+        .custom-confirm-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .custom-confirm-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .custom-confirm-content {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            max-width: 450px;
+            margin: 20px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            animation: slideUp 0.3s ease;
+        }
+
+        .custom-confirm-content h3 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #000;
+        }
+
+        .custom-confirm-content p {
+            color: #666;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+
+        .custom-confirm-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .custom-confirm-buttons .btn {
+            flex: 1;
+            max-width: 150px;
+        }
+
+        /* INSTRUCTIONS */
+        .instructions {
+            background: #f5f5f5;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .instructions h3 {
+            margin-top: 0;
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 600px) {
+            .game-container {
+                margin-top: 100px;
+                padding: 15px;
+            }
+
+            .game-title {
+                font-size: 1.5rem;
+            }
+
+            .name-input-group {
+                flex-direction: column;
+            }
+
+            .game-over-content {
+                padding: 30px 20px;
+            }
+
+            .game-over-buttons {
+                flex-direction: column;
+            }
+
+            .play-btn {
+                padding: 15px 40px;
+                font-size: 1.2rem;
+            }
+
+            .custom-confirm-content {
+                padding: 30px 20px;
+            }
+
+            .custom-confirm-buttons {
+                flex-direction: column;
+            }
+
+            .custom-confirm-buttons .btn {
+                max-width: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVIGATION -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">G&J</a>
+            <button class="mobile-menu-btn">
+                <i class="fas fa-bars"></i>
+            </button>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="story.html">Our Story</a></li>
+                <li><a href="bigday.html">The Big Day</a></li>
+                <li><a href="nuptials.html">Nuptials</a></li>
+                <li><a href="greetings.html">Wish Greetings</a></li>
+                <li><a href="rsvp.html">RSVP</a></li>
+                <li><a href="mgame.html" class="active">Mini Game</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- GAME CONTAINER -->
+    <div class="game-container">
+        <h1 class="game-title">Love Flight</h1>
+        <p class="game-subtitle">Help the love fly through hearts to celebrate Guila & Jeric's wedding!</p>
+
+        <!-- ERROR/SUCCESS MESSAGES -->
+        <div id="messageContainer"></div>
+
+        <!-- NAME SETUP SECTION -->
+        <div class="name-section" id="nameSection">
+          <div id="nameSection1">
+            <h2>Enter your Name to Start</h2>
+            <div class="name-input-group">
+                <input type="text" id="playerNameInput" placeholder="Your Name" maxlength="20">
+                <button class="btn" id="startGameBtn" onclick="setPlayerName()">Start Game</button>
+            </div></div>
+            <div class="current-player" id="currentPlayerDisplay" style="display: none;">
+                Playing as: <strong id="currentPlayerName"></strong>
+                <button class="btn" onclick="changeName()" style="margin-left: 10px; padding: 8px 15px; font-size: 0.85rem;">Change Name</button>
+            </div>
+
+            <div class="instructions">
+                <h3><i class="fas fa-gamepad"></i> How to Play</h3>
+                <p><strong>Tap or Click</strong> anywhere to make the heart fly up</p>
+                <p><strong>Avoid</strong> hitting the heart obstacles</p>
+                <p><strong>Score</strong> points by passing through hearts</p>
+                <p>Challenge your friends and top the leaderboard!<br>The <strong>Top Scorer</strong> on the leaderboard wins a special prize on our special day</p>
+            </div>
+        </div>
+
+        <!-- GAME CANVAS -->
+        <div class="game-canvas-container" id="gameCanvasContainer">
+            <div class="canvas-wrapper">
+                <!-- PLAY BUTTON OVERLAY - NOW ONLY OVER THE CANVAS -->
+                <div class="play-button-overlay" id="playButtonOverlay">
+                    <button class="play-btn" id="playBtn">
+                        <i class="fas fa-play"></i> Play
+                    </button>
+                </div>
+                
+                <canvas id="gameCanvas" width="400" height="600" class="disabled"></canvas>
+            </div>
+            
+            <div class="game-info">
+                <div class="game-info-item">
+                    <div class="game-info-label">Score</div>
+                    <div class="game-info-value" id="currentScore">0</div>
+                </div>
+                <div class="game-info-item">
+                    <div class="game-info-label">Best</div>
+                    <div class="game-info-value" id="bestScore">0</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- LEADERBOARD -->
+        <div class="leaderboard-section">
+            <h2><i class="fas fa-trophy"></i> Leaderboard</h2>
+            <div><button class="btn" onclick="loadLeaderboard()" style="margin-bottom: 20px;">
+                <i class="fas fa-sync-alt"></i> Refresh
+            </button></div>
+            <div id="leaderboardContainer">
+                <div class="loading">Loading leaderboard...</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- GAME OVER OVERLAY -->
+    <div class="game-over-overlay" id="gameOverOverlay">
+        <div class="game-over-content">
+            <h2>Game Over!</h2>
+            <div id="gameOverMessage"></div>
+            <div class="final-score" id="finalScore">0</div>
+            <div class="game-over-buttons">
+                <button class="btn" onclick="restartGame()">
+                    <i class="fas fa-redo"></i> Play Again
+                </button>
+                <button class="btn" onclick="closeGameOver()">
+                    <i class="fas fa-times"></i> Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CUSTOM CONFIRMATION MODAL -->
+    <div class="custom-confirm-overlay" id="customConfirmOverlay">
+        <div class="custom-confirm-content">
+            <h3 id="confirmTitle">Confirm Action</h3>
+            <p id="confirmMessage">Are you sure?</p>
+            <div class="custom-confirm-buttons">
+                <button class="btn btn-secondary" id="confirmCancelBtn">Cancel</button>
+                <button class="btn" id="confirmOkBtn">Confirm</button>
+            </div>
+        </div>
+    </div>
+
+       <!-- FOOTER: Consistent across all pages -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <!-- FOOTER SECTION 1: Basic info -->
+                <div class="footer-section">
+                    <h3>Guila & Jeric</h3>
+                    <p>September 5, 2026</p>
+                    <p>Kawit & Noveleta, Cavite</p>
+                </div>
+                
+                <!-- FOOTER SECTION 2: Quick navigation -->
+                <div class="footer-section">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="story.html">Our Love Story</a></li>
+                        <li><a href="bigday.html">Event Details</a></li>
+                        <li><a href="nuptials.html">Wedding Party</a></li>
+                        <li><a href="greetings.html">Wish Greetings</a></li>
+                        <li><a href="rsvp.html">RSVP</a></li>
+                        <li><a href="mgame.html">Mini Game</a></li>
+                    </ul>
+                </div>
+                
+                <!-- FOOTER SECTION 3: Contact information -->
+                <div class="footer-section">
+                    <h3>Contact</h3>
+                    <p>For any questions, please contact:</p>
+                    <p><a href="tel:+639360430704" class="phone-link" aria-label="Call Guila">Guila: +63 936 043 0704</a></p>
+                    <p><a href="tel:+639981628942" class="phone-link" aria-label="Call Jeric">Jeric: +63 998 162 8942</a></p>
+                    <p><a href="https://m.me/jericgregorio19" class="phone-link" target="_blank" rel="noopener noreferrer" aria-label="Message Guila and Jeric on Messenger">Message us on Messenger</a></p>
+                </div>
+            </div>
+            
+            <!-- COPYRIGHT: Legal information -->
+            <div class="copyright">
+                <p>&copy; 2026 Guila & Jeric Wedding. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+<!-- GAME JAVASCRIPT -->
+          
+          
+          
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- GAME JAVASCRIPT -->
+<script>
+    // ============================================
+    // SUPABASE CONFIGURATION
+    // ============================================
+    const SUPABASE_URL = 'https://ntnronsyumgwvjffbdqb.supabase.co';
+    const SUPABASE_ANON_KEY = 'sb_publishable_70ZZjpDFra5-dp8PuywuhQ_ASeQFIDG';
+    
+    // Initialize Supabase client
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    
+    // ============================================
+    // GAME CONSTANTS
+    // ============================================
+    const GAME_WIDTH = 400;
+    const GAME_HEIGHT = 600;
+    const GRAVITY = 0.5;
+    const JUMP_STRENGTH = -8;
+    const BIRD_SIZE = 30;
+    const OBSTACLE_WIDTH = 60;
+    const OBSTACLE_GAP = 160;
+    const OBSTACLE_SPEED = 3;
+    const SPAWN_INTERVAL = 70;
+
+    // ============================================
+    // GAME STATE
+    // ============================================
+    let canvas, ctx;
+    let gameLoop;
+    let gameStarted = false;
+    let gameOver = false;
+    let score = 0;
+    let bestScore = 0;
+    let spawnTimer = 0;
+    
+    let bird = {
+        x: 100,
+        y: GAME_HEIGHT / 2,
+        velocity: 0,
+        rotation: 0
+    };
+
+    let obstacles = [];
+    let frameCount = 0;
+
+    // ============================================
+    // CUSTOM CONFIRMATION DIALOG
+    // ============================================
+    
+    function customConfirm(title, message) {
+        return new Promise((resolve) => {
+            const overlay = document.getElementById('customConfirmOverlay');
+            const titleEl = document.getElementById('confirmTitle');
+            const messageEl = document.getElementById('confirmMessage');
+            const okBtn = document.getElementById('confirmOkBtn');
+            const cancelBtn = document.getElementById('confirmCancelBtn');
+            
+            titleEl.textContent = title;
+            messageEl.textContent = message;
+            
+            overlay.classList.add('active');
+            
+            const handleOk = () => {
+                overlay.classList.remove('active');
+                okBtn.removeEventListener('click', handleOk);
+                cancelBtn.removeEventListener('click', handleCancel);
+                resolve(true);
+            };
+            
+            const handleCancel = () => {
+                overlay.classList.remove('active');
+                okBtn.removeEventListener('click', handleOk);
+                cancelBtn.removeEventListener('click', handleCancel);
+                resolve(false);
+            };
+            
+            okBtn.addEventListener('click', handleOk);
+            cancelBtn.addEventListener('click', handleCancel);
+        });
+    }
+
+    // ============================================
+    // LOADING BUTTON HELPERS
+    // ============================================
+    
+    function setButtonLoading(button, isLoading) {
+        if (isLoading) {
+            button.classList.add('loading');
+            button.disabled = true;
+            button.innerHTML = '<span class="spinner"></span>';
+        } else {
+            button.classList.remove('loading');
+            button.disabled = false;
+            button.innerHTML = 'Start Game';
+        }
+    }
+
+    // ============================================
+    // PLAY BUTTON FUNCTIONS
+    // ============================================
+    
+    function showPlayButton() {
+        document.getElementById('playButtonOverlay').classList.remove('hidden');
+        document.getElementById('gameCanvas').classList.add('disabled');
+    }
+
+    function hidePlayButton() {
+        document.getElementById('playButtonOverlay').classList.add('hidden');
+        document.getElementById('gameCanvas').classList.remove('disabled');
+    }
+
+    function showTapToStart() {
+        hidePlayButton();
+        resetGame();
+        draw();
+    }
+
+    // ============================================
+    // PLAYER MANAGEMENT (SUPABASE VERSION)
+    // ============================================
+    
+    function setPlayerName() {
+        const nameInput = document.getElementById('playerNameInput');
+        const name = nameInput.value.trim();
+        const startBtn = document.getElementById('startGameBtn');
+        
+        if (!name) {
+            showMessage('Please enter your name', 'error');
+            return;
+        }
+
+        // Show loading state
+        setButtonLoading(startBtn, true);
+
+        checkNameAvailability(name);
+    }
+
+    async function checkNameAvailability(name) {
+        const startBtn = document.getElementById('startGameBtn');
+        
+        try {
+            const { data, error } = await sb
+                .from('leaderboard')
+                .select('best_score')
+                .eq('player_name', name)
+                .single();
+
+            setButtonLoading(startBtn, false);
+            
+            if (data && data.best_score > 0) {
+                const confirmed = await customConfirm(
+                    'Continue as Existing Player?',
+                    `The name "${name}" already has a score of ${data.best_score}. Do you want to continue as this player?`
+                );
+                
+                if (confirmed) {
+                    savePlayerName(name, data.best_score);
+                }
+            } else {
+                savePlayerName(name, 0);
+            }
+        } catch (error) {
+            console.error('Error checking name:', error);
+            setButtonLoading(startBtn, false);
+            savePlayerName(name, 0);
+        }
+    }
+
+    function savePlayerName(name, existingScore) {
+        const startBtn = document.getElementById('startGameBtn');
+        
+        // Reset button state
+        setButtonLoading(startBtn, false);
+      
+        localStorage.setItem('weddingGamePlayerName', name);
+        localStorage.setItem('weddingGameBestScore', existingScore);
+        bestScore = existingScore;
+        
+        document.getElementById('currentPlayerName').textContent = name;
+        document.getElementById('currentPlayerDisplay').style.display = 'block';
+        document.getElementById('playerNameInput').value = '';
+        document.getElementById('bestScore').textContent = bestScore;
+        
+        document.getElementById('nameSection1').style.display = 'none';
+        document.getElementById('gameCanvasContainer').classList.add('active');
+        
+        showMessage(`Welcome, ${name}! Click Play to start!`, 'success');
+        
+        initGame();
+        showPlayButton();
+          
+        // Scroll back to game container
+        setTimeout(() => {
+            scrollToElement('gameCanvasContainer');
+        }, 300);
+    }
+
+    async function changeName() {
+        const confirmed = await customConfirm(
+            'Change Your Name?',
+            'Are you sure you want to change your name? Your current score will be saved.'
+        );
+        
+        if (confirmed) {
+            document.getElementById('nameSection1').style.display = 'block';
+            document.getElementById('currentPlayerDisplay').style.display = 'none';
+            document.getElementById('gameCanvasContainer').classList.remove('active');
+            gameStarted = false;
+            gameOver = false;
+            if (gameLoop) {
+                clearInterval(gameLoop);
+            }
+        }
+    }
+
+    function getPlayerName() {
+        return localStorage.getItem('weddingGamePlayerName') || '';
+    }
+
+    // ============================================
+    // GAME INITIALIZATION
+    // ============================================
+    
+    // function initGame() {
+    //     canvas = document.getElementById('gameCanvas');
+    //     ctx = canvas.getContext('2d');
+        
+    //     bestScore = parseInt(localStorage.getItem('weddingGameBestScore')) || 0;
+    //     document.getElementById('bestScore').textContent = bestScore;
+        
+    //     canvas.removeEventListener('click', handleInput);
+    //     canvas.removeEventListener('touchstart', handleInput);
+    //     canvas.addEventListener('click', handleInput);
+    //     canvas.addEventListener('touchstart', handleInput);
+        
+    //     resetGame();
+    //     draw();
+    // }
+
+    function initGame() {
+        canvas = document.getElementById('gameCanvas');
+        ctx = canvas.getContext('2d');
+        
+        bestScore = parseInt(localStorage.getItem('weddingGameBestScore')) || 0;
+        document.getElementById('bestScore').textContent = bestScore;
+        
+        // Remove existing event listeners to avoid duplicates
+        canvas.removeEventListener('click', handleInput);
+        canvas.removeEventListener('touchstart', handleInput);
+        document.removeEventListener('keydown', handleKeyDown);
+        
+        // Add event listeners
+        canvas.addEventListener('click', handleInput);
+        canvas.addEventListener('touchstart', handleInput);
+        document.addEventListener('keydown', handleKeyDown);
+        
+        // Update play button overlay
+        const playBtn = document.querySelector('.play-btn');
+        if (playBtn) {
+            playBtn.onclick = handlePlayButtonClick;
+        }
+        
+        resetGame();
+        draw();
+    }
+
+    function resetGame() {
+        if (gameLoop) {
+            clearInterval(gameLoop);
+        }
+        
+        bird = {
+            x: 100,
+            y: GAME_HEIGHT / 2,
+            velocity: 0,
+            rotation: 0
+        };
+        
+        obstacles = [];
+        frameCount = 0;
+        score = 0;
+        gameStarted = false;
+        gameOver = false;
+        spawnTimer = 0;
+        
+        document.getElementById('currentScore').textContent = score;
+        
+        draw();
+    }
+
+    function createObstacle(x) {
+        const minHeight = 100;
+        const maxHeight = GAME_HEIGHT - OBSTACLE_GAP - minHeight;
+        const topHeight = Math.random() * (maxHeight - minHeight) + minHeight;
+        
+        return {
+            x: x,
+            topHeight: topHeight,
+            bottomY: topHeight + OBSTACLE_GAP,
+            scored: false
+        };
+    }
+
+    // ============================================
+    // GAME LOGIC
+    // ============================================
+    
+    function handleInput(e) {
+        e.preventDefault();
+        
+        if (!getPlayerName()) {
+            showMessage('Please enter your name first', 'error');
+            return;
+        }
+        
+        if (gameOver) {
+            return;
+        }
+        
+        if (!gameStarted) {
+            startGame();
+        }
+        
+        bird.velocity = JUMP_STRENGTH;
+    }
+
+    // Separate function to start the game
+    function startGame() {
+        gameStarted = true;
+        obstacles.push(createObstacle(GAME_WIDTH + 50));
+        spawnTimer = SPAWN_INTERVAL;
+        startGameLoop();
+    }
+
+    // Handle keyboard input
+    function handleKeyDown(e) {
+        // Only respond to space bar (key code 32)
+        if (e.code === 'Space' || e.key === ' ') {
+            e.preventDefault(); // Prevent space bar from scrolling the page
+            
+            // Find the canvas element
+            const canvas = document.getElementById('gameCanvas');
+            
+            // Check if we can trigger the game
+            if (!gameStarted && !gameOver && getPlayerName()) {
+                handleInput({ preventDefault: () => {} });
+            } else if (gameStarted && !gameOver) {
+                // If game is already running, just make the bird jump
+                bird.velocity = JUMP_STRENGTH;
+            }
+        }
+    }
+
+    // Handle touch/click to start overlay
+    function handlePlayButtonClick() {
+        if (!getPlayerName()) {
+            showMessage('Please enter your name first', 'error');
+            return;
+        }
+        showTapToStart();
+    }
+
+    function startGameLoop() {
+        if (gameLoop) {
+            clearInterval(gameLoop);
+        }
+        
+        gameLoop = setInterval(() => {
+            update();
+            draw();
+        }, 1000 / 60);
+    }
+
+    function update() {
+        if (!gameStarted || gameOver) return;
+        
+        bird.velocity += GRAVITY;
+        bird.y += bird.velocity;
+        bird.rotation = Math.min(Math.max(bird.velocity * 3, -30), 90);
+        
+        spawnTimer--;
+        if (spawnTimer <= 0) {
+            obstacles.push(createObstacle(GAME_WIDTH + OBSTACLE_WIDTH));
+            spawnTimer = SPAWN_INTERVAL;
+        }
+        
+        frameCount++;
+        
+        for (let i = obstacles.length - 1; i >= 0; i--) {
+            obstacles[i].x -= OBSTACLE_SPEED;
+            
+            if (checkCollision(obstacles[i])) {
+                endGame();
+                return;
+            }
+            
+            if (!obstacles[i].scored && obstacles[i].x + OBSTACLE_WIDTH < bird.x) {
+                obstacles[i].scored = true;
+                score++;
+                document.getElementById('currentScore').textContent = score;
+            }
+            
+            if (obstacles[i].x + OBSTACLE_WIDTH < -50) {
+                obstacles.splice(i, 1);
+            }
+        }
+        
+        if (bird.y < 0 || bird.y + BIRD_SIZE > GAME_HEIGHT) {
+            endGame();
+        }
+    }
+
+    function checkCollision(obstacle) {
+        const birdLeft = bird.x;
+        const birdRight = bird.x + BIRD_SIZE;
+        const birdTop = bird.y;
+        const birdBottom = bird.y + BIRD_SIZE;
+        
+        const obstacleLeft = obstacle.x;
+        const obstacleRight = obstacle.x + OBSTACLE_WIDTH;
+        
+        if (birdRight > obstacleLeft && birdLeft < obstacleRight) {
+            if (birdTop < obstacle.topHeight || birdBottom > obstacle.bottomY) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+
+    function endGame() {
+        gameOver = true;
+        gameStarted = false;
+        if (gameLoop) {
+            clearInterval(gameLoop);
+        }
+        
+        if (score > bestScore) {
+            bestScore = score;
+            localStorage.setItem('weddingGameBestScore', bestScore);
+            document.getElementById('bestScore').textContent = bestScore;
+            submitScore(score);
+        }
+        
+        showGameOver();
+    }
+
+    // ============================================
+    // SCORE SUBMISSION (SUPABASE VERSION)
+    // ============================================
+    
+    async function submitScore(score) {
+        const name = getPlayerName();
+        if (!name) return;
+        
+        try {
+            const { error } = await sb
+                .from('leaderboard')
+                .upsert(
+                    { 
+                        player_name: name, 
+                        best_score: score 
+                    },
+                    { 
+                        onConflict: 'player_name' 
+                    }
+                );
+            
+            if (error) {
+                console.error('Error submitting score:', error);
+                showMessage('Failed to save score to leaderboard', 'error');
+            } else {
+                console.log('Score submitted successfully');
+                // Refresh leaderboard
+                loadLeaderboard();
+            }
+        } catch (error) {
+            console.error('Error submitting score:', error);
+            showMessage('Failed to save score to leaderboard', 'error');
+        }
+    }
+
+    // ============================================
+    // LEADERBOARD (SUPABASE VERSION)
+    // ============================================
+    
+    async function loadLeaderboard() {
+        const container = document.getElementById('leaderboardContainer');
+        container.innerHTML = '<div class="loading"><i class="fas fa-spinner fa-spin"></i> Loading...</div>';
+        
+        try {
+            const { data, error } = await sb
+                .from('leaderboard')
+                .select('player_name, best_score')
+                .order('best_score', { ascending: false })
+                .limit(10);
+            
+            if (error) {
+                throw error;
+            }
+            
+            displayLeaderboard(data);
+        } catch (error) {
+            console.error('Error loading leaderboard:', error);
+            container.innerHTML = '<div class="error-message">Failed to load leaderboard. Please try again.</div>';
+        }
+    }
+
+    function displayLeaderboard(leaderboard) {
+        const container = document.getElementById('leaderboardContainer');
+        
+        if (!leaderboard || leaderboard.length === 0) {
+            container.innerHTML = '<p style="text-align: center; color: #666;">No scores yet. Be the first to play!</p>';
+            return;
+        }
+        
+        let html = '<ul class="leaderboard-list">';
+        
+        leaderboard.forEach((entry, index) => {
+            let className = 'leaderboard-item';
+            if (index === 0) className += ' top-1';
+            else if (index === 1) className += ' top-2';
+            else if (index === 2) className += ' top-3';
+            
+            let icon = '';
+            if (index === 0) icon = '🥇';
+            else if (index === 1) icon = '🥈';
+            else if (index === 2) icon = '🥉';
+            else icon = `#${index + 1}`;
+            
+            html += `
+                <li class="${className}">
+                    <span class="leaderboard-rank">${icon}</span>
+                    <span class="leaderboard-name">${entry.player_name}</span>
+                    <span class="leaderboard-score">${entry.best_score}</span>
+                </li>
+            `;
+        });
+        
+        html += '</ul>';
+        container.innerHTML = html;
+    }
+
+    // ============================================
+    // DRAWING
+    // ============================================
+    
+    function draw() {
+        ctx.fillStyle = '#ffffff';
+        ctx.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+        
+        ctx.fillStyle = '#000000';
+        obstacles.forEach((obstacle, index) => {
+            ctx.fillRect(obstacle.x, 0, OBSTACLE_WIDTH, obstacle.topHeight);
+            ctx.fillRect(obstacle.x, obstacle.bottomY, OBSTACLE_WIDTH, GAME_HEIGHT - obstacle.bottomY);
+            
+            drawHeart(obstacle.x + OBSTACLE_WIDTH / 2, obstacle.topHeight - 40, 20, '#ffffff');
+            drawHeart(obstacle.x + OBSTACLE_WIDTH / 2, obstacle.bottomY + 20, 20, '#ffffff');
+            ctx.fillStyle = '#000000';
+        });
+        
+        ctx.save();
+        ctx.translate(bird.x + BIRD_SIZE / 2, bird.y + BIRD_SIZE / 2);
+        ctx.rotate(bird.rotation * Math.PI / 180);
+        
+        ctx.fillStyle = '#000000';
+        ctx.beginPath();
+        ctx.arc(0, 0, BIRD_SIZE / 2, 0, Math.PI * 2);
+        ctx.fill();
+        
+        drawHeart(0, -7.5, 15, '#ffffff');
+        
+        ctx.restore();
+        
+        if (!gameStarted && !gameOver) {
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+            ctx.fillRect(0, GAME_HEIGHT / 2 - 40, GAME_WIDTH, 80);
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 24px Inter';
+            ctx.textAlign = 'center';
+            ctx.fillText('TAP TO START', GAME_WIDTH / 2, GAME_HEIGHT / 2);
+        }
+        
+        if (gameStarted) {
+            ctx.font = 'bold 48px Inter';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'top';
+            
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 8;
+            ctx.strokeText(score, GAME_WIDTH / 2, 30);
+            
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText(score, GAME_WIDTH / 2, 30);
+        }
+    }
+
+    function drawHeart(x, y, size, color) {
+        ctx.fillStyle = color;
+        ctx.beginPath();
+        
+        const topCurveHeight = size * 0.3;
+        ctx.moveTo(x, y + topCurveHeight);
+        
+        ctx.bezierCurveTo(
+            x, y, 
+            x - size / 2, y, 
+            x - size / 2, y + topCurveHeight
+        );
+        
+        ctx.bezierCurveTo(
+            x - size / 2, y + (size + topCurveHeight) / 2, 
+            x, y + (size + topCurveHeight) / 1.5, 
+            x, y + size
+        );
+        
+        ctx.bezierCurveTo(
+            x, y + (size + topCurveHeight) / 1.5, 
+            x + size / 2, y + (size + topCurveHeight) / 2, 
+            x + size / 2, y + topCurveHeight
+        );
+        
+        ctx.bezierCurveTo(
+            x + size / 2, y, 
+            x, y, 
+            x, y + topCurveHeight
+        );
+        
+        ctx.closePath();
+        ctx.fill();
+    }
+
+    // ============================================
+    // GAME OVER
+    // ============================================
+    
+    function showGameOver() {
+        document.getElementById('finalScore').textContent = score;
+        
+        let message = '';
+        if (score > bestScore - 1 && score > 0) {
+            message = '<p style="color: #FFD700; font-weight: bold;">🎉 NEW BEST SCORE! 🎉</p>';
+        } else if (score > 10) {
+            message = '<p>Great job! Keep practicing!</p>';
+        } else if (score > 0) {
+            message = '<p>Nice try! Play again?</p>';
+        } else {
+            message = '<p>Oops! Try tapping to fly!</p>';
+        }
+        
+        document.getElementById('gameOverMessage').innerHTML = message;
+        document.getElementById('gameOverOverlay').classList.add('active');
+    }
+
+    function closeGameOver() {
+        document.getElementById('gameOverOverlay').classList.remove('active');
+        showPlayButton();
+    }
+
+    function restartGame() {
+        document.getElementById('gameOverOverlay').classList.remove('active');
+        showTapToStart();
+          // Scroll back to game container
+        setTimeout(() => {
+            scrollToElement('gameCanvasContainer');
+        }, 300);
+    }
+
+    // ============================================
+    // MESSAGES
+    // ============================================
+    
+    function showMessage(message, type) {
+        const container = document.getElementById('messageContainer');
+        const className = type === 'error' ? 'error-message' : 'success-message';
+        
+        container.innerHTML = `<div class="${className}">${message}</div>`;
+        
+        setTimeout(() => {
+            container.innerHTML = '';
+        }, 4000);
+    }
+          
+    // ============================================
+    // SCROLL TO ELEMENT FUNCTION
+    // ============================================
+    
+    function scrollToElement(elementId, offset = 20) {
+        const element = document.getElementById(elementId);
+        if (!element) return;
+        
+        const elementRect = element.getBoundingClientRect();
+        const absoluteElementTop = elementRect.top + window.pageYOffset;
+        const middle = absoluteElementTop - (window.innerHeight / 2) + (elementRect.height / 2);
+        
+        window.scrollTo({
+            top: middle - offset,
+            behavior: 'smooth'
+        });
+    }
+
+    // ============================================
+    // INITIALIZATION
+    // ============================================
+
+    window.addEventListener('load', () => {
+        const savedName = getPlayerName();
+        if (savedName) {
+            document.getElementById('nameSection1').style.display = 'none';
+            document.getElementById('currentPlayerName').textContent = savedName;
+            document.getElementById('currentPlayerDisplay').style.display = 'block';
+            document.getElementById('gameCanvasContainer').classList.add('active');
+            
+            const savedBest = parseInt(localStorage.getItem('weddingGameBestScore')) || 0;
+            bestScore = savedBest;
+            document.getElementById('bestScore').textContent = bestScore;
+            
+            initGame();
+            showPlayButton();
+        } else {
+            document.getElementById('nameSection1').style.display = 'block';
+        }
+        
+        // Set up play button click handler
+        const playBtn = document.getElementById('playBtn');
+        if (playBtn) {
+            playBtn.onclick = handlePlayButtonClick;
+        }
+        
+        loadLeaderboard();
+    });
+</script>
+    <!-- NAVIGATION SCRIPT -->
+    <script src="script.js"></script>
+</body>
+</html>
