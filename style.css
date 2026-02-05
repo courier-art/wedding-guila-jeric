@@ -85,6 +85,7 @@ pp {
     margin-bottom: 0.5rem;
     font-size: 1rem;
     font-family: 'playfair Display', serif;
+    text-wrap: wrap; /* Allow text to wrap on small screens */
 }
 
 
