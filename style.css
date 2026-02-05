@@ -66,16 +66,9 @@ h2 {
     margin-bottom: 1rem;
 }
 
-/* Underline effect for h2 headings 
-h2:after {
-    content: '';
-    position: absolute;
-    bottom: -5px;
-    left: 0;
-    width: 100px;
-    height: 2px;
-    background-color: var(--black);
-}*/
+h4 {
+    text-wrap: wrap; /* Allow names to wrap on small screens */
+}
 
 h3 {
     font-size: 1.5rem;
@@ -87,6 +80,13 @@ p {
     font-size: 1rem;
     font-family: 'playfair Display', serif;
 }
+
+pp {
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    font-family: 'playfair Display', serif;
+}
+
 
 /* ============================================
    NAVIGATION - DESKTOP STYLES
@@ -483,6 +483,26 @@ p {
     border-radius: 20px;
 }
 
+/* Responsive adjustments for nuptials grid */
+@media (max-width: 480px) {
+    .nuptials-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    gap: 2rem;
+    margin: 3rem 0;
+}
+    h4 {
+        font-size: 0.9rem;
+        line-height: normal;
+        font-family: playfair Display, serif;
+        text-wrap: wrap; /* Allow names to wrap on small screens */
+    }
+
+    pp {
+        text-wrap: wrap; /* Allow messages to wrap on small screens */
+    }
+}
+
 /* ============================================
    MESSAGES GRID (WISH GREETINGS)
    ============================================ */
@@ -866,3 +886,8 @@ footer {
         object-fit: cover !important;
     }
 }
+
+    
+
+
+ 
