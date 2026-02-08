@@ -488,7 +488,7 @@ pp {
 @media (max-width: 480px) {
     .nuptials-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    grid-template-columns: repeat(2, minmax(100px, 1fr));
     gap: 2rem;
     margin: 3rem 0;
 }
