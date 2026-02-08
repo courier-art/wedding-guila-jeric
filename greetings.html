@@ -212,7 +212,7 @@
         /* NEW: Adjust for mobile */
         @media (max-width: 768px) {
             .messages-grid {
-                height: 300px;
+                height: 500px;
                 position: relative;
                 width: 100%;
                 margin: 0 auto;
@@ -451,7 +451,7 @@
         async function fetchMessages() {
             try {
                 const now = Date.now();
-                if (now - lastFetchTime < 10000 && allMessages.length > 0) return;
+                if (now - lastFetchTime < 5000 && allMessages.length > 0) return;
                 lastFetchTime = now;
 
                 const response = await fetch(`${SCRIPT_URL}?action=getData`);
