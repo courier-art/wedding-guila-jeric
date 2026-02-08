@@ -451,46 +451,87 @@
         async function fetchMessages() {
             try {
                 const now = Date.now();
-                if (now - lastFetchTime < 5000 && allMessages.length > 0) return;
+                if (now - lastFetchTime < 10000 && allMessages.length > 0)
+                { return; } // Limit fetches to every 10 seconds if we already have messages
+                
                 lastFetchTime = now;
 
                 const response = await fetch(`${SCRIPT_URL}?action=getData`);
+                // Check if response is OK
+                 if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                     }
+
                 const result = await response.json();
 
+                // Hide loading indicator
                 const loadingElement = document.getElementById('loadingMessages');
                 if (loadingElement) loadingElement.style.display = 'none';
 
-                if (result.success && result.data && result.data.length > 0) {
-                    result.data.forEach(msg => {
-                        const msgId = `${msg.name}-${msg.message}-${msg.timestamp}`;
-                        
-                        if (!displayedMessages.has(msgId)) {
-                            const newMsg = {
-                                name: msg.name || 'Anonymous',
-                                relationship: msg.relationship || '',
-                                message: msg.message || '',
-                                timestamp: msg.timestamp || new Date().toISOString(),
-                                id: msgId
-                            };
-                            
-                            // 1. Add to the pool
-                            allMessages.push(newMsg);
-                            displayedMessages.add(msgId);
-                            
-                            // 2. IMMEDIATE DISPLAY: Create bubble right now for the new entry
-                            const container = document.getElementById('floatingMessages');
-                            createBubble(newMsg, container);
-                        }
-                    });
-
-                    if (allMessages.length > MAX_MESSAGES) {
-                        allMessages = allMessages.slice(-MAX_MESSAGES);
+                       // Process data if successful
+        if (result.success && result.data && result.data.length > 0) {
+            let newMessages = 0;
+            
+            result.data.forEach(msg => {
+                // Create unique ID for message
+                const msgId = `${msg.name}-${msg.message}-${msg.timestamp}`;
+                
+                // CHECK 1: Is this message already displayed?
+                const isInDisplayed = displayedMessages.has(msgId);
+                
+                // CHECK 2: Is this message already in our array?
+                const isInArray = allMessages.some(m => m.id === msgId);
+                
+                // Only proceed if message is completely new
+                if (!isInDisplayed && !isInArray) {
+                    const newMsg = {
+                        name: escapeHtml(msg.name || 'Anonymous'),
+                        relationship: escapeHtml(msg.relationship || ''),
+                        message: escapeHtml(msg.message || ''),
+                        timestamp: msg.timestamp || new Date().toISOString(),
+                        id: msgId
+                    };
+                    
+                    // Store in both collections
+                    allMessages.push(newMsg);
+                    displayedMessages.add(msgId);
+                    newMessages++;
+                    
+                    // Create visual bubble
+                    const container = document.getElementById('floatingMessages');
+                    if (container) {
+                        createBubble(newMsg, container);
                     }
                 }
-            } catch (error) {
-                console.error('Error fetching:', error);
+            });
+
+            // Trim messages if we have too many
+            if (allMessages.length > MAX_MESSAGES) {
+                const removedCount = allMessages.length - MAX_MESSAGES;
+                allMessages = allMessages.slice(-MAX_MESSAGES);
+                
+                // Also remove from displayed Set
+                displayedMessages.clear();
+                allMessages.forEach(msg => displayedMessages.add(msg.id));
+                
+                // Remove old bubbles from DOM
+                cleanupOldBubbles(removedCount);
             }
+
+            // Optional: Show notification for new messages
+            if (newMessages > 0) {
+                console.log(`Added ${newMessages} new message(s)`);
+            }
+        } else if (!result.success) {
+            // Handle API error
+            console.error('API Error:', result.error);
+            showErrorMessage('Server error. Please try again later.');
         }
+    } catch (error) {
+        console.error('Error fetching messages:', error);
+        showErrorMessage('Network error. Check your connection.');
+    }
+}
         
         // ============================================
         // CREATE AND MANAGE BUBBLES
