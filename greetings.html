@@ -56,10 +56,9 @@
             overflow: hidden;
             margin: 4rem 0;
             padding: 20px;
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('pictures/bggreetings.JPG');
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
             background-size: contain;
             background-position: center;
-            border-radius: 15px;
             border: 1px solid rgba(224, 224, 224, 0.3);
             width: 100%;
         }
@@ -528,10 +527,6 @@
             
             // Find position at the bottom
             const position = findPositionForBubble(bubble, containerRect, activeBubbles);
-            
-            // ADD: Calculate viewport bottom (critical for mobile scrolling)
-            const scrollOffset = window.scrollY;
-            const viewportBottom = window.innerHeight + scrollOffset;
 
             // Set initial position at the bottom
             bubble.style.left = `${position.x}px`;
