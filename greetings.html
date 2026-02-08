@@ -451,7 +451,7 @@
         async function fetchMessages() {
             try {
                 const now = Date.now();
-                if (now - lastFetchTime < 5000 && allMessages.length > 0) return;
+                if (now - lastFetchTime < 10000 && allMessages.length > 0) return;
                 lastFetchTime = now;
 
                 const response = await fetch(`${SCRIPT_URL}?action=getData`);
