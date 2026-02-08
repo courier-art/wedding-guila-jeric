@@ -56,11 +56,29 @@
             overflow: hidden;
             margin: 4rem 0;
             padding: 20px;
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5));
-            background-size: contain;
-            background-position: center;
+            
+            background:
+            linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+            url('pictures/bgtop.png'),
+            url('pictures/bgcenter.png'),
+            url('pictures/bgbot.png');
+            
+            background-position: 
+            center,
+            top,      
+            center, 
+            bottom;
+
+            background-size: 
+            cover,
+            auto 33.33%,
+            auto 33.33%,
+            auto 33.33%;
+            
+            background-repeat: repeat-x;
             border: 1px solid rgba(224, 224, 224, 0.3);
             width: 100%;
+            border-radius: 10px;
         }
         
         /* Bubble size classes */
@@ -194,17 +212,12 @@
         /* NEW: Adjust for mobile */
         @media (max-width: 768px) {
             .messages-grid {
-                min-height: 500px;
-                padding: 10px !important;
+                height: 500px;
+                position: relative;
+                width: 100%;
+                margin: 0 auto;
+                overflow: hidden;
             }
-            
-            /* On mobile, stack messages normally */
-            .messages-grid {
-                /* display: grid; */
-                grid-template-columns: 1fr;
-                gap: 1rem;
-            }
-
 
     }
     </style>
