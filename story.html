@@ -575,7 +575,7 @@
             </div>
         </div>
         
-         <!-- STORY BLOCK 1: First Meeting - Carousel Example -->
+         <!-- STORY BLOCK 3: First Meeting - Carousel Example -->
         <div class="story-block" style="--item-index: 0;">
             <div class="story-images-container">
                 <!-- Carousel Navigation -->
@@ -617,7 +617,7 @@
         </div>       
 
 
-        <!-- STORY BLOCK 3: First Home - Collage Layout Example -->
+        <!-- STORY BLOCK 3: First Home - Collage Layout Example 
         <div class="story-block" style="--item-index: 2;">
             <div class="story-images-container">
                 <div class="story-images-collage">
@@ -635,12 +635,8 @@
                     </div>
                 </div>
             </div>
-            
-            <div class="story-content">
-                <span class="story-year">2020</span>
-                <h3>Our First Home</h3>
-          </div>
-        </div>
+            -->
+         
 
     <!-- QUOTE SECTION -->
     <div class="quote-section">
@@ -747,13 +743,14 @@
             if (gallery) {
                 totalImages = gallery.children.length;
                 currentLayout = 'carousel';
-            } else if (grid) {
+            } 
+            /*else if (grid) {
                 totalImages = grid.children.length;
                 currentLayout = 'grid';
             } else if (collage) {
                 totalImages = collage.children.length;
                 currentLayout = 'collage';
-            }
+            }*/
             
             // Carousel functionality
             if (gallery && prevBtn && nextBtn) {
@@ -845,7 +842,7 @@
         }
     </script>
 
-    </script>
+
 <!-- =========================================== -->
 <!-- GLOBAL BACKGROUND MUSIC - PLAYS ACROSS ALL TABS -->
 <!-- =========================================== -->
