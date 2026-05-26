@@ -106,6 +106,70 @@
             font-size: 0.9rem;
             color: var(--gray-dark);
         }
+
+        /* Success Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            animation: fadeIn 0.3s ease;
+        }
+        .modal-overlay.closing {
+            animation: fadeOut 0.3s ease;
+        }
+        .modal-box {
+            background: #fff;
+            border-radius: 12px;
+            padding: 2.5rem;
+            max-width: 420px;
+            width: 90%;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            animation: scaleIn 0.3s ease;
+        }
+        .modal-box.closing {
+            animation: scaleOut 0.3s ease;
+        }
+        .modal-close {
+            position: absolute;
+            top: 12px;
+            right: 16px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+            padding: 4px;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+        .modal-close:hover {
+            color: #333;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        @keyframes scaleIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        @keyframes scaleOut {
+            from { transform: scale(1); opacity: 1; }
+            to { transform: scale(0.8); opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -536,8 +600,8 @@
                     body: JSON.stringify(data)
                 })
                 .then(() => {
-                    // Show success message
-                    showAlert('Thank you for your RSVP! We look forward to celebrating with you.', 'success');
+                    // Show success modal
+                    showSuccessModal();
                     submitBtn.innerHTML = '<i class="fas fa-check"></i> RSVP Sent';
                     submitBtn.style.background = '#28a745';
 
@@ -563,6 +627,52 @@
             });
         }
         
+        // ============================================
+        // SUCCESS MODAL FUNCTION
+        // Shows modal encouraging user to send wishes
+        // ============================================
+        function showSuccessModal() {
+            const existing = document.querySelector('.modal-overlay');
+            if (existing) existing.remove();
+
+            const overlay = document.createElement('div');
+            overlay.className = 'modal-overlay';
+
+            const modal = document.createElement('div');
+            modal.className = 'modal-box';
+            modal.innerHTML = `
+                <button class="modal-close">&times;</button>
+                <div style="font-size: 3rem; margin-bottom: 1rem; color: #28a745;">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3 style="font-family: 'Playfair Display', serif; margin-bottom: 0.75rem; color: #333;">
+                    RSVP Submitted!
+                </h3>
+                <p style="color: #666; margin-bottom: 1.5rem; line-height: 1.6;">
+                    Your RSVP has been received. Please send a message to the couple!
+                </p>
+                <a href="greetings.html" class="btn" style="
+                    display: inline-block;
+                    padding: 0.8rem 2rem;
+                    text-decoration: none;
+                    margin-bottom: 0.5rem;
+                ">
+                    <i class="fas fa-heart"></i> Send Wishes
+                </a>
+            `;
+
+            overlay.appendChild(modal);
+            document.body.appendChild(overlay);
+
+            function closeModal() {
+                overlay.classList.add('closing');
+                modal.classList.add('closing');
+                setTimeout(() => overlay.remove(), 300);
+            }
+
+            modal.querySelector('.modal-close').addEventListener('click', closeModal);
+        }
+
         // ============================================
         // ALERT MESSAGE FUNCTION
         // Shows success/error messages to user
