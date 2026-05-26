@@ -41,6 +41,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.lordicon.com/lordicon.js"></script> <!-- Lordicon library for animated icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     
     <!-- STYLESHEETS: Custom CSS files -->
     <link rel="stylesheet" href="style.css">
@@ -57,6 +58,77 @@
             text-decoration: none;
             color: inherit;
         }
+
+        /* Splash Overlay */
+        #splashOverlay {
+            position: fixed;
+            inset: 0;
+            z-index: 99999;
+            overflow: hidden;
+        }
+        #splashOverlay .splash-slide {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        #splashOverlay .splash-mask {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0,0,0,0.35), rgba(0,0,0,0.65));
+            z-index: 2;
+        }
+        #splashOverlay .splash-body {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #fff;
+            text-align: center;
+            padding: 2rem;
+        }
+        #splashOverlay .splash-subtitle {
+            font-family: 'Inter', sans-serif;
+            font-size: 1rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+            opacity: 0.8;
+        }
+        #splashOverlay .splash-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+        #splashOverlay .splash-btn {
+            background: transparent;
+            color: #fff;
+            border: 2px solid rgba(255,255,255,0.6);
+            padding: 1rem 2.5rem;
+            font-family: 'Inter', sans-serif;
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+        #splashOverlay .splash-btn:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            #splashOverlay .splash-body {
+                justify-content: flex-end;
+                padding-bottom: 6rem;
+            }
+        }
     </style>
 
     <!-- APP & THEME META TAGS -->
@@ -68,6 +140,19 @@
     <link rel="preload" href="bell.wav" as="fetch" crossorigin> <!-- Preload bell sound for performance -->
 </head>
 <body>
+    <!-- SPLASH OVERLAY -->
+    <div id="splashOverlay">
+        <div class="splash-slide" id="splashSlideA"></div>
+        <div class="splash-slide" id="splashSlideB"></div>
+        <div class="splash-mask"></div>
+        <div class="splash-body">
+            <p class="splash-subtitle">Together with their families</p>
+            <h1 class="splash-title">You're Invited</h1>
+            <p class="splash-subtitle" style="margin-bottom: 0;">Guila &amp; Jeric</p>
+            <button class="splash-btn" id="openInvitationBtn">Open Invitation</button>
+        </div>
+    </div>
+
     <!-- NAVIGATION: Fixed at top of all pages -->
     <nav class="navbar">
         <div class="container nav-container">
@@ -250,5 +335,87 @@
 </div>
 
 <script src="music.js"></script>
+
+<script>
+    // ============================================
+    // SPLASH OVERLAY - IMAGE SLIDESHOW & ENTRANCE
+    // ============================================
+    const splashImages = [
+        'pictures/sliding/a.webp',
+        'pictures/sliding/b.webp',
+        'pictures/sliding/c.webp',
+        'pictures/sliding/e.webp',
+        'pictures/sliding/f.webp'
+    ];
+
+    // Preload
+    splashImages.forEach(src => { const img = new Image(); img.src = src; });
+
+    const slideA = document.getElementById('splashSlideA');
+    const slideB = document.getElementById('splashSlideB');
+    const overlay = document.getElementById('splashOverlay');
+    const openBtn = document.getElementById('openInvitationBtn');
+
+    let active = slideA;
+    let imgIdx = 0;
+
+    // Init first image
+    slideA.style.backgroundImage = `url(${splashImages[0]})`;
+    gsap.set(slideA, { scale: 1.3, opacity: 1 });
+    gsap.set(slideB, { opacity: 0 });
+
+    // Content entrance
+    gsap.set('.splash-subtitle, .splash-title, .splash-btn', { opacity: 0, y: 30 });
+    gsap.to('.splash-subtitle, .splash-title, .splash-btn', {
+        opacity: 1, y: 0, duration: 1, stagger: 0.2, ease: "power2.out", delay: 0.5
+    });
+
+    // Button gentle pulse
+    gsap.to('.splash-btn', {
+        scale: 1.05, duration: 1.5, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 2.5
+    });
+
+    function cycleImage() {
+        const nextIdx = (imgIdx + 1) % splashImages.length;
+        const nextEl = active === slideA ? slideB : slideA;
+
+        nextEl.style.backgroundImage = `url(${splashImages[nextIdx]})`;
+        gsap.set(nextEl, { scale: 1.3, opacity: 0 });
+
+        const tl = gsap.timeline({
+            onComplete: () => { active = nextEl; imgIdx = nextIdx; cycleImage(); }
+        });
+
+        tl.to(active, { opacity: 0, duration: 0.3, ease: "power2.in" }, 0);
+        tl.to(nextEl, { opacity: 1, duration: 0.3, ease: "power2.out" }, 0);
+        tl.to(nextEl, { scale: 1.0, duration: 2, ease: "power2.out" }, 0);
+    }
+
+    // Zoom out first image, then begin cycling
+    gsap.to(slideA, {
+        scale: 1.0, duration: 2, ease: "power2.out", onComplete: cycleImage
+    });
+
+    // Open Invitation - swipe up + start music
+    openBtn.addEventListener('click', () => {
+        gsap.killTweensOf([slideA, slideB, '.splash-btn']);
+
+        // Trigger music playback (user gesture enables audio context)
+        const musicBtn = document.getElementById('musicToggle');
+        if (musicBtn) musicBtn.click();
+
+        document.body.style.overflow = 'hidden';
+        document.documentElement.style.overflow = 'hidden';
+
+        gsap.to(overlay, {
+            y: '-100%', duration: 0.8, ease: "power3.inOut",
+            onComplete: () => {
+                overlay.style.display = 'none';
+                document.body.style.overflow = '';
+                document.documentElement.style.overflow = '';
+            }
+        });
+    });
+</script>
 </body>
 </html>
