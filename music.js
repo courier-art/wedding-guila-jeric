@@ -166,10 +166,15 @@ document.addEventListener('DOMContentLoaded', function() {
                     console.log('Resume failed:', e);
                     isPlaying = false;
                     updateButton();
-                });
-        } else {
-            setTimeout(tryAutoPlay, 500);
-        }
+            });
+        currentMusic.addEventListener('canplaythrough', function onReady() {
+            if (isPlaying && currentMusic.paused) {
+                currentMusic.play().catch(() => {});
+            }
+        }, { once: true });
+    } else {
+        tryAutoPlay();
+    }
 
         window.addEventListener('beforeunload', saveMusicState);
         setInterval(saveMusicState, 2000);

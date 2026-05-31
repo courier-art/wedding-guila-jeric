@@ -4,6 +4,11 @@
 // ============================================
 document.addEventListener('DOMContentLoaded', function() {
     
+    // Register Service Worker for instant audio cache
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').catch(() => {});
+    }
+    
     // ============================================
     // NAVIGATION ELEMENTS
     // Get references to navigation components
